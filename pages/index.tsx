@@ -55,7 +55,7 @@ export function HeroDark() {
 function Features() {
     return (
         <section className="z-20 relative" aria-label="Job">
-            <div className="relative pt-20 pb-32 mx-auto max-w-7xl">
+            <div className="relative pb-32 mx-auto max-w-7xl">
                 <div className="relative z-20">
                     <h2 className="animate-text-xl text-5xl md:text-6xl lg:text-7xl xl:text-7xl max-w-8xl xl:leading-tight">
                         I build websites, ecommerce stores, and web apps.

@@ -11,23 +11,70 @@ import path from 'path'
 import matter from 'gray-matter'
 import { Code } from '@mantine/core';
 import { Prism } from '@mantine/prism';
+import { CardEnlarge } from './card'
+import { whitelist, domains } from '../site.config'
 
 const ResponsiveImage = props => (
     <Image alt={props.alt} layout="responsive" {...props} />
 )
 
+function Anchor(props){
+  const followablesites = [
+    ...whitelist,
+  ]
+  let attr = {}
+  // Check if it is an internal link
+  let sameDomain;
+
+  try {
+    const urlObject = new URL(props.href)
+    if (domains.includes(urlObject.host)){
+      sameDomain = true
+    }
+    else if (!props.href.startsWith("http")){
+      sameDomain = true
+    }
+  } catch (e){
+    console.log("Error when creating a URL object: ", props.href, e.message)
+  }
+
+  // Internal Links
+  if (sameDomain){
+      attr.className = "internal"
+  }
+
+  // External Links
+  if (!sameDomain){
+    // Open in new tab
+    attr.target = "_blank"
+    attr.className = "external"
+    // check if the website is whitelisted
+    const doFollow = followablesites.includes((new URL(props.href)).host)
+    if (doFollow){
+      attr.rel = "noopener"
+    }
+    else {
+      attr.rel = "noopener nofollow"
+    }
+  }
+
+  return <a {...attr} {...props} />
+}
+
 export default function MdxProvider({ source, components, className, ...props }) {
     const comp = {
         code: props => {
             //console.log("code props", props)
-            return <Prism colorScheme="dark" language={props.className.split("-")[1]}>{props.children}</Prism>
+            return <Prism colorScheme="dark" language={props.className?.split("-")[1] || ""}>{props.children}</Prism>
         },
         pre: (props) => {
 
             //console.log("peops", props)
             return <pre className="mdx-pre">{props.children}</pre>
         },
-        image: props => console.log("\n\nprops", prop)
+      a: (props) =>  <Anchor {...props} />,
+
+      CardEnlarge: props => <CardEnlarge {...props} />
 
     }
 

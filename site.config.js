@@ -13,6 +13,27 @@ import {
 
 } from '@heroicons/react/outline'
 
+// For internal links
+export const domains = [
+  "cbsofyalioglu.com",
+  "www.cbsofyalioglu.com"
+]
+
+// For dofollow links
+// Don't use the protocol (http or https)
+export const whitelist = [
+  "www.filizguvenlik.com.tr",
+  "livicomturkiye.com",
+  "livicom.net",
+  "alarmsistemleri.org",
+  "istanbulcruisetransfer.com",
+  "privatetransfer.istanbul",
+  "istanbultransferexpert.com",
+  "webmeister.org",
+  "www.cbsofyalioglu.com",
+  "www.opendigitalgallery.com"
+]
+
 export const navlinks = [
     { name: 'Home', href: '/', icon: HomeIcon, current: false },
     { name: 'Blog', href: '/en/', icon: LibraryIcon, current: false },

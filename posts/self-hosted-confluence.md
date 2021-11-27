@@ -1,0 +1,152 @@
+---
+title: "Hosted Confluence with Custom Domain"
+date: "2020-11-13"
+categories: 
+  - "en"
+  - "how-to"
+tags: 
+  - "eng"
+---
+
+****What is Confluence?****
+
+Confluence is a team collaboration and wiki software developed by Australian software company Atlassian.  
+It is a web-based application and written in the Java programming language. It was released in 2004 (Voav) as an enterprise knowledge management software.
+
+One of our customers from [Istanbul Airport Transfer Expert](https://istanbultransferexpert.com/) and [Istanbul Cruise Port Transfer](https://istanbulcruisetransfer.com/) ask about the possibility of using Atlassian Confluence as a self-hosted wiki program. We look for solutions for a while. Later on, we discovered the Cloudron app. In this article, We'll install Confluence with a custom domain on our servers. By doing that you'll have a Confluence on your server whether for your [content creation](https://www.cbsofyalioglu.com/en/content-creation-tools/) or any knowledgebase purposes.
+
+![Confluence Screenshots](images/confluence-ss.jpg)
+
+__**You can use it as a team collaboration app, wiki, knowledgebase, blog, intranet, etc**__.
+
+If you read my articles written in Turkish, you realized that a talented editor is a must for me on any platform I wrote. The editor of Confluence is one of the best editors in the universe. It has really advanced permission level. You can create many workspaces.
+
+#### Related List: Content Creation Tools
+
+You can also check my another curated list for creators: [Content Creation Tools](https://www.cbsofyalioglu.com/en/content-creation-tools/)
+
+However, Atlassian Cloud doesn’t allow us to use our custom domains and managed Confluence solutions are a bit complicated.
+
+Fortunately, Cloudron made it easier for us to use it on our own servers. By doing this, we can use our own custom domains with the Atlassian Confluence app.
+
+### ****How much does it cost to use Self-Hosted Confluence?****
+
+Confluence requires at least 4 GB RAM. Thus, the most expensive cost will be the cloud instance. Cloudron is free for personal usage up to 2 apps which is completely sufficient for us.  
+Therefore, the cost of using Confluence with a custom domain will be:
+
+- ****$20/month**** Cloud Cost on Digital Ocean + one-time license fee of ****$10****.
+
+I'll share referral links below that give you some amount of free credits. Thus, It is free to follow this guideline.
+
+### What are the requirements?
+
+- **Digital Ocean Account**: This is the platform that hosts our Confluence server. You can get **free $100 credit** which is available 60 days if you register with this [referral link](https://m.do.co/c/7eab8594304f).
+- **Cloudron Account**: Cloudron provides software solutions for hosting different applications on our servers. You can also get $30 free credit if you register with this [referral link](https://cloudron.io/?refcode=4c0c9d3f2a2daed6)
+- **Domain Name**: You'll need a custom domain.
+
+* * *
+
+## Step 1 - Create Droplet with Cloudron
+
+Our Confluence app will be hosted on the droplet which we will create now. A Droplet is basically a virtual server in the Digital Ocean.
+
+I'm assuming that you have created a DA account and created a project. Now, we'll create a droplet with the Cloudron app installed.
+
+On the left side, you'll find the **Marketplace** link under the **Discover** section.
+
+Click the marketplace link.  Search and select **Cloudron**.
+
+![Cloudron on Digital Ocean](images/1-marketplace-selection.jpg)
+
+Click **Create Cloudron Droplet** button.
+
+![Create Cloudron Droplet](images/2-cloudron-selection.jpg)
+
+Now, you'll see the droplet settings page. As I told you before, Confluence requires a minimum of 4 GB RAM. Therefore, we should minimum select the Basic plan which costs $20/month. Also, we'll choose the closest data center to us and create a password as an authentication method.
+
+![Cloudron droplet settings](images/3-droplet-settings.jpg)
+
+At the bottom of the page, we'll click the **Create Droplet** button. It will start the installation of cloud instance and Cloudron application.
+
+* * *
+
+## Step - 2) Initial Configurations
+
+We are going to make some domain adjustments. There are two cases for your domain name provider.
+
+- The name-servers of your domain name are on Digital Ocean.
+- Your name-servers are on another provider.
+
+In either case, I'll follow the **manual method** that fits every case.
+
+#### **DNS Settings**
+
+First, visit the project page on Digital Ocean. If any IP number is assigned to your instance, note it down. Otherwise, wait till the assignment. For example, mine is `46.101.148.85`.
+
+![droplet-ip](images/4-droplet-ip.jpg)
+
+To make an illustration, Let say we have a domain [livicomturkiye.com](https://livicomturkiye.com/). We also decided to use a subdomain for the Confluence app, let's say **notes.[l](https://livicomturkiye.com)ivicomturkiye.com**.
+
+Second, Whether your DNS provider is DA or not, visit your domain name provider's website. Go to the DNS management page of your domain name.  
+Add these two '**A records**' that target the IP number we saved above.
+
+| Host | Target |
+| --- | --- |
+| notes | 46.101.148.85 |
+| my.notes | 46.101.148.85 |
+
+The first one is the subdomain name you use with Confluence. The second one is the cloudron panel with a prefix of **mine.**  
+Save the records.
+
+You can control whether your domain is pointing to the correct IP by visiting **dnschecker.org**. If the **A record** points to the correct IP, you can proceed. DNS propagation can take some time. Therefore, this process can take time.
+
+#### **Cloudron settings**
+
+Open your browser and paste the IP number of your instance on a new page.
+
+![browser-security-warning](images/5-browser-warning.jpg)
+
+(**Note**: We do have not to secure certificates now. Therefore, your browser will warn you about privacy. This means your connection is not encrypted end-to-end. Open the advanced settings and proceed with the unsafe method.)
+
+You'll see the Cloudron setup page.
+
+![cloudron-domain-setup](images/6-cloudron-domain-screen.jpg)
+
+- Write down your domain/subdomain that will be used for Confluence app.
+- Select Manual as DNS Provider.
+
+Click Next. Now, Cloudron will start to make proper internal configurations. When it finishes, you'll fill the admin form.
+
+#### **Confluence Installation**
+
+If we did everything right, we see an empty Cloudron page.  
+On the upper right menu, click App Store. Before this, you fill the login form of Cloudron.
+
+![confluence-installed-cloudron](images/7-start-confluence.jpg)
+
+Write your credentials and log in.  
+Search Confluence and install it.
+
+* * *
+
+## Step - 3) Confluence Settings
+
+I assume that all the settings are properly configured. Now, click the Confluence app on the Cloudron page.
+
+A setup page welcomes us. Follow the steps below:
+
+Select **Product Installation**. If you need **Confluence Questions** or **Confluence Team Calendars**, please also select them. Click Next.
+
+Press **Get an evaluation license** link and get the license for Confluence Server. Click Next.
+
+If you have a database choose **My own database**. Otherwise, you can use the built-in database as a temporary solution. Click Next.
+
+Wait until the database settings are done. Then, create an empty site.
+
+Fill in the System Administrator Account.
+
+Give your space a name. For example: "Personal Wiki".
+
+![confluence-empty-page](images/8-final-screen.jpg)
+
+Now, you can use Atlassian Confluence on your domain. You can create a redirection to your space or make your space public. Just configure them on General Configuration.

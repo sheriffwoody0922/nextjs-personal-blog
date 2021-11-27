@@ -1,17 +1,25 @@
 ---
 title: "Django and Modern JS Libraries - React"
+description: "Django and React is the second part of the tutorial series, Django and Modern JS Libraries."
+cover: "/posts/covers/django-react.webp"
 date: "2020-07-22"
-categories: 
+slug: "django-and-modern-js-libraries-react"
+topic: "code"
+canonical: "https://www.cbsofyalioglu.com/post/django-and-modern-js-libraries-react/"
+categories:
   - "code"
-  - "en"
   - "post"
-tags: 
-  - "eng"
+language: "eng"
+keywords:
+  - "django react"
+
 ---
 
 In the previous part, we built a Django backend and GraphQL API that is responsible for the communication of the Django project and react app. In this part of the tutorial, we will create a single page application with React from scratch. Also, you may be interested in a new reactive JavaScript library: [Solid JS and Reactive Primitives](https://www.cbsofyalioglu.com/code/solidjs-and-reactive-primitives/).
 
 We will bundle our application with webpack and we will not use create-react-app boilerplate
+
+![Create react app with django](/posts/django-js/django-react-app.webp)
 
 ## Create React App from Scratch
 
@@ -264,16 +272,16 @@ Update your **index.html** file.
 ```
 
 
-  
-    
-    
-    
-    
+
+
+
+
+
     Django React Integration
-  
-  
-    
-  
+
+
+
+
 
 ```
 
@@ -316,11 +324,11 @@ const apiclient = new ApolloClient({
     uri: '',
   });
 const Init = () => (
-    
-        
-            
-        
-    
+
+
+
+
+
 )
 ReactDOM.render( , document.getElementById('root'))
 ```
@@ -343,16 +351,16 @@ import MoviePage from "./MoviePage.js" //New
 import "./App.css"
 const App = () => {
     return (
-        
-            
-                
+
+
+
                 {// colon before slug means it is a dynamic value
                 // that makes slug parameter anything
                 // like: /movie/the-lighthouse-2019   or /movie/anything
                 // as long as slug matches with database.
                 }
-                
-            
+
+
         )
 }
 export default App
@@ -387,13 +395,13 @@ const MovieList = (props) => {
     // if response fail, this will be rendered
     if (error) return Unexpected Error: {error.message}//if query succeed, data will be available and render the data
     return(
-        
+
             {data && data.movieList &&
                 data.movieList.map(movie => (
-                    
-                        
+
+
                         {movie.name}
-                        
+
                     ))
             }
         )
@@ -428,17 +436,17 @@ export const MOVIE_QUERY = gql`
     });
     if (loading) return Loadingif (error) return Unexpected Error: {error.message}
     return (
-        
+
         Main Page
             {data && data.movie &&
-                
-                    
-                    
+
+
+
                         {data.movie.name}
                         Year: {data.movie.year}
-                        
+
                         {data.movie.summary}
-                    
+
                 }
         )
 }
@@ -557,7 +565,6 @@ html, body {
 
 * * *
 
-![https://cbsofyalioglucom.imfast.io/django-js-libraries/single-page-django-react-app-final.jpg](images/single-page-django-react-app-final.jpg)
 
 ## Finally, Start Django-React App
 
@@ -568,6 +575,9 @@ In the development environment, we will run two different servers.
 One is the Django server for backend, and the other one is the Webpack server for frontend development.
 
 In the production environment, We will only run one Django server as I promise.
+
+![Django React SPA](/posts/django-js/django-react-graphql-app.webp)
+
 
 Go to the root folder of the Django project. '**backend/'.**
 
@@ -585,11 +595,11 @@ npm run start
 
 You will see those screens.
 
-![https://cbsofyalioglucom.imfast.io/django-js-libraries/movie-list-react.jpg](images/movie-list-react.jpg)
+![Django React app list page](/posts/django-js/movie-list-react.webp)
 
-![https://cbsofyalioglucom.imfast.io/django-js-libraries/movie-page-react.jpg](images/movie-page-react.jpg)
+![Django React app movie page](/posts/django-js/movie-page-react.webp)
 
-Django and React Successfully Integrated
+Django and React Successfully Integrated ✅
 
 We created a simple single-page-application. Now, the last part of this tutorial will be made this app works seamlessly with our Django project.
 
@@ -616,6 +626,9 @@ Also, check the **backend/templates** folder and you will see other **index.html
 
 I made this graphic in order to show webpack bundling process and how our app will use output files.
 
-![https://cbsofyalioglucom.imfast.io/django-js-libraries/webpack-process.jpg](images/webpack-process.jpg)
+![https://cbsofyalioglucom.imfast.io/django-js-libraries/webpack-process.jpg](/posts/django-js/webpack-process.webp)
+
+
+#### Django and JS Libraries GitHub Repo
 
 [https://github.com/canburaks/django-and-modern-js-libraries](https://github.com/canburaks/django-and-modern-js-libraries)

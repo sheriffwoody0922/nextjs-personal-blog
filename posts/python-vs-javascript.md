@@ -1,0 +1,161 @@
+---
+title: "Python vs JavaScript - Hangi Dil ile Programlamaya Başlamalıyım?"
+date: "2021-02-06"
+categories: 
+  - "programlama"
+tags: 
+  - "programlama"
+  - "blog"
+---
+
+* * *
+
+Bu iki dili de öğrenmeye devam eden, ayrıca bu iki dili de severek yazan biri olarak **Python vs JavaScript** konusundaki düşüncelerimi paylaşmak istiyorum. Bu iki dilin birlikte kullanıldığı İngilizce eğitim yazı serisine de buradan ulaşabilirsiniz: [Django and Modern JS Libraries](https://www.cbsofyalioglu.com/post/django-and-modern-js-libraries-backend/).
+
+Yazılıma yeni başlamak isteyenlerin sordukları sorulardan biri de **Python mı JavaScript mi?** sorusudur. Bu soruyu soranların nispeten alt seviye programlama dilleri olan Java, C ya da C++ gibi dilleri bir seçenek olarak önceden elediklerini varsayıyorum. Son yıllarda bu iki dil gittikçe daha da popüler hale gelmekte. Dolayısıyla da danıştıkları kişilerden alacakları tavsiyelerde bu iki dilin sayısal olarak öne çıkacağını da düşünüyorum.
+
+Ayrıca ek olarak cevaplamakta fayda var:
+
+#### Python nasıl telaffuz edilir?
+
+Python programlama dilinin Türkçe telaffuzu konusunda bir düzeltmeye ihtyiaç olabilir. Pay-tın şeklindeki okuma doğru olandır. Aşağıdaki videoda 1:37 saniyede dilin yaratıcısı Guido Van Rossum'un telaffuzuna dikkat edebilirsiniz.
+
+Dolayısıyla aramalarda görülen **JavaScript mi Python mu?** sorusunun doğrusu **JavaScript mi Python mı?** şeklinde olmalıdır.
+
+https://youtu.be/bDo18m-uOi8?t=90
+
+Python programlama dilinin yaratıcısı Guido Van Rossum
+
+## Python vs JavaScript Tavsiyesini Veren Yazar Hakkında
+
+Herhangi bir konuda tavsiye alırken tavsiye edenin konu hakkındaki uzmanlığı tavsiyenin ne ölçüde ciddiye alınması gerektiğini de belirler. Bunun için biraz kendimden ve yazılım deneyimimden bahsetmemin elzem olduğunu düşünüyorum.
+
+Öncelikli olarak söylemem gereken şey yazılım konusunda uzman olmadığımdır. Bu yazının yalnızca 3 senedir yazılımla uğraşan birinin düşünceleri olduğunu lütfen unutmayınız.
+
+## Rakamlarla Python vs JavaScript
+
+[StackOverflow](https://insights.stackoverflow.com/survey/2020#technology-programming-scripting-and-markup-languages-all-respondents) sitesinin her yıl düzenlediği anketlerden bir kaç örnek vereceğim.
+
+### En çok kullanılan programlama dilleri
+
+Mesela bu info-grafikte 2020 yılında en çok kullanılan programlama dilleri ve teknolojileri gösterilmiştir. Burada JavaScript birinciliği gözetlemiştir.
+
+Göz önünde bulundurulması gereken noktalardan birisi de şudur ki: JavaScript tarayıcılarda çalışan tek mantıksal programlama diliydi. Doğal olarak web sitesi geliştirmek isteyenlerin zorunlu olarak öğrenmeleri gereken bir dildir.
+
+Not: 2017 yılında WebAssembly teknolojisinin hayata geçirilmesiyle artık diğer dillerdeki kodlar da tarayıcılarımızda çalışabilmektedir. Ancak bu kodlar hala JavaScript ile port edilmektedir.
+
+![En çok kulanılan programalama dilleri](images/most-commonly-used.png)
+
+### En Çok Sevilen Programlama Dilleri
+
+Aşağıdaki görselde ise şu anda o dil ile geliştirme yapan kişilerin gelecekte de o dil ile geliştirmeye dair ilgileri gösterilmiştir. Bu bağlamda Rust programlama dili birinci, Typescript 2. ve Python 3. sırada yer almıştır. JavaScript ise 10. sırada gözükmektedir.
+
+Göz önünde bulundurmamız gereken bir diğer husus ise TypeScript'in bir JavaScript superseti olduğudur. Typescript, JavaScript dilinde henüz olmayan özelliklere sahip bir dildir ve nihayetinde yazılan kodu JavaScript diline çevirmektedir.
+
+![en çok sevilen programalama dilleri](images/most-loved.png)
+
+### Gelecekte En Çok Öğrenilmek İstenen Programlama Dilleri
+
+Bu info-grafik ise şu an o dili bilmeyen ancak gelecekte öğrenmek isteyen gelişitiricilerin verdikleri cevapları göstermektedir. Bu listede Python açık ara farkla önde gözükmektedir.
+
+![gelecekte en çok kullanılmak istenen programlama dilleri](images/not-currently-but-in-the-future.png)
+
+## Yazılıma İlk Python ile mi JavaScript ile mi Başlanmalı?
+
+Python [Guido Van Rossum](https://twitter.com/gvanrossum) tarafından geliştirilmeye başlanmış üst seviye bir dildir. Benim de ilk öğrendiğim dildir. Dolayısıyla bendeki yeri ayrıdır.
+
+JavaScript ise üstat [Brendan Eich](https://twitter.com/BrendanEich) tarafından geliştirilmeye başlanmıştır. Brendan Eich aynı zamanda [Mozilla Vakfı](https://www.mozilla.org/tr/)'nın da kurucusudur.  
+Mozilla Vakfı'nın kar amacı gütmeyen ve internet konusunda oyun belirleyici konumdaki 3-5 aktörden biri olduğunu belirtelim. (Diğerleri Google, Apple, Microsoft)  
+Kısacası İnternet üzerinde yaşanan gelişmelerde kendi şirketlerinin kar'ını değil de kullanıcıları düşünen tek aktördür.
+
+Kar amacı gütmeyen bir tavsiye olarak [Br](https://brave.com/)[ave](https://brave.com/) tarayıcıyı kullanmanızı da önerebilirim. Gene Brendan Eich tarafından geliştirilen hızlı ve Chromium tabanlı bir tarayıcıdır.
+
+Bu bilgilerin ardında değinilmesi gereken bazı noktaları aça aça ilerlemek ve Python vs JavaScript konusuna kendimce açıklık getirmek istiyorum.
+
+### Yazılım Size Nasıl Düşünmeniz Gerektiğini Öğretecektir
+
+Belki klişe diyebilirsiniz ancak doğruluğu şüphe götürmeyen şeydir. Yazılım size nasıl düşünmeniz gerektiğini öğretecektir. Dolayısıyla ilk olarak seçeceğiniz programlama dili bu konuda önemlidir.
+
+https://youtu.be/BRTOlPdyPYU?t=93
+
+Programlama dillerinin doğal dil ile benzerliği konusunda yaşadığım deneyimlerden biri de hala Python ile kod yazarken ana dilimde yazıyormuş hissine kapılıyorum.
+
+Bu bağlamda eğer ileride Rust, C, C++ gibi nispeten daha alt seviye diller ile çalışmayı düşünüyorsanız Python ile yazılıma başlamak bazı zorluklar getirecektir.
+
+Çünkü ilk öğrendiğiniz dil Python olduğundan, düşünme biçiminiz de Python'ın size dikte ettiği şekilde olacaktır.  
+Bu JavaScript için de geçerlidir. Ancak JavaScript C dil ailesinin sentaksını kullandığından Python'a göre daha avantajlıdır.
+
+## Python vs JavaScript Konusunda Kişisel Tavsiyeler
+
+2017 yılında Boğaziçi Üniversitesinden inşaat mühendisi olarak mezun oldum. Mezun olduğum sırada bilgisayar ile ilişkim oyunlara crack yapabilmek ve format atabilmekten ileri gitmiyordu.
+
+Şirketlere iş başvurusu yaparken yararı olacağını düşünerek Excel öğrenmeye başladım. Excel kullanırken makro yazmanın gerekli olduğunu düşünerek ilk programlama dili maceramı VBA ile başlattım ancak hiç bir şey anlamadığımı fark ettim.
+
+Daha sonra ev arkadaşımla Veri Bilimi ve Analitiği'nin önemine dair edindiğimiz bilgiler ile Python'a başlama kararı aldım.
+
+Eminim bir çoğunuzda popüler olana dair geri durma eğilimi vardır. Kalabalık kitlelerin neleri sevdiğini gördüğünüzde, en çok tercih edilen şeyler sizin için cazibesini yitirmeye başlıyor.
+
+Yazılım konusunda bu durum çok da geçerli değil. Biraz iddialı olabilir ancak topluluğu olmayan bir yazılım dili hiç bir şeydir.
+
+### Belirli Alanlarda Uzmanlaşmış Topluluklar Neden Önemlidir?
+
+Şöyle ki açık kaynak bir yazılım dilinden bahsederken, sizin karşılaştığınız problemlerle birileri muhakkak daha önce karşılaşmış, bunu çoğunlukla StackOverflow'da sormuş ve cevabı verilmiştir. Bu da karşılaştığınız problemlerin çözümlerini daha kolay bulabileceksiniz demek.
+
+Ayrıca tekerleği yeniden icat etmenin gereği yoktur. Sizin en baştan adım adım kodlamanız gerekecek bir çok şey için birileri daha önce bir kütüphane yazmış olacaktır. Bunları kullanmanız size zaman kazandıracaktır.
+
+![Veri bilimi ve python](images/veri-bilimi-ve-python-1024x425.jpg)
+
+### Veri Bilimi ve İstatistik için Python
+
+Python dilinin temellerini öğrenmeye başladığımda Veri Bilimi'ne dair yeni yeni şeyler öğreniyor ve bunları uygulamaya çalışıyordum. Böylece hem Veri Bilimi'ni hem de uygulanması konusunda da Python becerilerimi geliştiriyordum.
+
+Yukarıda bahsettiklerimi de göz önünde bulundurunca Veri bilimi konusunda Python'ın önerilmesinde haklı gerekçeler vardır. Veri Bilimi kütüphaneler olan [NumPy](https://numpy.org/) ve [Pandas](https://pandas.pydata.org/) kütüphaneleri Python'ın yorumlanan bir dil olmasından ileri gelen hız yavaşlığı gibi dezavantajlarını fazlaca ortadan kaldıracak kütüphanelerdir.
+
+Türkçe kaynak tavsiyeleri:
+
+- Python Programlama Dili: [YazBel](https://python-istihza.yazbel.com/)
+- Veri Bilimi: [İlker](https://twitter.com/sibirbil) [Birbil](https://twitter.com/sibirbil) hocanın [Veri Defteri](http://www.veridefteri.com/).
+
+### Yapay Öğrenme ve Yapay Zeka için Python
+
+Google'ın TensorFlow'u ya da Facebook'un PyTorch'u olsun yapay-öğrenme ve yapay-zeka alanlarından Python ve açık kaynak geliştiricileri JavaScript'e göre önde gözükmektedir.
+
+JavaScript için de bu ve alternatif kütüphaneler mevcuttur. Ancak sanıyorum ki, Python'ın gerisindedir.
+
+### Python Uygulamamızı Geliştirdik. Ya sonra?
+
+Kendi hikayeme devam ediyorum. Veri bilimine dair bir çok şey öğrenirken, bir proje uygulaması üzerinde çalışmanın zaruriliğini fark ettim. Kişilere sinema zevkleri üzerinden izlemedikleri bir filme dair kaç puan verebileceklerini hesaplayan bir program yazdım. (Şu an emekliye ayrılmış durumda)
+
+Bunu insanların kullanımına sunabilmek için bir kaç seçeneğim vardı. Ya bir web uygulaması olarak paylaşacak ya da mobil uygulamasını hayata geçirecektim.
+
+Ben bir web sitesi üzerinden yayımlamanın daha kolay olacağını düşünerek, Python ile bir web sitesinin nasıl yapılabileceğini araştırmaya başladım. [Django](https://www.djangoproject.com/) kütüphanesinde karar kıldım. Bu konuda [MDN'in İngilizce Django Eğitim Serisi](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Tutorial_local_library_website)'ni ilgilenenlere önerebilirim.
+
+### Web Uygulamaları için JavaScript
+
+Tabi o sıralarda, front-end ya da back-end ayrımından haberim yoktu. Django aslında size full-stack bir uygulama geliştirmenize izin verir ancak her durumda öğrenmeniz gereken HTML ve CSS markup dilleri zorunludur.
+
+Ayrıca eğer 2000 yılında yaşamıyorsanız ve interaktif bir web sitesi tasarlamayı düşünüyorsanız JavaScript de öğrenilmesi gereken zaruri dillerden birisidir.
+
+İstediğim tipte bir web uygulamasını geliştirebilmek için JavaScript öğrenmeye başladım.
+
+Uzun süre boyunca JavaScript'e alışmakta zorluk çektim. Bir şeyler yapabiliyor ancak işleyişe dair neredeyse bir şey bilmiyordum. JS ile geçen bir yılın ardından, alıştım ve severek de kullanıyorum.
+
+### JavaScript ve Server Uygulamaları
+
+JavaScript ilginç bir dil. Tarayıcı da çalışması için yazılan bu dil Node'un geliştirilmesiyle birlikte artık server uygulamaları için de kullanılabilir hale geliyor. Bu da JS kütüphanelerinde bir patlama yaşanmasına sebep oluyor.
+
+![](images/modern-web-solutions-1024x341.jpg)
+
+### Web için Çağdaş Çözümler
+
+Özellikle Facebook'un React, Google'ın Angular'ı geliştirmesinin ardından Evan You tarafından geliştirilen Vue ve Rich Harris tarafından geliştirilen Svelte gibi çatı kütüphaneler ile büyük ölçeklerde, efektif kod yazıp uygulama kalitesinde web siteleri yapmak mümkün hale geldi. Ayrıca [Jamstack](https://www.cbsofyalioglu.com/programlama/wordpress-vs-jamstack/) gibi mimari yenilikler de oldukça heyecan verici gözükmektedir.
+
+### Mobil için JavaScript
+
+Front-end denilen HTML/CSS/JS üçlüsünün yapabilecekleri web sitesinden ibaret değil elbette.
+
+Mobil uygulamalarda bu 3'lü teknolojiyi kullanmak bir çok web sitesi geliştiricisinin işine yarayacak bir durumdu.
+
+Mesela Instagram uygulamasını düşünelim. Baktığımızda çok da güçlü bir ekran kartına ihtiyacı yok. Sıradan bir web sayfasını makyajlayarak o hale sokmak gayet kolay.
+
+Bugün bir çok uygulama React Native, Ionic vb gibi size HTML, CSS ve JavaScript ile mobil uygulamalar geliştirmenize ve neredeyse aynı kod ile hem Android hem de iOS için uygulama üretebilmenize olanak sağlıyor.

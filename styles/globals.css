@@ -80,7 +80,7 @@ html:not(.dark) .bg-trans {
 .glass-card {
   backdrop-filter: blur(18px) saturate(200%);
   -webkit-backdrop-filter: blur(18px) saturate(200%);
-  background-color: rgba(255, 255, 255, 0.19);
+  background-color: rgba(255, 255, 255, 0.39);
   border-radius: 12px;
   border: 1px solid rgba(209, 213, 219, 0.3);
 }
@@ -234,3 +234,4 @@ html:not(.dark) .lottie-icon svg g path {
   max-width:240px;
 
 }
+

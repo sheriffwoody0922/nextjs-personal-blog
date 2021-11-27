@@ -1,0 +1,81 @@
+---
+title: "JAMstack Nedir? WordPress vs JAMstack"
+date: "2021-03-08"
+categories: 
+  - "programlama"
+tags: 
+  - "programlama"
+  - "blog"
+---
+
+Web sitelerinde son yıllarda bir JAMstack rüzgarı esiyor. Geleneksel dediğimiz yöntemin dışında bir mimariye sahip olan bu uygulamalar bütünü bize bir çok avantaj getiriyor. Bu yazıda _JAMstack nedir?_ sorusunu elimden geldiğince cevaplamaya çalışacağım.
+
+**Jamstack nedir?** sorusunu cevaplayabilmek için o'nun ne olmadığını bilmek, kavramamız açısından daha önemli olacaktır.
+
+## Geleneksel (Monolitik) Web Site Mimarisi
+
+Bugün geleneksel diyebileceğimiz web siteleri bir sunucu'ya (server'a) ihtiyaç duyarlar. Web sitesine bir ziyaretçi geldiğinde, o ziyaretçinin ekranının nasıl gözükeceği, en son olarak bu sunucu tarafından gönderilir.
+
+Bir de bulut var. Bulut dediğimiz şey aslında bir başkasının hazır çalışan bilgisayarıdır. Bu başkası da sizin barındırıcınız, yani hosting firmanızdır. Örnek olarak Google Cloud Platform, Amazon Web Services, Digital Ocean, Vultr vb..
+
+![monolitik web site mimarisi](images/Blue-monolithic-mimari-1024x576.jpg)
+
+Sunucu ve back-end uygulaması bu bulut firmalarının sağladığı fiziksel donanım üzerinde bulunur. Sunucu istekleri yönetir. Back-end uygulaması iste tüm mantıksal işlem ve mekanizmalardan sorumludur.
+
+Bir de veri tabanı (database) var. Bu da tüm bilgilerin kaydedildiği, sunucudan ayrı olarak çalışabilen (çoğu zaman kendi sunucusu olan), bilginin kaybolmaması adına özel olarak tasarlanan sistemlerdir.
+
+Genel anlamda bildiğimiz web siteleri aşağıdakine benzer monolitik yapıda inşa edilirler. Bu tip sistemlerde front-end ve back-end kod'u birbirinden ayırmak zordur. Sunucu bir veritabanına ihtiyaç duyar. Bu tümleşik yapı çok sıkı bir şekilde birbirine bağlıdır.
+
+Aşağıdaki grafikte monolitik yapıda bir web sitesini göstermeye çalıştım. Şimdi adımları inceleyelim.
+
+![monolitik web mimarisi](images/monolithic-architecture.jpg "monolitik web mimarisi")
+
+1. Bir siteyi ziyaret etmek için adres çubuğuna web sitesinin adresi girilir ve bu istek web sitesinin bulunduğu sunucuya iletilir.
+2. Sunucu bu isteği back-end denilen ve web sitesinin sunucularında bulunan uygulamaya iletir.
+3. Back-end uygulaması (WordPress, Django, Ruby on Rails vs.) İsteğin türüne göre veritabanında sorgu yapar. Böylece her kullanıcıya farklı bir data gösterilebilir. Ya da girmiş olduğunuz parolanızı veritabanındaki ile kontrol eder ve doğruysa gerekli bilgileri veritabanından tekrar ister.
+4. Veritabanı ilgili sorguya cevap olarak gerekli datayı ya da onun olmadığına dair bilgiyi back-end uygulamasına gönderir.
+5. Back-end burada veritabanından gelen bilgi ile bu bilginin kullanıcının tarayıcısında nasıl gözükeceğine karar verir. Kısaca, Front-end denilen kodu bir araya getirir. Klasik sunucu taraflı web siteleri kullanıcı-taraflı (client-side) web sitelerinden farklı olarak, son kullanıcının tarayıcısında sayfanın nasıl gözükeceğine belirleyen kodu bu aşamada hazır hale getirir. Kısacası front-end kod burada hazırlanır.
+6. Front-end kod sunucuya iletilir.
+7. Sunucu, isteği gönderen kullanıcıya bu front-end kodunu gönderir. Bu kod kullanıcının tarayıcısında istenilen görüntüyü oluşturur. (render edilir)
+
+### Monolitik Web Sitelerinin Dezavantajları
+
+Bu sistemin sac ayaklarının herhangi birinde meydana gelen sorun tüm sistemi etkileyecektir.
+
+Ancak daha önemli bir mesele daha var.
+
+- Dinamik bir web sitesini ziyaret eden her bir kullanıcı için back-end uygulamamız her defasında veritabanına sorgu yapacaktır. (3 ve 4 numaralı adım). Buradaki kaynak israfı önbellekleme gibi metotlarla üstü örtülse de bize mimari açıdan bir sıkıntı olduğunu gösterir.
+- Sistem tümleşik olduğu için kullanılacak teknolojiler önceden belirlenmelidir. Bu yüzden ileride yapılacak teknik değişikliğin maliyeti fazla olacaktır.
+- Bir diğer problem bu yapıyı bir arada tutabilmek adına üretilen kompleks yapıdır.
+- Sunucu her gelen istekle ilgileneceğinden performans kaybı kaçınılmaz olacaktır.
+- Her an etkileşime açık bir sunucu ve veritabanı olduğundan güvenlik riskleri kat kat fazla olacaktır.
+
+![](https://www.cbsofyalioglu.com/wp-content/uploads/2021/10/jamstack-ve-monolitik-1270x715.webp)
+
+## JAMStack Nedir?
+
+Geleneksel monolitik yapıların aksine Jamstack daha farklı bir mimari çözüm getirmektedir. Runtime yerine build-time'ı tercih eden bir mimari yapı bu. Ziyaretçinin siteyi kullandığı anı "runtime" olarak ele alabiliriz. Build-time ise sitenin hazır olduğuna kanaat getirdiğimizde, sitenin kullanılabilir hale dönüşmesini sağlayacak eylemler bütünüdür.
+
+Bir diğer deyişle, server etkileşimi, veritabanı sorguları, ve çeşitli eylemler kullanım anından alınıp, sitenin inşa edildiği ana taşınır.
+
+Örnek üzerinden gitmemiz anlamayı kolaylaştıracaktır. Varsayalım ki web sitemiz aynı sayfaları her zaman aynı şekilde farklı kullanıcılara sunmakta. O halde her defasında veritabanı sorgusu ve sunucu eylemlerini gerçekleştirmek kaynak israfına sebep olacaktır. Bu durumda biz her sayfanın birer çıktısını alırsak bu kaynak kullanımından tasarruf yapmış olacağız.
+
+Peki form doldurma, üyelik gerektiren işlemler ve diğer dinamik eylemleri nasıl gerçekleştireceğiz? Burada mikroservis denilen yazılım hizmetlerinden faydalanıyoruz. 3.taraf bu Software as a Service (SaaS) şirketleri çoğunlukla kişisel kullanımlar için ücretsiz olmaktalar.
+
+Peki ya yapılması gereken algoritmik işlemler ya da fonksiyonları nasıl çalıştıracağız? Burada da Serverless platformlar devreye girmekteler. Vercel, Netlify, AWS Lambda ya da Serverless bunlardan yalnızca bir kaçı. Bu hizmetler içinse çalıştırılan fonksiyon başına ücret ödenmekte.
+
+İçeriğini uzun süre değiştirmediğiniz bir web sitesi için görüldüğü üzere sunucu maliyeti ödemenin hiç bir gerekçesi kalmamaktadır. Ayrıca sunucu etkileşimi olmadığından hem çok daha hızlı hem de çok daha güvenli siteler oluşturmanız mümkün.
+
+### JAMstack web sitelerinin avantajları
+
+Jamstack nedir sorusu kadar avantajları da pek tabi önemli.
+
+- Daha hızlı yüklenme
+- Daha güvenlikli bir altyapı
+- Kolayca ölçeklendirilebilme
+- Daha iyi bir geliştirici deneyimi
+- Daha az maliyet (Duruma göre değişebilir)
+
+Bir müşterime bu teknik altyapıdan bahsederken hem barındırma ücreti ödemeyeceğini hem de daha hızlı bir web sitesi olacağını söylediğimde inanmakta güçlük çekmişti.
+
+Jamstack nedir? sorusunu cevaplamaya çalıştığım bu yazıda umarım doyurucu cevaplar sunabilmişimdir.

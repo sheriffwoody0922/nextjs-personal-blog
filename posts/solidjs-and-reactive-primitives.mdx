@@ -1,0 +1,413 @@
+---
+title: "Exploring SolidJS - Reactive Primitives"
+description: "SolidJS is a true reactive library that allows you to use JSX for your frontend projects."
+date: "2021-09-29"
+cover: "/posts/covers/solidjs-reactive-primitives.webp"
+slug: "solidjs-and-reactive-primitives"
+canonical: "https://www.cbsofyalioglu.com/code/solidjs-and-reactive-primitives/"
+topic: "code"
+categories:
+  - "code"
+  - "featured"
+  - "post"
+language: "eng"
+keywords:
+  - "solidjs"
+  - "reactive primitives"
+---
+
+SolidJS is a true reactive library that allows you to use JSX for your frontend projects. The SolidJS is a true reactive library that allows you to use JSX for your frontend projects. In this blog post, I'll share my first impressions about the _SolidJS UI library_ and its reactive primitives. 
+
+I like the concept of reactivity when building frontend projects. Despite its name, React is not a truly reactive library. I also like the Svelte because of its reactivity. However, I realized that writing projects with Svelte are not so scalable like React projects because React and JSX provide great modularity.
+
+My first backend experience was with Django. I also used [Django and Svelte](https://www.cbsofyalioglu.com/post/django-and-modern-js-libraries-svelte/) for the first time experiencing a reactive library. If you are interested, you can also read
+
+<CardEnlarge
+  title="AdonisJs and SolidJS"
+  excerpt="Using SolidJS as a frontennd of AdonisJS"
+  cover="/posts/covers/adonis-solidjs.webp"
+/>
+
+
+### Using SolidJS in AdonisJS App - Design & Development
+
+Reading Time: 2 minutes This blog post shows how to integrate SolidJS frontend library with AdonisJS backend framework.
+
+However, SolidJS offers the best of both worlds.
+
+I'm currently not planning to do a real project with SolidJS until I get to use it.
+
+Currently, I'm building an e-commerce store that sells wall posters [Duvar posterleri](https://www.opendigitalgallery.com/) along with [İzmir güvenlik kamerası](https://www.filizguvenlik.com.tr), and the right time for the SolidJS is now.
+
+## Introduction
+
+OK, let's dive into the topic. Before reviewing SolidJS, it is better to get familiar with the concepts. I'll shortly talk about _What are reactive systems?_ and _what are those reactive primitives?_.
+
+### What are reactive systems?
+
+According to [The Reactive Manifesto](https://www.reactivemanifesto.org/), reactive systems are responsive, resilient, elastic, and message-driven. We call these Reactive Systems.
+
+Systems built as Reactive Systems are more flexible, loosely coupled, and scalable. This makes them easier to develop and amenable to change.
+
+They are significantly more tolerant of failure, and when failure does occur they meet it with elegance rather than a disaster.
+
+### What Reactive Systems do
+
+There are numerous reactive libraries in many programming languages like SolidJS in JS.
+
+Reactive systems must react to data change. Generally, these changes occur when new data receives or old updates.
+
+### Characteristics of Reactive Programming
+
+The reactive manifesto defines the key characteristics of it like that:
+
+- Responsive: Those systems respond in a timely manner. Here of course timely will differ depending upon the application and domain.
+- Resilient. Reactive systems stay responsive in the face of failure.
+- Elastic. As the workload grows the system should continue to be responsive.
+- Message Driven. Information is exchanged between elements of a reactive system using messages. This ensures loose coupling, isolation and location transparency between these components.
+
+### What are the reactive primitives of SolidJS?
+
+In SolidJS, the author of the library [Ryan Carniato](https://dev.to/ryansolid/a-hands-on-introduction-to-fine-grained-reactivity-3ndf) defines them as much like network primitives rather than JavaScript's primitives. As you will see later, Signals are basically observables.
+
+## Installation of SolidJS Template
+
+You can easily install a starter _SolidJS_ template with degit. You can also check other official templates from here: [SolidJS Official Templates](https://github.com/solidjs/templates). I prefer a JS template rather than a TypeScript.
+
+![SolidJS directory](/posts/solidjs/solidjs-starter-template-direcotry.webp)
+
+It is very similar to React in many cases. I will check some component rendering processes'.
+
+In this post, I am going to explore SolidJS in an introductory manner. I'll also create a Counter component first and check its re-render process.
+
+## A Reactive JavaScript Library: SolidJS
+
+### A) Reactive primitives: createSignal
+
+SolidJS has some basic reactive primitives, and Signals are one of them. It looks like it is a "useState" alternative of React Hooks. One difference to the "useState" hook is that a Signal returns two functions: a getter and a setter. Here is the official example of creating a signal:
+
+- createSignal function takes an initial value and returns an array with an access and update function.
+- You should execute the getter function (access) in order to get the value.
+- You can pass function to update function (set function). In this function, you can access the previous state also.
+
+```javascript
+const [getValue, setValue] = createSignal(initialValue);
+
+// read value
+getValue();
+
+// set value
+setValue(nextValue);
+
+// set value with a function setter
+setValue((prev) => prev + next);
+```
+
+![Solid JS createSignal"](/posts/solidjs/solidjs-create-signal-component.webp)
+
+```javascript
+import { createSignal } from "solid-js";
+
+function Counter({ initial }) {
+    const [count, setCount] = createSignal(initial || 0);
+
+    return (
+        <div>
+	    {/* Notice the usage of count! It is a function*/}
+            <h2>Count: {count()}</h2>
+        </div>
+    );
+}
+```
+
+#### 1) Component State Access and Update
+
+SolidJS call the state elements as signals. However, I prefer to use state rather than signal. Let's make a Counter component within the App component. Fill the `App.jsx` file as follows:
+
+![SolidJS change state](/posts/solidjs/SolidJS-component-state-change.webp)
+
+```javascript
+import logo from "./logo.svg";
+import styles from "./App.module.css";
+import { createSignal } from "solid-js";
+
+function App() {
+    /**
+     * CHECKPOINT
+     * if the App component renders
+     * it will print to console
+     */
+    //
+    console.log("App component rendered.");
+
+    return (
+        <div class={styles.App}>
+            <header class={styles.header}>
+                <img src={logo} class={styles.logo} alt="logo" />
+                <p>
+                    Edit <code>src/App.jsx</code> and save to reload.
+                </p>
+                <a
+                    class={styles.link}
+                    href="https://github.com/solidjs/solid"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Learn Solid
+                </a>
+                <Counter />
+            </header>
+        </div>
+    );
+}
+
+function Counter(props) {
+    const [count, setCount] = createSignal(props.initial || 0);
+
+    /**
+     * CHECKPOINT
+     * if the Counter component renders. it will print to console.
+     * Also, I put another print statement for the count function.
+     */
+    //
+    console.log("Counter component rendered.");
+    console.log("Counter component count value: ", count());
+
+    return (
+        <div style={{ width: "100%", height: "auto" }}>
+            {/* Notice the usage of count! It is a function*/}
+            <h2>Count: {count()}</h2>
+            <button onClick={() => setCount((c) => c + 1)}>Increase</button>
+            <button onClick={() => setCount((c) => c - 1)}>Decrease</button>
+        </div>
+    );
+}
+
+export default App;
+```
+
+Let's check the browser and the first render of SolidJS. As you see, there is no extra component render. If it were React, we should have seen many times "Counter component rendered" text on the console.
+
+![SolidJS's Reactivity](/posts/solidjs-reactivity.gif)
+
+#### 2) Parent Component State Access and Update
+
+Let's make it further and pass the signal setter to the child component and use it from there. Change both App and Counter components like that:
+
+![SolidJS change parent state](/posts/solidjs/solidjs-changing-state-of-the-parent-component.webp)
+
+```javascript
+function App() {
+    /**
+     * CHECKPOINT
+     * if the App component renders
+     * it will print to console
+     */
+    //
+    const [appCount, setAppCount] = createSignal(0);
+    console.log("App: count: ", appCount());
+    console.log("App component rendered.");
+
+    return (
+        <div class={styles.App}>
+            <header class={styles.header}>
+                <img src={logo} class={styles.logo} alt="logo" />
+                <p>
+                    Edit <code>src/App.jsx</code> and save to reload.
+                </p>
+                <a
+                    class={styles.link}
+                    href="https://github.com/solidjs/solid"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Learn Solid
+                </a>
+
+                {/* NEW */}
+                <h2>App Count: {appCount()}</h2>
+
+                <Counter
+                    initial={appCount()}
+                    setAppCount={setAppCount} // NEW
+                />
+            </header>
+        </div>
+    );
+}
+function Counter({ initial, setAppCount }) {
+    const [count, setCount] = createSignal(initial || 0);
+
+    /**
+     * CHECKPOINT
+     * if the Counter component renders. it will print to console.
+     * Also, I put another print statement for the count function.
+     */
+    //
+    console.log("Counter component rendered.");
+    console.log("Counter component count value: ", count());
+
+    return (
+        <div style={{ width: "100%", height: "auto" }}>
+
+            {/* Notice the usage of count! It is a function*/}
+            <h2>Count: {count()}</h2>
+            <button onClick={() => setCount((c) => c + 1)}>Increase</button>
+            <button onClick={() => setCount((c) => c - 1)}>Decrease</button>
+            <hr />
+
+            {/* Buttons changes the signal value of its parent component */}
+            <button onClick={() => setAppCount((c) => c + 1)}>
+                AppCount Increase
+            </button>
+            <button onClick={() => setAppCount((c) => c - 1)}>
+                AppCount Decrease
+            </button>
+        </div>
+    );
+}
+```
+
+As you see, there is not any component re-render. It's awesome.🥳
+
+![SolidJS  parent component state](/posts/solidjs/solidjs-change-state-of-parent-component.gif)
+
+#### Don't use destructuring, if you need reactive props
+
+One thing to keep in mind is that if you need a reactive prop, you shouldn't use destructuring.
+
+The example below is obtained from the official documentation. ([See the details](https://www.solidjs.com/guide#props))
+
+```
+// Here, `props.name` will update like you'd expect
+const MyComponent = (props) => <div>{props.name}</div>;
+
+// This is bad
+// Here, `props.name` will not update (i.e. is not reactive) as it is destructured into `name`
+const MyComponent = ({ name }) => <div>{name}</div>;
+```
+
+### B) Reactive primitives: createEffect
+
+As you supposed, `createEffect` is the equivalent of the `useEffect` hook of React. The official explanation and example are as follows:
+
+Creates a new computation that automatically tracks dependencies and runs after each render where a dependency has changed. Ideal for using `ref`s and managing other side effects.
+
+```
+const [a, setA] = createSignal(initialValue);
+
+// effect that depends on signal `a`
+createEffect(() => doSideEffect(a()));
+```
+
+It's time to play with this function. The official example returns a function (doSideEffect) that takes state value as its argument. Even if the returning function doesn't take the state value as its argument but as an inner value, the `createEffect` function successfully makes a side-effect.
+
+Let's add those to the `App` component.
+
+```javascript
+    // The function creates side-effect
+    const changeTitle = (val) => (window.document.title = `#App: ${val}`);
+
+    // effect that depends on signal `a`
+    createEffect(() => changeTitle(appCount()));
+```
+
+We created a function (changeTitle) responsible for the side-effect. It takes a value and changes the document title according to that. It also takes the state value of the App component which is appCount. Your app component should look like this.
+
+```javascript
+function App() {
+    const [appCount, setAppCount] = createSignal(0);
+    console.log("App: count: ", appCount());
+    console.log("App component rendered.");
+
+    // The function creates side-effect
+    const changeTitle = (val) => (window.document.title = `#App: ${val}`);
+
+    // effect that depends on signal `a`
+    createEffect(() => changeTitle(appCount()));
+
+    return (
+        <div class={styles.App}>
+            <header class={styles.header}>
+                <img src={logo} class={styles.logo} alt="logo" />
+                <p>
+                    Edit <code>src/App.jsx</code> and save to reload.
+                </p>
+                <a
+                    class={styles.link}
+                    href="https://github.com/solidjs/solid"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Learn Solid
+                </a>
+
+                {/* NEW */}
+                <h2>App Count: {appCount()}</h2>
+
+                <Counter
+                    initial={appCount()}
+                    setAppCount={setAppCount} // NEW
+                />
+            </header>
+        </div>
+    );
+}
+```
+
+You'll easily differentiate that when the app renders the first time, the document title was `App: 0`
+
+After, when I clicked and increased the appCount value, the document title also changed to the corresponding value. You'll also notice that there will be no component re-render.
+
+![SolidJS createEffect](/posts/solidjs/solidjs-create-effect.gif)
+
+### C) Reactive primitives: createMemo
+
+This reactive primitive returns a function that returns a read-only derived signal. Its value is recalculated whenever the dependencies are updated. `createMemo` primitive is the equivalent of `useMemo` hook.
+
+Edt the App component according to those:
+
+```javascript
+    // Add those to the App component
+    // It recalculate the value whenever the dependencies are updates.
+    const makeDouble = (val) => val * 2
+    const doubleCount = createMemo(() => makeDouble(appCount()))
+    console.log("doubleCount ", doubleCount());
+```
+
+Also, update the content of the App component. By doing this, we can see the `doubleCount` signal in work. You can also check the code location from the image below.
+
+```javascript
+<h2>Double Count: {doubleCount()}</h2>
+```
+
+![SolidJS createMemo function ](/posts/solidjs/solidjs-creatememo.gif)
+
+### D) Reactive primitives: createResource
+
+This function creates a signal that is responsible for async requests. The official explanation and example are here:
+
+Creates a signal that can manage async requests. The `fetcher` is an async function that accepts the return value of the source if provided and returns a Promise whose resolved value is set in the resource. The fetcher is not reactive so use the optional first argument if you want it to run more than once. If the source resolves to false, null, or undefined will not fetch. Also, `loading` and `error` are reactive getters and can be tracked.
+
+```javascript
+const [data, { mutate, refetch }] = createResource(getQuery, fetchData);
+
+// read value
+data();
+
+// check if loading
+data.loading;
+
+// check if errored
+data.error;
+
+// directly set value without creating promise
+mutate(optimisticValue);
+
+// refetch last request just because
+refetch();
+```
+
+My first impressions about SolidJS are amazing. Up to this point, there is no overhead that you always face with React. I will be watching the development of SolidJS with interest.
+
+Next, I'll review [Styling and Control Flow in SolidJS](https://www.cbsofyalioglu.com/code/styling-and-control-flow-in-solidj/).

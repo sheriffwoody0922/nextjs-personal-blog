@@ -1,12 +1,17 @@
 ---
 title: "Django and Modern JS Libraries - Back-end"
+description: "Django and JS Libraries is a series of tutorials that will cover Django integrations with React and Svelte. "
+cover: "/posts/covers/django-graphql.webp"
 date: "2020-06-21"
-categories: 
+language: "eng"
+slug: "django-and-modern-js-libraries-backend"
+canonical: "https://www.cbsofyalioglu.com/post/django-and-modern-js-libraries-backend/"
+topic: "code"
+categories:
   - "code"
-  - "en"
   - "post"
-tags: 
-  - "eng"
+keywords:
+  - "django and graphql"
 ---
 
 ## **Preliminary Information About the Tutorial?**
@@ -54,6 +59,8 @@ In modern client-side apps, some logical operations are handled by Javascript co
 
 Except for the first loading, client-side apps works faster and feels more native because some actions are done immediately on the browser, and I/O operations can be done via asynchronous behavior of Javascript.
 
+![Single page application architecture](/posts/django-js/architecture-of-single-page-app.webp)
+
 Therefore, users still see your app rather than a blank white page.
 
 Browsers are amazing and capable of many impressive things.
@@ -70,7 +77,7 @@ Otherwise, those operations make our server busy and can increase the bill.
 
 ### **Step-1: Create a Django project from scratch**
 
-![https://cbsofyalioglucom.imfast.io/django-js-libraries/single-page-django.jpg](images/architecture-of-single-page-app.jpg)
+![https://cbsofyalioglucom.imfast.io/django-js-libraries/single-page-django.jpg](/posts/django-js/single-page-django.webp)
 
 Let’s create a virtual environment for a clean setup.
 
@@ -159,7 +166,7 @@ TEMPLATES = [
     },
 ]
 
-#New 
+#New
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
@@ -223,7 +230,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     "django_extensions",
-    'graphene_django', 
+    'graphene_django',
     'corsheaders',
     "items"             # New! (make our app will active)
 ]
@@ -347,6 +354,8 @@ What we do in this section is:
 - Creating an API Schema that has three parts: API-model, Resolvers, and Queries.
 - Creating a URL endpoint: The client-side application will request all information to this URL address.
 
+![GraphQL settings](/posts/django-js/single-page-django-graphql.webp)
+
 ### Step 1 - Creating another Django app for API configurations
 
 Actually, there is no obligation to make another app because this app will not create or update any database table. However, to put all API-related configurations in one place, I chose this way.
@@ -401,16 +410,16 @@ class MovieType(DjangoObjectType):
     summary = graphene.String()
     poster_url = graphene.String()
     slug = graphene.String()
-    
+
     # define which model will be the base
     class Meta:
         model = Movie
-        
-    # 'self' corresponds to the item of Django model 
+
+    # 'self' corresponds to the item of Django model
     # like The Lighthouse or Joker
     def resolve_id(self, info):
         return self.id
-    
+
     def resolve_name(self, info):
         return self.name
 
@@ -452,7 +461,7 @@ class Query(graphene.ObjectType):
     def resolve_movie_list(self, info, *_):
         # for large lists only query what you need
         return Movie.objects.all().only("name", "poster_url", "slug")
-    
+
     def resolve_movie(self, info, slug):
         movie_queryset = Movie.objects.filter(slug=slug)
         if movie_queryset.exists():
@@ -491,7 +500,7 @@ urlpatterns = [
     # apiclient on client-side will request this adress later
     path("graphql", csrf_exempt(GraphQLView.as_view(graphiql=True))),
 
-    
+
     # index.html file will be our root template. When a user opens our webste,
     # this file will be sent by server at first. After then, api requests
     # will directed above address.
@@ -532,18 +541,25 @@ Our API is ready to respond to the requests. This part of the tutorial is finish
 
 Now, we will make two different client-side apps. Please choose one of them to continue.
 
-[Option One: Make front-end part with React](https://www.cbsofyalioglu.com/post/django-and-modern-js-libraries-react/)
 
-![](images/Django-React.jpg)
 
-### Django and Modern JS Libraries - React -
+#### Option I: Django and Modern JS Libraries - React
 
-Django and React integration.
+Django and React integration. This is the third post of Django and Modern JS Libraries. You will integrate Django and Svelte.
 
-[Option Two: Make front-end part with Svelte](https://www.cbsofyalioglu.com/post/django-and-modern-js-libraries-svelte/)
+<CardEnlarge
+  title="Option I: Django and React"
+  cover="/posts/django-js/django-react.webp"
+  excerpt="Build your frontend with React."
+/>
 
-![](images/django-svelte.jpg)
 
-### Django and Modern JS Libraries - Svelte -
+
+#### Option II: Django and Modern JS Libraries - Svelte
 
 Django and Svelte integration. This is the third post of Django and Modern JS Libraries. You will integrate Django and Svelte.
+<CardEnlarge
+  title="Option II: Django and Svelte"
+  cover="/posts/django-js/django-svelte.webp"
+  excerpt="Build your frontend with React."
+/>

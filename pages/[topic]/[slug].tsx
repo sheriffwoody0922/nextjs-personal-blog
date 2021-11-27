@@ -47,6 +47,7 @@ const PostPage = ({ slug, category, frontMatter, mdxSource }) => {
                     <span className="mb-2 text-sm">{frontMatter.date}</span>
                     <h1 className="text-gray-800 text-4xl lg:text-5xl font-bold text-center mb-4 md:mb-6">{frontMatter.title}</h1>
                     <p className="max-w-screen-md text-gray-500 md:text-lg text-center mx-auto">{frontMatter.description}</p>
+
                     <div className="relative h-[400px] w-full overflow-hidden rounded-lg  my-12">
 
 
@@ -123,7 +124,6 @@ const PostPage = ({ slug, category, frontMatter, mdxSource }) => {
         </>
     )
 }
-
 
 export const getStaticProps = async ({ params: { slug, topic } }) => {
     //console.log("cat & slug: ", topic, slug)
