@@ -125,6 +125,37 @@ const PostPage = ({ slug, category, frontMatter, mdxSource }) => {
     )
 }
 
+function Decor() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="481"
+      height="511"
+      fill="none"
+      viewBox="0 0 481 511"
+      className="post-decor"
+    >
+      <path
+        stroke="url(#paint0_linear_164_4)"
+        strokeWidth="10"
+        d="M258.585 510.792V402.113c0-20.007 16.219-36.226 36.226-36.226h39.849c20.008 0 36.227-16.219 36.227-36.227 0-20.007-16.219-36.226-36.227-36.226H149.906c-20.008 0-36.227-16.219-36.227-36.226 0-20.008 16.219-36.227 36.227-36.227h289.811c20.007 0 36.226-16.219 36.226-36.226 0-20.008-16.219-36.227-36.226-36.227H41.227C21.218 148.528 5 132.309 5 112.302c0-20.007 16.22-36.227 36.226-36.227h217.359c20.007 0 36.226-16.219 36.226-36.226V0"
+      ></path>
+      <defs>
+        <linearGradient
+          id="paint0_linear_164_4"
+          x1="120.575"
+          x2="422.075"
+          y1="-38.575"
+          y2="599.925"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#FF0046"></stop>
+          <stop offset="1" stopColor="#BD00FF"></stop>
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+}
 export const getStaticProps = async ({ params: { slug, topic } }) => {
     //console.log("cat & slug: ", topic, slug)
     // This will be a correct filename rather than user-defined slug
