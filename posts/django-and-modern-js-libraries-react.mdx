@@ -1,0 +1,621 @@
+---
+title: "Django and Modern JS Libraries - React"
+date: "2020-07-22"
+categories: 
+  - "code"
+  - "en"
+  - "post"
+tags: 
+  - "eng"
+---
+
+In the previous part, we built a Django backend and GraphQL API that is responsible for the communication of the Django project and react app. In this part of the tutorial, we will create a single page application with React from scratch. Also, you may be interested in a new reactive JavaScript library: [Solid JS and Reactive Primitives](https://www.cbsofyalioglu.com/code/solidjs-and-reactive-primitives/).
+
+We will bundle our application with webpack and we will not use create-react-app boilerplate
+
+## Create React App from Scratch
+
+### Step - 1: Configuring development environment
+
+(Note: if you already installed the node, you can skip this part)
+
+We will use Node backend for the development environment.
+
+Therefore we need to install Node and Node package manager npm. In order to prevent possible dependency problems, we will create a clean node environment.
+
+I will use NVM which is a Node version manager and it allows us to create isolated Node environments.
+
+In your terminal, run the code below.
+
+```
+# install node version managerwget -qO- | bash
+```
+
+```
+# check installation
+command -v nvm
+# should prints nvm, if it doesn"t
+# you can restart your terminal
+```
+
+```bash
+# install node
+# node" is an alias for the latest version
+nvm install node
+# use the installed version
+nvm use node
+# prints Now using node v..
+```
+
+Now we can create a frontend directory in the Django project.
+
+Go to the root directory of the project. **'backend/'**
+
+In your terminal copy and paste the code.
+
+```bash
+# create frontend directory
+mkdir FRONTEND
+cd FRONTEND
+#in backend/FRONTEND create a Node project
+npm init
+# you may fill the rest
+```
+
+Now we can install Javascript dependencies such as React and API related to other libraries.
+
+```bash
+# add core react library
+npm install react react-dom react-router-dom
+# add graphql client-side framework of Apollo and parser
+npm install apollo-boost @apollo/react-hooks graphql graphql-tag
+# -- DEVELOPMENT PACKAGES---
+# add babel transpiler
+npm install --save-dev @babel/core @babel/preset-env @babel/preset-react
+# add webpack bundler
+npm install --save-dev webpack webpack-cli webpack-dev-server
+# add webpack loaders and plugins
+npm install --save-dev babel-loader css-loader style-loader html-webpack-plugin  mini-css-extract-plugin postcss-loader postcss-preset-env
+```
+
+If everything goes well, we can create necessary files.
+
+```bash
+# create source folder for client side code
+mkdir src
+# our react app's root file
+touch index.js
+#create webpack config file
+touch webpack.config.js
+# get into src folder
+cd src
+# create HTML entrypoint for React development
+touch index.html
+```
+
+```bash
+# our app file and styling
+touch App.js
+// Screens
+touch MovieList.js
+touch MoviePage.js
+# for styling
+touch App.css
+```
+
+All npm packages contain a file that holds metadata about the app. This file is a package.json file.
+
+You should update the **package.json** file.
+
+Edit the scripts section and add Babel presets and postcss configurations.
+
+```json
+{
+  "scripts": {
+  "start": "webpack-dev-server --open --hot --mode development",
+  "build": "webpack --mode production"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+      ]
+   },
+  "postcss": {
+    "plugins": { "postcss-preset-env": {} }
+   },
+}
+```
+
+### **Step 2 - Webpack configuration and index.html file**
+
+**What is webpack ?**
+
+Webpack is a module bundler and a task runner.
+
+We will bundle all our JavaScript applications including CSS styling into two JavaScript files, if you prefer you can output only one file.
+
+Because of the rich plugins, you can also do many things with Webpack like compressing with different algorithms, eliminate unused CSS code, extracting your CSS to different files, uploading your bundle to cloud providers like S3, etc…
+
+I made two different Webpack settings in one file.
+
+One is for the development environment, and the other one is for a production environment.
+
+Also, note that we do not optimize these configurations.
+
+Copy/Paste the following code into **webpack.config.js** file.
+
+```javascript
+const path = require("path");
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+// checks if it is production bundling or development bundling
+const isEnvProduction = process.argv.includes("production")
+// our JS root file
+const entrypoint = './index.js'
+const productionSettings = {
+	mode: "production",
+	entry: entrypoint,
+	output: {
+        // output directory will be the root directory of django
+        path: path.resolve(__dirname, '../'),
+        // this is the bundled code we wrote
+        filename: 'static/js/[name].js',
+        // this is the bundled library code
+	    chunkFilename: 'static/js/[name].chunk.js'
+	},
+    optimization: {
+		minimize: true,
+		splitChunks: {
+		  chunks: 'all',
+		  name: true,
+		},
+		runtimeChunk: false,
+	  },
+	devServer: {
+		historyApiFallback: true,
+		stats: 'normal',
+      },
+	module: {
+		rules: [
+            {
+                loader: 'babel-loader',
+                test: /\.js$|jsx/,
+                exclude: /node_modules/},
+			{
+				test: /\\.css$/i,
+				use: [
+				  // IMPORTANT => don't forget `injectType`  option
+				  // in some cases some styles can be missing due to
+				  // inline styling.
+				  { loader: 'style-loader', options: { injectType: 'styleTag' } },
+				  "css-loader"
+				],
+			},
+		]
+	},
+	plugins: [
+		new HtmlWebPackPlugin({
+			// ENTRYPOINT - this is where webpack read our app for bundling
+			template: "./src/index.html",
+			// OUTPUT FILE
+			// this is emitted bundle html file
+			// ----------------------------------
+			// django will use this as template after bundling
+			// -----------------------------------
+      filename:"./templates/index.html"
+		}),
+	]
+};
+const devSettings = {
+	mode: "development",
+    entry: entrypoint,
+	output: {
+		path: path.resolve(__dirname, './build'),
+		publicPath: "/",
+		filename: 'static/js/bundle.js',
+		chunkFilename: 'static/js/[name].chunk.js',
+	},
+	devtool: 'inline',
+	devServer: {
+		historyApiFallback: true,
+		contentBase: './dist',
+		stats: 'minimal',
+	  },
+	module: {
+		rules: [
+            {
+                loader: 'babel-loader',
+                test: /\.js$|jsx/,
+                exclude: /node_modules/},
+			{
+				test: /\.css$/i,
+				use: [
+					//{loader: MiniCssExtractPlugin.loader, options: {
+					//	  //your styles extracted in a file for production builds.
+					//	  //hmr: isEnvDevelopment,
+					//	},
+					//  },
+				  // IMPORTANT => don't forget `injectType`  option
+				  { loader: 'style-loader', options: { injectType: 'styleTag' } },
+                  "postcss-loader"
+                  //"css-loader"
+				  //{ loader: 'sass-loader' },
+				],
+			},
+		]
+	},
+	plugins: [
+		new HtmlWebPackPlugin({
+			template: "./src/index.html",
+		})
+	]
+};
+module.exports = isEnvProduction ? productionSettings : devSettings;
+```
+
+When we are developing frontend, our React app renders all our JavaScript code to this HTML file in the src folder.
+
+Also, when we build our code for production (bundling), Webpack will use this HTML as a template.
+
+_It is important to say that Django will not use this HTML file. This is the HTML entry point of webpack. __Django will use the output of_ the _webpack bundle__._
+
+Update your **index.html** file.
+
+```
+
+
+  
+    
+    
+    
+    
+    Django React Integration
+  
+  
+    
+  
+
+```
+
+### Step - 3 Create the React app
+
+The index file is the root file of our app, meaning that all our codes will be connected to this root file.
+
+The other tutorials or each boilerplate use this file for only render function of ReactDOM and leave it small and clear.
+
+Writing this index file as it is is a totally a choice.
+
+What we will do is as follows: We will create an Init component that will initialize the API framework (Apollo) and routing library (react-router-dom).
+
+We will wrap our App.js file with the API framework so that all our components will be in the context of API.
+
+The Apollo Provider expects an Apollo client.
+
+The Apollo client has the information of the requested address, which is the address of our Django server.
+
+After then we will wrap our App file again with the router component, namely Browser Router. This makes our app a single-page-application.
+
+Thus, we make routing without rendering all the pages when the URL of the address bar changes.
+
+At the end of the file, you will see the render function of ReactDOM which accepts our root component, which is the Init component in our case, and the DOM element that our app will be rendered in there.
+
+Update your **index.js** file as follows.
+
+```
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import { BrowserRouter } from "react-router-dom"
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from '@apollo/react-hooks';
+/*
+    our frontend api client will make request to
+    the adress we define in the first part.
+*/
+const apiclient = new ApolloClient({
+    uri: '',
+  });
+const Init = () => (
+    
+        
+            
+        
+    
+)
+ReactDOM.render( , document.getElementById('root'))
+```
+
+Now, we are ready to create our simple movie app.
+
+Our app has two different screens:
+
+- The main page which lists all movies in the database with less information
+- The movie page will show a specific movie page with more information.
+
+Now update your **App.js** file.
+
+```javascript
+import React from "react";
+import { Route, Switch, Link } from "react-router-dom"
+// UI Screens we will define later
+import MoviePage from "./MoviePage.js" //New
+import MoviePage from "./MoviePage.js" //New
+import "./App.css"
+const App = () => {
+    return (
+        
+            
+                
+                {// colon before slug means it is a dynamic value
+                // that makes slug parameter anything
+                // like: /movie/the-lighthouse-2019   or /movie/anything
+                // as long as slug matches with database.
+                }
+                
+            
+        )
+}
+export default App
+```
+
+**Let me explain what that code means**
+
+When a user first opens our page, the switch component from react-router-dom will look at the URL. Then try to match the path of route components with this URL, if any, then the matched component in the route will be rendered.
+
+### **Step - 4 Create page components and styling**
+
+The MovieList component will be shown on the landing page. Copy/Paste to "MovieList.js" file.
+
+```
+import React from "react";
+import gql from "graphql-tag";
+// our first query will requests all movies
+// with only given fields
+// note the usage of gql with 'jsvascript string literal'
+export const MOVIE_LIST_QUERY = gql`
+    query movieList{
+        movieList{
+            name, posterUrl, slug
+        }
+    }
+`
+const MovieList = (props) => {
+    const { loading, error, data } = useQuery(MOVIE_LIST_QUERY);
+    // when query starts, loading will be true until the response come.
+    // At this time this will be rendered on screen
+    if (loading) return Loading
+    // if response fail, this will be rendered
+    if (error) return Unexpected Error: {error.message}//if query succeed, data will be available and render the data
+    return(
+        
+            {data && data.movieList &&
+                data.movieList.map(movie => (
+                    
+                        
+                        {movie.name}
+                        
+                    ))
+            }
+        )
+}
+export default MovieList
+```
+
+MoviePage component will show more details than the list view but only information about a specific movie.
+
+Copy and paste the code MoviePage.js file.
+
+```
+import React from "react";
+import gql from "graphql-tag";
+// Note the usage of argument.
+// the exclamation mark makes the slug argument as required
+// without it , argument will be optional
+export const MOVIE_QUERY = gql`
+    query movie($slug:String!){
+        movie(slug:$slug){
+            id, name, year, summary, posterUrl, slug
+        }
+    }
+`const MoviePage = (props) => {
+    // uncomment to see which props are passed from router
+    //console.log(props)
+    // due to we make slug parameter dynamic in route component,
+    // urlParameters will look like this { slug: 'slug-of-the-selected-movie' }
+    const urlParameters = props.match.params
+    const { loading, error, data } = useQuery(MOVIE_QUERY, {
+        variables:{slug:urlParameters.slug}
+    });
+    if (loading) return Loadingif (error) return Unexpected Error: {error.message}
+    return (
+        
+        Main Page
+            {data && data.movie &&
+                
+                    
+                    
+                        {data.movie.name}
+                        Year: {data.movie.year}
+                        
+                        {data.movie.summary}
+                    
+                }
+        )
+}
+export default MoviePage
+```
+
+Add some styling: update App.css.
+
+```css
+html, body {
+    width:100vw;
+    overflow-x: hidden;
+    height:auto;
+    min-height: 100vh;
+    margin:0;
+}
+.App {
+    position: absolute;
+    left:0;
+    right:0;
+    display: flex;
+    min-width: 100%;
+    min-height: 100vh;
+    flex-direction: column;
+    background-color: #181818;
+    /*font-family: "Open Sans", sans-serif;*/
+    font-size: 16px;
+    font-family: sans-serif;
+}
+/* MAIN PAGE */
+.main-page {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 40vh;
+    background-color: #3f3e3e;
+    margin:10vh 5vw;
+    border-radius: 6px;
+}
+/* MOVIE CARD */
+.movie-card {
+    position: relative;
+    width:168px;
+    height:auto;
+    background: #f1f1f1;
+    border-radius: 6px;
+    margin:16px;
+    box-shadow: 0 12px 12px -4px rgba(0,0,0, 0.4);
+}
+.movie-card:hover {
+    box-shadow: 0 12px 18px 4px rgba(0,0,0, 0.8);
+}
+.movie-card-image {
+    width:168px;
+    height:264px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+.movie-card-name {
+    text-align: center;
+    margin: 0;
+    padding: 8px;
+    font-weight: bold;
+}
+.movie-card-link {
+    position: absolute;
+    top:0;
+    left:0;
+    right: 0;
+    bottom: 0;
+}
+/* MOVIE PAGE */
+.back-button {
+    position: absolute;
+    left:10px;
+    top:10px;
+    width:120px;
+    padding: 8px 16px;
+    text-align: center;
+    background: #f1f1f1;
+    color:black;
+    font-weight: bold;
+    cursor:pointer;
+}
+.movie-page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    min-height: 80vh;
+    margin:10vh 10vw;
+    border-radius: 6px;
+}
+.movie-page-box {
+    position: relative;
+    display: flex;
+    height:352px;
+    background-color: #f1f1f1;
+}
+.movie-page-image {
+    width:280px;
+    height:352px;
+}
+.movie-page-info {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height:352px;
+    width: auto;
+    max-width: 400px;
+    padding: 16px 32px;
+}
+```
+
+* * *
+
+![https://cbsofyalioglucom.imfast.io/django-js-libraries/single-page-django-react-app-final.jpg](images/single-page-django-react-app-final.jpg)
+
+## Finally, Start Django-React App
+
+### Development Environment
+
+In the development environment, we will run two different servers.
+
+One is the Django server for backend, and the other one is the Webpack server for frontend development.
+
+In the production environment, We will only run one Django server as I promise.
+
+Go to the root folder of the Django project. '**backend/'.**
+
+Execute the below command and make the Django server ready for frontend requests.
+
+```
+python manage.py runserver
+```
+
+Open another terminal and go to FRONTEND directory. ‘backend/FRONTEND’
+
+```
+npm run start
+```
+
+You will see those screens.
+
+![https://cbsofyalioglucom.imfast.io/django-js-libraries/movie-list-react.jpg](images/movie-list-react.jpg)
+
+![https://cbsofyalioglucom.imfast.io/django-js-libraries/movie-page-react.jpg](images/movie-page-react.jpg)
+
+Django and React Successfully Integrated
+
+We created a simple single-page-application. Now, the last part of this tutorial will be made this app works seamlessly with our Django project.
+
+Now you can stop the webpack server with the corresponding terminal screen.
+
+### **The Final Part - Production Build of Django and React**
+
+Now, We can build our app for the production environment. Go to the FRONTEND directory and execute the build command.
+
+```
+npm run build
+```
+
+* * *
+
+When the build process is done, there will be two Javascript files in the **backend/static** folder:
+
+- main.js
+- vendors~main.chunk.js
+
+Also, check the **backend/templates** folder and you will see other **index.html** files.
+
+**_This is the HTML file that Django will use._**
+
+I made this graphic in order to show webpack bundling process and how our app will use output files.
+
+![https://cbsofyalioglucom.imfast.io/django-js-libraries/webpack-process.jpg](images/webpack-process.jpg)
+
+[https://github.com/canburaks/django-and-modern-js-libraries](https://github.com/canburaks/django-and-modern-js-libraries)

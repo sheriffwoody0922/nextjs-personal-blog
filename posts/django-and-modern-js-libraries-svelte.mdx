@@ -1,0 +1,507 @@
+---
+title: "Django and Modern JS Libraries - Svelte"
+description: "Django and Svelte integration. This is the third post of Django and Modern JS Libraries. You will integrate Django and Svelte."
+cover: "/posts/django-svelte.jpg"
+date: "2020-07-22"
+slug: "django-and-modern-js-libraries-svelte"
+topic: "code"
+canonical: "https://www.cbsofyalioglu.com/post/django-and-modern-js-libraries-svelte/"
+categories:
+  - "code"
+  - "en"
+  - "featured"
+  - "post"
+language: "eng"
+keywords:
+  - "django svelte"
+---
+
+In the previous part, we built a Django backend and GraphQL API. In this part, we will integrate the Django project with Svelte.
+
+Thus, it's necessary to follow [Django and Modern JS Frameworks - Backend](/posts/django-and-modern-js-libraries-backend/).
+
+When I was building the website of [Izmir alarm sistemleri](https://www.filizguvenlik.com.tr/), I have time to experiment. At this time, I try Svelte along with Django. Although we decided on using WordPress, this tutorial was made the days on that time.
+
+Related: The Copywriting Tools for Blogging
+
+#### Tools for Blogging
+
+Creating a website is the first step for many. Also, crafting quality content is another challenge for people. If you would like to increase your content creation productivity, check [Awesome Content Creation Tools.](https://www.cbsofyalioglu.com/en/content-creation-tools/)
+
+* * *
+
+## What is Svelte and How it differs from React?
+
+I like Python and its ecosystem. I also like Just-In-Time compilers and language supersets like Cython, which really boosts Python performance. When I learned that JavaScript is an interpreted language, I tried to look Cython equivalent of it.
+
+Because of different browser compilers, I couldn’t find what I want and it made me disappointed. Maybe it is the reason I feel the excitement when I give Svelte a chance.
+
+If you didn't try Svelte before, you may give it a chance. Svelte's interactive API and tutorials are also worth praising. Being familiar with Svelte API and Tutorials is definitely recommended. If you like the reactivity concept, you could also check my first impressions on [SolidJS](https://www.cbsofyalioglu.com/code/solidjs-and-reactive-primitives/).
+
+When I’m talking about Svelte, I’m strictly speaking about Svelte 3. It is another JavaScript library written by Rich Harris. What makes Svelte special is:
+
+- It is truly a reactive library and it doesn’t use virtual DOM like React. Therefore, there are no VDOM diff calculations.
+- It has a compiler and when you build your application it produces optimized JavaScript code. In the end, Svelte code almost disappears and you have vanilla JavaScript.
+- You can write HTML, CSS, and JavaScript in a single file component and there will be no global CSS pollution.
+
+Yes, React was revolutionary. However, how many times we have to deal with virtual DOM synchronization problems or the extra burden for even very small operations are the other side of the medallion.
+
+![](/posts/post-single-page-graphql-svelte.jpg)
+
+## Svelte Configuration with Webpack from Scratch
+
+### **Step - 1: Configuring** the **development environment**
+
+(Note: if you already installed the node, you can skip this part)
+
+We will use the Node backend for the development environment.
+
+Therefore, we need to install Node and Node package manager npm.
+
+To prevent potential dependency problems, we will create a clean node environment.
+
+I will use NVM which is a Node version manager, and it allows us to create isolated Node environments.
+
+In your terminal, run the code below.
+
+**Setup Node Environment with NVM**
+
+In your terminal, run the code below.
+
+```bash
+# install node version manager
+wget -qO- | bash
+# check installation
+command -v nvm
+# should prints nvm, if it doesn't, restart your terminal
+```
+
+```bash
+# install node
+# node" is an alias for the latest version
+# use the installed version
+nvm use node
+nvm install node
+```
+
+Now we can create a frontend directory in the Django project. Go to the root directory of the project. 'backend/'
+
+In your terminal copy and paste the code.
+
+```bash
+# create frontend directory
+mkdir FRONTEND
+cd FRONTEND
+# now your terminal directory should be
+# backend/FRONTEND
+# create a node project
+npm init
+# you may fill the rest
+```
+
+Now we can install front-end and development libraries.
+
+```bash
+# install svelte and other libs
+npm install --save-dev svelte serve cross-env  graphql-svelte
+# install webpack and related libs
+npm install --save-dev webpack webpack-cli webpack-dev-server
+# install webpack loaders and plugins
+npm install --save-dev style-loader css-loader svelte-loader mini-css-extract-plugin
+npm install --save node-fetch svelte-routing
+```
+
+Update package.json scripts part as below. Your file should look like this and ignore the versions.
+
+```json
+{
+  "name": "django-svelte-template",
+  "description": "Django Svelte template. ",
+  "main": "index.js",
+  "scripts": {
+    "build": "cross-env NODE_ENV=production webpack",
+    "dev": "webpack-dev-server --content-base ../templates"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "css-loader": "^3.5.3",
+    "graphql-svelte": "^1.1.9",
+    "mini-css-extract-plugin": "^0.9.0",
+    "serve": "^11.3.1",
+    "style-loader": "^1.2.1",
+    "svelte": "^3.22.3",
+    "svelte-loader": "^2.13.6",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.0",
+    "svelte-routing": "^1.4.2"
+  }
+}
+```
+
+Let’s create application necessary files and folders for Svelte. In the root directory of the project 'backend/’ , open your terminal.
+
+```bash
+# create HTML file of the project
+cd templates
+touch index.html
+# change directory to backend/FRONTEND
+cd ../FRONTEND
+mkdir src
+touch index.js
+touch webpack.config.js
+# change directory to backend/FRONTEND/src
+cd src
+touch App.svelte
+touch MovieList.svelte
+touch MoviePage.svelte
+touch api.js
+```
+
+### **Step 2 - Webpack configuration**
+
+**What is webpack?**
+
+Webpack is a module bundler and a task runner.
+
+We will bundle all our JavaScript applications including CSS styling into two JavaScript files, if you prefer you can output only one file.
+
+Because of the rich plugins, you can also do many things with Webpack like compressing with different algorithms, eliminate unused CSS code, extracting your CSS to different files, uploading your bundle to cloud providers like S3, etc…
+
+I made two different Webpack settings in one file.
+
+One is for a development environment, and the other one is for a production environment.
+
+Also, note that we do not optimize these configurations.
+
+Copy/Paste the following code into the **webpack.config.js** file.
+
+```javascript
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require('path');
+const mode = process.env.NODE_ENV || 'development';
+const isEnvProduction = mode === 'production';
+const productionSettings = {
+	mode,
+	entry: {
+		bundle: ['./index.js']
+	},
+	resolve: {
+		alias: {
+			svelte: path.resolve('node_modules', 'svelte')
+		},
+		extensions: ['.mjs', '.js', '.svelte'],
+		mainFields: ['svelte', 'browser', 'module', 'main']
+	},
+	output: {
+        path: path.resolve(__dirname, '../static'),
+		filename: 'js/[name].js',
+		chunkFilename: 'js/[name].[id].js'
+	},
+    optimization: {
+		minimize: true,
+		runtimeChunk: false,
+	  },
+	module: {
+		rules: [
+			{
+				test: /\.svelte$/,
+				use: {
+					loader: 'svelte-loader',
+					options: {
+						emitCss: true,
+						hotReload: true
+					}
+				}
+			},
+			{
+				test: /\.css$/,
+				use: [
+					/**
+					 * MiniCssExtractPlugin doesn't support HMR.
+					 * For developing, use 'style-loader' instead.
+					 * */
+					MiniCssExtractPlugin.loader,
+					'css-loader'
+				]
+			}
+		]
+	},
+	devtool: false,
+	plugins: [
+		new MiniCssExtractPlugin({filename: '[name].css'})
+	],
+};
+const devSettings = {
+	mode,
+	entry: {
+		bundle: ['./index.js']
+	},
+	resolve: {
+		alias: {
+			svelte: path.resolve('node_modules', 'svelte')
+		},
+		extensions: ['.mjs', '.js', '.svelte'],
+		mainFields: ['svelte', 'browser', 'module', 'main']
+	},
+	output: {
+		publicPath: "/",
+		filename: 'static/js/bundle.js',
+		chunkFilename: 'static/js/[name].chunk.js',
+	},
+	devtool: 'source-map',
+	devServer: {
+		historyApiFallback: true,
+		stats: 'minimal',
+	  },
+	module: {
+		rules: [
+			{
+				test: /\.svelte$/,
+				use: {
+					loader: 'svelte-loader',
+					options: {
+						emitCss: true,
+						hotReload: true
+					}
+				}
+			},
+			{
+				test: /\.css$/,
+				use: [
+					/**
+					 * MiniCssExtractPlugin doesn't support HMR.
+					 * For developing, use 'style-loader' instead.
+					 * */
+					'style-loader',
+					'css-loader'
+				]
+			}
+		]
+	},
+	mode,
+	plugins: [
+	],
+}
+module.exports = isEnvProduction ? productionSettings : devSettings;
+```
+
+### **Step 3 - Create a Single-Page-App witth Svelte**
+
+First, fill in the '**backend/FRONTEND/index.js’.**
+
+```javascript
+import App from './src/App.svelte';
+const app = new App({
+	target: document.body,
+});
+window.app = app;
+export default app;
+```
+
+Next, fill the ‘App.svelte’ file with proper logic.
+
+```markup
+<!-- App.svelte -->
+<script>
+  import { Router, Link, Route } from "svelte-routing";
+  import MovieList from "./MovieList.svelte";
+  import MoviePage from "./MoviePage.svelte";
+  export let url = "";
+</script>
+<Router url="{url}">
+  <nav class="navbar">
+    <Link to="/">Home</Link>
+  </nav>
+  <div class="main-container">
+    <Route path="movie/:slug" component="{MoviePage}" />
+    <Route path="/"><MovieList /></Route>
+  </div>
+</Router>
+<style>
+    .navbar {
+        background-color:rgba(0,0,0,0.6);
+        display: flex;
+        padding: 16px 64px;
+        font-weight: bold;
+        color:white;
+    }
+    .main-container {
+        margin-top:32px;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0,0,0, 0.15);
+    }
+</style>
+```
+
+Before routing pages, I will first write the client-side queries. Please open api.js and copy/paste the code below.
+
+```javascript
+import { GraphQLProvider, reportCacheErrors } from "graphql-svelte";
+const client = GraphQLProvider({
+url: 'http://127.0.0.1:8000/graphql',
+headers: () => ({
+  "content-type": "application/json",
+  Accept: 'application/json'
+})
+})
+client.graphql.on('cache', reportCacheErrors) // our first query will
+requests all movies // with only given fields // note the usage of string literals (`)
+export const MOVIE_LIST_QUERY = `query movieList{movieList{name, posterUrl, slug}}
+`
+// Note the usage of argument. // the exclamation mark makes the slug argument as required // without it , argument will be optional
+export const MOVIE_QUERY = `query movie($slug:String!){           movie(slug:$slug){             id, name, year, summary, posterUrl, slug         }     } ` // This is generic query function // We will use this with one of the above queries and // variables if needed export async function get(query, variables = null) {     const response =  await client.get({ query , variables })     console.log("response", response);     return response }
+```
+
+Now, route pages: MovieList.svelte will be shown on the homepage as we defined in the above. If the user clicks any movie card, then MoviePage.svelte file will be rendered.
+
+Fill the MovieList.svelte.
+
+```javascript
+
+    import { Router, Link, Route } from "svelte-routing";
+    import { get, MOVIE_QUERY, MOVIE_LIST_QUERY } from "./api.js";
+	var movielist = get(MOVIE_LIST_QUERY);
+<script>
+    import { Router, Link, Route } from "svelte-routing";
+    import { get, MOVIE_QUERY, MOVIE_LIST_QUERY } from "./api.js";
+    var movielist = get(MOVIE_LIST_QUERY);
+</script>
+<div class="wrapper">
+    <!-- promise is pending -->
+    {#await movielist}
+        loading
+    <!-- promise was fulfilled -->
+    {:then response}
+        {#if response.data.movieList.length > 0}
+            {#each response.data.movieList as movie}
+                <div class="card">
+                    <Link to={`/movie/${movie.slug}`}>
+                        <img class="poster" alt={movie.name} src={movie.posterUrl} />
+                        <p class="movie-title">{movie.name}</p>
+                    </Link>
+                </div>
+            {/each}
+        {/if}
+    <!-- promise was rejected -->
+    {:catch error}
+        <p>Something went wrong: {error.message}</p>
+    {/await}
+</div>
+<style>
+    .wrapper {
+        width:100%;
+        height: auto;
+        display:flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .card {
+        box-sizing: border-box;
+        position: relative;
+        width:200px;
+        height:auto;
+        margin:16px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 4px rgba(0,0,0,0.25);
+    }
+    .poster {
+        width:100%;
+        height:auto;
+        cursor: pointer;
+    }
+    .movie-title {
+        padding:4px 8px;
+        font-weight: bold;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+```
+
+Also, fill MoviePage.svelte according to this.
+
+```javascript
+import { Router, Link, Route } from "svelte-routing";     import { get, MOVIE_QUERY, MOVIE_LIST_QUERY } from "./api.js";     var movielist = get(MOVIE_LIST_QUERY); </script> <div class="wrapper">     <!-- promise is pending -->     {#await movielist}         loading     <!-- promise was fulfilled -->     {:then response}         {#if response.data.movieList.length > 0}             {#each response.data.movieList as movie}                 <div class="card">                     <Link to={`/movie/${movie.slug}`}>                         <img class="poster" alt={movie.name} src={movie.posterUrl} />                         <p class="movie-title">{movie.name}</p>                     </Link>                 </div>             {/each}         {/if}     <!-- promise was rejected -->     {:catch error}         <p>Something went wrong: {error.message}</p>     {/await} </div> <style>     .wrapper {         width:100%;         height: auto;         display:flex;         flex-direction: row;         flex-wrap: wrap;     }     .card {         box-sizing: border-box;         position: relative;         width:200px;         height:auto;         margin:16px;         border-radius: 8px;         overflow: hidden;         box-shadow: 0 4px 4px rgba(0,0,0,0.25);     }     .poster {         width:100%;         height:auto;         cursor: pointer;     }     .movie-title {         padding:4px 8px;         font-weight: bold;         text-decoration: none;         cursor: pointer;     } </style>
+
+```
+
+
+
+I'm also assuming that you'll ignore the styling of the app because it is not in the scope. However, styling is as important as content. You can also see the [free design resources and graphic tools](https://www.cbsofyalioglu.com/design/free-design-resources/).
+
+## **Start the Svelte App in Development Environment**
+
+In the development environment, we will run two different servers.
+
+When our Svelte app is running, it requests data from the Django server.
+
+After the response comes, the Webpack Development server renders the page with proper data. This is only for the development stage.
+
+When we finish the front-end development, we will build and bundle a client-side app.
+
+After then we will start the Django server, and it will be the only server we will use in the production environment, as I promise before.
+
+Execute the below command and make the Django server ready for front-end requests.
+
+```bash
+# execute it on the root folder of Django 'backend/'
+python manage.py runserver
+```
+
+Open another terminal and change the directory to the ‘backend/FRONTEND’
+
+```bash
+# On another terminal
+npm run start
+```
+
+When Svelte app successfully compiled, open your browser ‘localhost:8080/’.
+
+You should see similar screen like the image below.
+
+![a](/posts/post-MovieList.svelte.jpg)
+
+MovieList.svelte will render the screen
+
+![a](/posts/post-MoviePage.svelte.jpg)
+
+MoviePage.svelte screen will render this if the user clicks any movie card
+
+**What will be happened at the moment?**
+
+At this moment, **“/“** root page will be rendered. Because of our routing configurations, MovieList.svelte file will be rendered first. If the user clicks any film card, then the MoviePage.svelte file will be rendered regarding its slug value.
+
+**We successfully integrated Django and Svelte. Now make the production build.**
+
+* * *
+
+## **Django and Svelte Integration in Production Environment**
+
+Now you can stop the webpack server while **keeping the Django server alive**.
+
+In the backend/FRONTEND/ directory, execute the command below.
+
+```bash
+npm run build
+```
+
+This will build and bundle all your Svelte app in the bundle.js file. When the bundling process is over, go to the URL of the Django server in your browser. --> “127.0.0.1:8000/”
+
+* * *
+
+**FINISHED**
+
+* * *
+
+You may also be interested to see those packages from Paul Stiverson. He made two packages for Django and Svelte. Those are
+
+[Django Svelte](https://github.com/thismatters/django-svelte)
+
+[Django Svelte Template](https://github.com/thismatters/django-svelte-template)

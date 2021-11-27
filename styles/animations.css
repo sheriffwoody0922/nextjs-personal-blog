@@ -1,0 +1,61 @@
+.animate-text-xl {
+  -webkit-animation: fade-in 0.5s ease, slide-in 0.5s ease;
+  animation: fade-in 0.5s ease, slide-in 0.5s ease;
+  animation-fill-mode: both;
+  animation-delay: 0.9s;
+}
+
+.animate-text-lg {
+  -webkit-animation: fade-in 0.5s ease, slide-in 0.5s ease;
+  animation: fade-in 0.5s ease, slide-in 0.5s ease;
+  animation-fill-mode: both;
+  animation-delay: 0.7s;
+}
+
+.animate-text, .animate-text-md {
+    -webkit-animation: fade-in 0.5s ease, slide-in 0.5s ease;
+    animation: fade-in 0.5s ease, slide-in 0.5s ease;
+    animation-fill-mode: both;
+    animation-delay: 0.5s;
+}
+.animate-text-xs {
+    -webkit-animation: fade-in 0.5s ease, slide-in 0.5s ease;
+    animation: fade-in 0.5s ease, slide-in 0.5s ease;
+    animation-fill-mode: both;
+    animation-delay: 0.3s;
+}
+@-webkit-keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes fade-out {
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes fade-out {
+    to {
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes slide-in {
+    from {
+        transform: translateY(10px);
+    }
+}
+
+@keyframes slide-in {
+    from {
+        transform: translateY(10px);
+    }
+}

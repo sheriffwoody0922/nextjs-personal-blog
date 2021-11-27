@@ -1,0 +1,236 @@
+@import './fonts.css';
+@import './animations.css';
+@import './post.css';
+@import './mantine.css';
+
+/*
+@import './sidebar.css';
+@import './syntax.css';
+*/
+
+:root {
+  --dark-background: #161617;
+  --light-background: #e5e7eb;
+  --light-bg-transparent: rgba(255, 255, 255, 0.4);
+  --dark-bg-transparent: rgba(0, 0, 0, 0.4);
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: Satoshi-Variable, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
+    Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  position: relative;
+  overflow-x: hidden;
+  background-color: #161617;
+  text-decoration-skip-ink: auto;
+}
+
+* {
+  box-sizing: border-box;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: subpixel-antialised !important;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+pre.mdx-pre {
+  padding: 4px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  border: 2px solid #f92195;
+  border-radius: 16px;
+  box-sizing: border-box !important;
+  max-width: 96% !important;
+}
+
+html.dark .blurlay {
+  backdrop-filter: blur(24px) !important;
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
+html:not(.dark) .blurlay {
+  backdrop-filter: blur(24px) !important;
+  background-color: rgba(255, 255, 255, 0.3) !important;
+}
+html.dark .mobilay {
+  backdrop-filter: blur(24px) !important;
+  background-color: rgba(59, 0, 153, 0.4) !important;
+}
+html:not(.dark) .mobilay {
+  backdrop-filter: blur(24px) !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+html.dark .bg-trans {
+  background: var(--dark-bg-transparent);
+}
+html:not(.dark) .bg-trans {
+  background: var(--light-bg-transparent);
+}
+
+.frost-blur {
+  -webkit-backdrop-filter: blur(40px);
+  backdrop-filter: blur(40px);
+}
+/* Glassmorphism card effect */
+.glass-card {
+  backdrop-filter: blur(18px) saturate(200%);
+  -webkit-backdrop-filter: blur(18px) saturate(200%);
+  background-color: rgba(255, 255, 255, 0.19);
+  border-radius: 12px;
+  border: 1px solid rgba(209, 213, 219, 0.3);
+}
+
+/* This is a layer above the gradients and below the content*/
+#main-layout {
+  position: relative;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  height: 100%;
+  backdrop-filter: blur(50px) !important;
+  margin: 0 !important;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+html:not(.dark) #main-layout {
+  background-color: rgba(255, 255, 255, 0.3) !important;
+}
+html.dark #main-layout {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+.sidebar.nav,
+.drawer.nav {
+  position: fixed !important;
+}
+
+/* BLURS */
+
+@media only screen and (max-width: 580px) {
+  .blur-blob {
+    position: absolute !important;
+    z-index: 0 !important;
+    min-height: 100vh;
+    height: auto;
+    width: 400vw;
+  }
+
+  .blur-three-colors {
+    top: -60vh;
+    left: -80vw;
+    z-index: 0;
+    position: fixed !important;
+  }
+  .blur-teal-pink {
+    top: 300vh;
+    right: -200vw;
+  }
+  .blur-teal {
+    top: 100vh;
+    right: -25%;
+  }
+}
+.blur-blob {
+  position: absolute !important;
+  z-index: 0 !important;
+  width: 200vw;
+}
+.blur-three-colors {
+  top: -10vh;
+  right: -50vw;
+  z-index: 0;
+}
+.blur-teal-pink {
+  top: 200vh;
+  right: -25%;
+}
+.blur-teal {
+  top: 100vh;
+  right: -100vw;
+}
+.purple-pink-blob {
+  top: -40vh;
+  right: -60vw;
+}
+span.project-url {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 12px;
+  letter-spacing: 0.03em;
+}
+html:not(.dark) span {
+  font-size: 12px;
+}
+
+.switch[data-ison='true'] {
+  justify-content: flex-end;
+}
+
+.moon-icon,
+.sun-icon {
+  transition: all 0.3s ease-in-out;
+}
+
+.switch[data-ison='false'] .moon-icon {
+  left: -38px;
+}
+
+.switch[data-ison='true'] .sun-icon {
+  right: -38px;
+}
+html.dark .lottie-icon svg g path {
+  stroke: rgb(255, 255, 255) !important;
+}
+html:not(.dark) .lottie-icon svg g path {
+  stroke: rgb(0, 0, 0) !important;
+}
+
+.bg-radial-gradient {
+  filter: blur(8px);
+  background-image: linear-gradient(
+    90deg,
+    #ef7646,
+    #fb5b58,
+    #ff3d74,
+    #f92195,
+    #e322bc,
+    #b55ee6,
+    #7680fc,
+    #0096ff,
+    #00b7ff,
+    #00d0f2,
+    #00e3b8,
+    #46ef6f
+  );
+  opacity: 0.5;
+}
+
+.bg-radial-cover:hover .bg-radial-gradient {
+  opacity: 1;
+}
+
+::-webkit-scrollbar {
+  width: auto;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 3px grey;
+  border-radius: 16px;
+}
+
+/*thumb*/
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+*[data-id='tooltip'] {
+  max-width:240px;
+
+}

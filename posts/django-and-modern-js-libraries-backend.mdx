@@ -1,0 +1,549 @@
+---
+title: "Django and Modern JS Libraries - Back-end"
+date: "2020-06-21"
+categories: 
+  - "code"
+  - "en"
+  - "post"
+tags: 
+  - "eng"
+---
+
+## **Preliminary Information About the Tutorial?**
+
+### **What is this tutorial about?**
+
+Django and Modern JS Libraries will be a tutorial series that integrates Django and contemporary frontend solutions such as React and Svelte. Another framework/library integrations are also planning in the future.
+
+### **The Project Description**
+
+- _We will_ set up _one Django server and make two simple_ single-page _applications. Each of them will use different Javascript libraries, and both of them will communicate with_ the _Django server._
+- _React application will be written from scratch with webpack in the second part. Also_, _note that create-react-app will not be used._
+- _The latest and third part of this tutorial will be Svelte integration._
+
+**There are 2 projects and 3 articles in this series:**
+
+- Django server and GraphQL API setup
+- React application setup with webpack and integrating it with our back-end.
+- Svelte application setup with webpack and integrating it with our back-end.
+
+### **What are the requirements to follow?**
+
+- Basic level of knowledge about Python and Django framework
+- A basic level of Javascript and React is a must.
+
+### **Motivation**
+
+Python is my first programming language. When we were making a movie recommendation engine, we must integrate it with Facebook’s React library because we want it to be a single-page application.
+
+My level of knowledge about Javascript was at the introduction level. Proficient in an unfamiliar programming language takes some time.
+
+Also, I like the Python ecosystem because of the excellent data science libraries, and giving up on Python was never a choice.
+
+To sum up, it really took some time to integrate Django and React. When I recently published **my development blog,** I edited and updated old articles, and changes some [graphic design resources](https://www.cbsofyalioglu.com/design/free-design-resources/).
+
+During this time, another front-end library was released, and it excited me a lot: Svelte. I also added an integration article with Svelte and Django. I hope that this article series will help newcomers a bit to solve their problems.
+
+## General Information
+
+### What is a Single Page Application?
+
+In classic web pages, all HTML, CSS, and JS code are arranged and transferred by the server in a render-ready form. When a browser receives the code, it immediately renders elements on a screen. If a user clicks a link, then the browser makes another request to the server. The server will make all the logical operations and respond with another render-ready code.
+
+In modern client-side apps, some logical operations are handled by Javascript code executed in the browser of users. Because of this, servers send all the website code in the first request. Thus, browsers need extra time for the first contentful painting.
+
+Except for the first loading, client-side apps works faster and feels more native because some actions are done immediately on the browser, and I/O operations can be done via asynchronous behavior of Javascript.
+
+Therefore, users still see your app rather than a blank white page.
+
+Browsers are amazing and capable of many impressive things.
+
+Because of this capability, handling resource-heavy operations in the user’s browser can be a suitable alternative.
+
+Otherwise, those operations make our server busy and can increase the bill.
+
+> Anyone who slaps a ‘this page is best viewed with Browser X’ label on a Web page appears to be yearning for the bad old days, before the Web, when you had very little chance of reading a document written on another computer, another word processor, or another network. ~ Tim Berners-Lee
+
+* * *
+
+## **Setting up the Django Back-end**
+
+### **Step-1: Create a Django project from scratch**
+
+![https://cbsofyalioglucom.imfast.io/django-js-libraries/single-page-django.jpg](images/architecture-of-single-page-app.jpg)
+
+Let’s create a virtual environment for a clean setup.
+
+**_This virtual environment will be an active environment for all three articles._**
+
+```bash
+python3 -m venv tutorial-env
+
+# activate
+source ./tutorial-env/bin/activate
+```
+
+Install Django and dependencies
+
+```bash
+# install our dependencies
+pip install ipython django django_extensions django-cors-headers "graphene-django>=2.0"
+
+#create a django project
+django-admin startproject djangoproject
+
+# change directory
+cd djangoproject
+
+# create templates directory
+mkdir templates
+
+# create static folder
+mkdir static
+
+# create utils folder for initial data
+mkdir utils
+
+```
+
+### Step - **2: Configuring and running**
+
+Update your \*\*\*\*'**djangoproject/djangoproject/settings.py’** file. Extra settings are labeled as **’New …’.**
+
+```python
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
+    "django_extensions",# New! (useful extension)
+    'graphene_django',  # New! (for graphql communication)
+    'corsheaders',      # New! (for cors requests)
+]
+
+# New (for improved interactive shell)
+SHELL_PLUS = "ipython"
+
+# New (it allows webpack development server to make cross-origin request)
+CORS_ORIGIN_WHITELIST = (
+    '',
+)
+
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware', # New Add this
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': (os.path.join(BASE_DIR, 'templates'),), # New
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+#New 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+```
+
+Before starting our project, we should first make database migration. After, we will run our server and will see that is working.
+
+```bash
+# create migration for django-orm
+python manage.py migrate
+```
+
+Now, if everything goes well, the Django server will start. You can open your browser and check the address 127.0.0.1:8000. You will see a screen like that:
+
+### **Step-3: Creating a movie app**
+
+We will create a movie model with basic fields that a movie should have.
+
+Before that, we should give some information about the field choices.
+
+**Why there is** a **URL field for posters** rather than an image field**?**
+
+Because serving static files in production is not recommended, we use only the URL field. Fetching the image from remote and then saving it to our production storage is a topic of another post.
+
+Because of this, we will save only the poster’s URL, not the poster itself as an image file. Also, sending static files like images is not a good approach.
+
+We will send the exact URL of an image to the user. Then, the **user’s browser fetches the image** from this.
+
+**What is a slug and why it should be unique?**
+
+Let me explain with an example:
+
+Let say I'm [creating content](https://www.cbsofyalioglu.com/en/content-creation-tools/), I published the original article on this blog. **cbsofyalioglu\[com\]/post/django-and-modern-js-libraries-backend**
+
+The last part of the URL, **django-and-modern-js-libraries-backend,** is the slug of the post and also it is an identifier that makes the URL distinctive from other post pages.
+
+In the GraphQL part of the tutorial, you will see that we will use this slug as a query parameter meaning that we will do database queries according to slug. Therefore, it should be unique.
+
+We can also choose another identifier as the URL identifier, but it’s clear that the URL will not be a human-readable address.
+
+Search engine indexing and ranking is a vital part of any website targeting new users. Readable URL addresses’ are good for users themselves and are also suggested by search engine guides. Also, Google webmaster guidelines recommend using clean and concise URL structures.
+
+Let’s make our model and define its properties and methods. In the next step, we will populate our database with initial records. Therefore, I added a class method responsible for the database population.
+
+Let’s create a Django app. This app will include our model. The database tables will be done according to this. Also, API requests will be based on this.
+
+```bash
+# create new Django app
+python manage.py startapp items
+```
+
+Update settings .py
+
+```python
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
+    "django_extensions",
+    'graphene_django', 
+    'corsheaders',
+    "items"             # New! (make our app will active)
+]
+```
+
+Open ’djangoproject/items/models.py’ file and copy the below code.
+
+```python
+# items.models
+
+from django.db import models
+
+class  Movie(models.Model):
+
+	id  = models.IntegerField(primary_key=True)
+	name = models.CharField(max_length=100)
+	year = models.IntegerField(null=True)
+	summary = models.TextField(max_length=5000,null=True)
+	poster_url = models.URLField(blank=True, null=True)
+	slug = models.SlugField(max_length=50, null=True,blank  =True, unique=True)
+	# order items in descending order
+	class  Meta:
+		ordering = ["-year"]
+
+	# the method which defines string output of class
+	def  __str__(self):
+		return  self.name
+
+	# the method which loads initial data
+	@classmethod
+	def  import_records(cls, record_list):
+		for record in record_list:
+			# create record if id is not exist
+			if  not  cls.objects.filter(id=record.get("id")).exists():
+				new_movie =  cls.objects.create(**record)
+			else:
+				print(f"Id:{record.get('id')} is already exist.")
+		print("Import operation done successfully")
+
+```
+
+```
+# make database migrations
+python manage.py makemigrations
+python manage.py migrate
+```
+
+### **Step-4: Populating database with initial data**
+
+There is no movie record currently in our database. We will provide a small initial data to create some movie records. All the data is provided by the community-built The Movie Database. We will use those records in our app.
+
+First, create an **"initial\_data.py"** file in **"djangoproject/utils"** folder. After, you can copy and paste the below data to this new file.
+
+```python
+initial_data = [{
+    'id': 503919,
+    'name': 'The Lighthouse',
+    'year': 2019,
+    'summary': 'The hypnotic and hallucinatory tale of two lighthouse keepers on a remote and mysterious New England island in the 1890s.',
+    'slug': 'the-lighthouse-2019',
+    'poster_url': '<https://image.tmdb.org/t/p/w185/3nk9UoepYmv1G9oP18q6JJCeYwN.jpg>'
+    },{
+    'id': 475557,
+    'name': 'Joker',
+    'year': 2019,
+    'summary': 'During the 1980s, a failed stand-up comedian is driven insane and turns to a life of crime and chaos in Gotham City while becoming an infamous psychopathic crime figure.',
+    'slug': 'joker-2019',
+    'poster_url': '<https://image.tmdb.org/t/p/w185/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg>'
+    },{
+    'id': 530385,
+    'name': 'Midsommar',
+    'year': 2019,
+    'summary': "A couple travels to Sweden to visit a rural hometown's fabled mid-summer festival. What begins as an idyllic retreat quickly devolves into an increasingly violent and bizarre competition at the hands of a pagan cult.",
+    'slug': 'midsommar-2019',
+    'poster_url': '<https://image.tmdb.org/t/p/w185/rXsh4MI6uyVgZBSSzXCfitJnVPy.jpg>'
+  },{
+    'id': 531428,
+    'name': 'Portrait of a Lady on Fire',
+    'year': 2019,
+    'summary': 'On an isolated island in Bretagne at the end of the eighteenth century, a female painter is obliged to paint a wedding portrait of a young woman.',
+    'slug': 'portrait-of-a-lady-on-fire-2019',
+    'poster_url': '<https://image.tmdb.org/t/p/w185/3NTEMlG5mQdIAlKDl3AJG0rX29Z.jpg>'
+  }]
+```
+
+Now, we will import and create new records at the database level. Normally we should have open Django shell. However, shell\_plus command which is provided by django\_extensions is more functional, so we will use this. It automatically imports all apps we created.
+
+```
+# open interactive shell
+python manage.py shell_plus
+```
+
+```python
+# let's check database and verify it's empty
+Movie.objects.all()
+# prints: <queryset []=""></queryset>
+
+# import the records which we took it from github repo
+from utils.initial_data import initial_data
+
+<em># create records in the database</em>
+Movie.import_records(initial_data)
+
+<em># prints 'Import operation done successfully'</em>
+
+<em># query database and verify it is not empty</em>
+Movie.objects.all()
+```
+
+Our model and database are ready. You can close the shell with **quit** command.
+
+The next section will be creating a GraphQL API.
+
+## Setting up GraphQL API
+
+In this section, we will make our app’s API part with Graphene which is a GraphQL framework implementation of Python.
+
+What we do in this section is:
+
+- Creating another Django app: We will put all API configurations in there.
+- Creating an API Schema that has three parts: API-model, Resolvers, and Queries.
+- Creating a URL endpoint: The client-side application will request all information to this URL address.
+
+### Step 1 - Creating another Django app for API configurations
+
+Actually, there is no obligation to make another app because this app will not create or update any database table. However, to put all API-related configurations in one place, I chose this way.
+
+Let’s create the second backend app. The name of the app should not have to be **‘gql’**, but if you set another name, you should also change the name of the schema in **settings .py** later.
+
+Open your terminal at the root level of your project.
+
+* * *
+
+```bash
+# create app with the name gql
+python manage.py startapp gql
+
+# change directory
+cd gql
+
+# create schema.py file
+touch schema.py
+```
+
+### **Step 2 - Creating an API Schema: API-model, Queries and Resolvers**
+
+API-schema will have three parts considering the scope of the article. Those are as follows:
+
+- **API-Model-Type:** A class that is a mapped version of the movie model. You can send responses based on this if the response is not a primitive type.
+- **Queries:** The client-side app will use these queries for distinct requests.
+- **Resolvers:** Those are response functions of fields. When the client-side request matched with a query, the resolvers come into play and make all the logical parts, then send information back to the client.
+
+**A )** **API-Model-Type and Resolvers**
+
+A class that is a mapped version of an existing Django model. It is the intermediary layer between the Django model (or database) and API response. The fields of ModelType will be the same fields of the corresponding model. We can also create custom fields that do not belong to the corresponding model.
+
+You can check other scalar types from the Graphene Python documentation…
+
+We will step by step write the schema .py file. You can copy and paste it.
+
+You can check other scalar types from the Graphene Python documentations…
+
+We will step by step write the schema .py file. You can copy and paste it.
+
+```python
+import graphene
+from items.models import Movie
+from graphene_django.types import DjangoObjectType
+
+# api-movie-model
+class MovieType(DjangoObjectType):
+    id = graphene.Int()
+    name = graphene.String()
+    year = graphene.Int()
+    summary = graphene.String()
+    poster_url = graphene.String()
+    slug = graphene.String()
+    
+    # define which model will be the base
+    class Meta:
+        model = Movie
+        
+    # 'self' corresponds to the item of Django model 
+    # like The Lighthouse or Joker
+    def resolve_id(self, info):
+        return self.id
+    
+    def resolve_name(self, info):
+        return self.name
+
+    def resolve_year(self, info):
+        return self.year
+
+    def resolve_summary(self, info):
+        return self.summary
+
+    def resolve_poster_url(self, info):
+        return self.poster_url
+
+    def resolve_slug(self, info):
+        return self.slug
+```
+
+Let me explain the above code.
+
+The 'MovieType’ class is a mapped version of the Movie model. You may notice that all the fields are the same. We defined the base model in class Meta, so the movie model will be the base model.
+
+It is important to say that resolver names are written in snake cases like ‘resolve\_poster\_url’. However, when we write client-side queries, those will be pascal cases such as ‘posterUrl’. You see that later.
+
+**B ) Queries and Resolvers**
+
+The client-side app will use these queries for distinct requests. We will also write client-side queries on its part. A client-side query should match with the server-side query. **Therefore, this part also defines the allowable requests of the frontend part**.
+
+For the sake of simplicity, we will define only two queries.
+
+- The movie\_list query (**resolve\_movie\_list**) returns to all the movies in the database
+- The movie query (**resolve\_movie**) returns only specific movie if the parameter (**slug**) is matched.
+
+Let add this code below MovieType class.
+
+```python
+class Query(graphene.ObjectType):
+    movie_list = graphene.List(MovieType)
+    movie = graphene.Field(MovieType, slug=graphene.String())
+
+    def resolve_movie_list(self, info, *_):
+        # for large lists only query what you need
+        return Movie.objects.all().only("name", "poster_url", "slug")
+    
+    def resolve_movie(self, info, slug):
+        movie_queryset = Movie.objects.filter(slug=slug)
+        if movie_queryset.exists():
+            return movie_queryset.first()
+
+schema = graphene.Schema(query=Query)
+```
+
+In the last row, you will see a schema object. This is the root node of the API. We should tell the Django server to use this as our API schema. To do so, update the settings. py.
+
+```python
+# djangoproject/djangoproject/settings.py
+
+# New - Add this part
+GRAPHENE= {'SCHEMA': 'gql.schema.schema'}
+
+# MIDDLEWARE = [..]
+```
+
+**Step 3 - Create URL endpoints**
+
+In REST API, we define different URL Endpoints for different requests. One of the good parts of GraphQL is that we will only define one endpoint. All the requests will be done through that.
+
+Copy the below code and paste it to **djangoproject/djangoproject/urls .py** file.
+
+```python
+from django.contrib import admin
+from django.urls import path
+from graphene_django.views import GraphQLView
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import TemplateView
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+
+    # apiclient on client-side will request this adress later
+    path("graphql", csrf_exempt(GraphQLView.as_view(graphiql=True))),
+
+    
+    # index.html file will be our root template. When a user opens our webste,
+    # this file will be sent by server at first. After then, api requests
+    # will directed above address.
+
+    # (it points to ~/Blog/djr/templates/index.html)
+    # (currently there is no file, webpack production bundle will come here )
+    path("", TemplateView.as_view(template_name="index.html")),
+    ]
+```
+
+You noticed that we set graphiql=True. This is GraphQL interactive panel. We can make a query like a client app through this panel. You will also see the details of all queries.
+
+Now, please run the server in the root folder : ‘djangoproject/’
+
+```
+python manage.py runserver
+```
+
+Open **127.0.0.1:8000/graphql** address from your browser. We will query the movie with specific identifier (slug). On the left panel, paste this and press the **Execute Query** button.
+
+Please note that, we request fields with pascalCase. (**posterUrl**)
+
+```
+query {
+
+	movie(slug:"the-lighthouse-2019"){
+
+		id, name, posterUrl
+
+	}
+
+}
+```
+
+and the response will be in JSON format like this:
+
+Our API is ready to respond to the requests. This part of the tutorial is finished.
+
+Now, we will make two different client-side apps. Please choose one of them to continue.
+
+[Option One: Make front-end part with React](https://www.cbsofyalioglu.com/post/django-and-modern-js-libraries-react/)
+
+![](images/Django-React.jpg)
+
+### Django and Modern JS Libraries - React -
+
+Django and React integration.
+
+[Option Two: Make front-end part with Svelte](https://www.cbsofyalioglu.com/post/django-and-modern-js-libraries-svelte/)
+
+![](images/django-svelte.jpg)
+
+### Django and Modern JS Libraries - Svelte -
+
+Django and Svelte integration. This is the third post of Django and Modern JS Libraries. You will integrate Django and Svelte.

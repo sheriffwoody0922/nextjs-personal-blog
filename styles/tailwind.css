@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --light-background: #fff;
+  --light-text: #eee;
+  --light-bg-transparent: rgba(255, 255, 255, 0.4);
+
+  --dark-background: #000;
+  --dark-text: #111;
+  --dark-bg-transparent: rgba(0, 0, 0, 0.4);
+}
+
+html {
+  --background: var(--light-background);
+}
+
+html.dark {
+  --background: var(--dark-background);
+}
+
+/* Text Colors */
+html.dark span,
+html.dark p,
+html.dark li,
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6 {
+  color: var(--light-text);
+}
+html:not(.dark) span,
+html:not(.dark) li,
+html:not(.dark) p,
+html:not(.dark) h1,
+html:not(.dark) h2,
+html:not(.dark) h3,
+html:not(.dark) h4,
+html:not(.dark) h5,
+html:not(.dark) h6 {
+  color: var(--dark-text);
+}
+
+/* Typography */
