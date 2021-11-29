@@ -1,19 +1,15 @@
 // @ts-nocheck
 import Image from 'next/image'
-import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { useRouter } from 'next/router'
 import Script from 'next/script'
 import { serialize } from 'next-mdx-remote/serialize'
 import { MDXRemote } from 'next-mdx-remote'
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
-import SyntaxHighlighter from 'react-syntax-highlighter'
 import MdxProvider from "../../components/mdx-provider"
-import rehypeHighlight from 'rehype-highlight'
-import hljs from 'highlight.js';
-
 import {
     PurpleBlob,
     BluePurpleBlob,
@@ -24,24 +20,34 @@ import {
     HeroPattern,
 } from '../../components/Svg'
 import { useScript } from "../../lib/hooks"
+import { ArticleSeo } from "../../components"
+import { site } from "../../settings"
 
-const PostPage = ({ slug, category, frontMatter, mdxSource }) => {
-    //const status = useScript(`//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js`)
-    //console.log("Post page: ", slug, category)
-    //useEffect(() => {
-//
-    //    if (typeof hljs !== 'undefined') {
-    //        console.log("hljs", hljs)
-    //        hljs.highlightAll();
-    //    }
-    //}, [status])
+
+
+
+const PostPage = ({ slug, topic, frontMatter, mdxSource }) => {
+    const router = useRouter()
+    const canonical = frontMatter.canonical || site.website + router.asPath
+
+    //console.log("post page props: ", slug, topic, frontMatter)
+    //console.log("\nrouter", router)
     return (
         <>
             <Head>
-                <title>My page title</title>
-                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
 
+                <ArticleSeo
+                    title={frontMatter.title}
+                    descriptiopn={frontMatter.description}
+                    canonical={canonical}
+                    topic={frontMatter.topic}
+                    data={frontMatter.date}
+                    cover={frontMatter.cover}
+                    modified={frontMatter.modified}
+                    type="article"
+                />
             </Head>
+
             <article className="relative pt-24 pb-60 flex flex-col items-center">
                 <header className="w-full max-w-[700px] h-auto pt-20 ml-auto mr-auto relative flex flex-col items-center">
                     <span className="mb-2 text-sm">{frontMatter.date}</span>
@@ -52,13 +58,14 @@ const PostPage = ({ slug, category, frontMatter, mdxSource }) => {
 
 
                         <Image
+                            id="primary-image"
                             layout="fill"
                             loading="lazy"
                             placeholder="blur"
                             blurDataURL="/img/placeholder.webp"
                             sizes="100vw"
                             src={frontMatter.thumbnail || frontMatter.cover || "/img/placeholder.webp"}
-                            alt={frontMatter.keywords[0] || frontMatter.title}
+                            alt={(frontMatter.keywords && frontMatter.keywords[0]) || frontMatter.name}
                             className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition duration-200 z-0"
                         />
                     </div>
@@ -119,42 +126,40 @@ const PostPage = ({ slug, category, frontMatter, mdxSource }) => {
                 </div>
 
             </article>
-
-
         </>
     )
 }
 
 function Decor() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="481"
-      height="511"
-      fill="none"
-      viewBox="0 0 481 511"
-      className="post-decor"
-    >
-      <path
-        stroke="url(#paint0_linear_164_4)"
-        strokeWidth="10"
-        d="M258.585 510.792V402.113c0-20.007 16.219-36.226 36.226-36.226h39.849c20.008 0 36.227-16.219 36.227-36.227 0-20.007-16.219-36.226-36.227-36.226H149.906c-20.008 0-36.227-16.219-36.227-36.226 0-20.008 16.219-36.227 36.227-36.227h289.811c20.007 0 36.226-16.219 36.226-36.226 0-20.008-16.219-36.227-36.226-36.227H41.227C21.218 148.528 5 132.309 5 112.302c0-20.007 16.22-36.227 36.226-36.227h217.359c20.007 0 36.226-16.219 36.226-36.226V0"
-      ></path>
-      <defs>
-        <linearGradient
-          id="paint0_linear_164_4"
-          x1="120.575"
-          x2="422.075"
-          y1="-38.575"
-          y2="599.925"
-          gradientUnits="userSpaceOnUse"
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="481"
+            height="511"
+            fill="none"
+            viewBox="0 0 481 511"
+            className="post-decor"
         >
-          <stop stopColor="#FF0046"></stop>
-          <stop offset="1" stopColor="#BD00FF"></stop>
-        </linearGradient>
-      </defs>
-    </svg>
-  );
+            <path
+                stroke="url(#paint0_linear_164_4)"
+                strokeWidth="10"
+                d="M258.585 510.792V402.113c0-20.007 16.219-36.226 36.226-36.226h39.849c20.008 0 36.227-16.219 36.227-36.227 0-20.007-16.219-36.226-36.227-36.226H149.906c-20.008 0-36.227-16.219-36.227-36.226 0-20.008 16.219-36.227 36.227-36.227h289.811c20.007 0 36.226-16.219 36.226-36.226 0-20.008-16.219-36.227-36.226-36.227H41.227C21.218 148.528 5 132.309 5 112.302c0-20.007 16.22-36.227 36.226-36.227h217.359c20.007 0 36.226-16.219 36.226-36.226V0"
+            ></path>
+            <defs>
+                <linearGradient
+                    id="paint0_linear_164_4"
+                    x1="120.575"
+                    x2="422.075"
+                    y1="-38.575"
+                    y2="599.925"
+                    gradientUnits="userSpaceOnUse"
+                >
+                    <stop stopColor="#FF0046"></stop>
+                    <stop offset="1" stopColor="#BD00FF"></stop>
+                </linearGradient>
+            </defs>
+        </svg>
+    );
 }
 export const getStaticProps = async ({ params: { slug, topic } }) => {
     //console.log("cat & slug: ", topic, slug)
@@ -169,11 +174,15 @@ export const getStaticProps = async ({ params: { slug, topic } }) => {
         // frontmatter data
         const { data: frontMatter } = matter(markdownWithMeta)
 
-        // Category and slug of the iterated post
-        const postTopic = frontMatter.topic || "post"
+        // topic of the iterated post
+        const postTopic = frontMatter.topic
+
+        // All possible topics including the categories
+        const categories = frontMatter.categories || []
+        const postTopics = [frontMatter.topic ?? "post", ...categories].filter(Boolean)
         const postSlug = frontMatter.slug || filename.replace('.mdx', '')  // Default slug
 
-        if (postTopic === topic && postSlug === slug) {
+        if (postTopics.includes(topic) && postSlug === slug) {
             //console.info("Corresponding post found: ", filename)
             currentPostSlug = filename
             break;
@@ -191,6 +200,7 @@ export const getStaticProps = async ({ params: { slug, topic } }) => {
         props: {
             frontMatter,
             slug,
+            topic,
             mdxSource
         }
     }
@@ -200,7 +210,8 @@ export const getStaticProps = async ({ params: { slug, topic } }) => {
 export const getStaticPaths = async () => {
     const files = fs.readdirSync(path.join('posts'))
     //console.log("[topic]/[slug].tsx - filenames: ", files)
-    const paths = files.map(filename => {
+    const paths = []
+    files.forEach(filename => {
         // The location of the .mdx file
         const markdownWithMeta = fs.readFileSync(path.join('posts', filename), 'utf-8')
 
@@ -211,14 +222,14 @@ export const getStaticPaths = async () => {
         // Otherwise use default slug obtained from filename
         const slug = frontMatter.slug || filename.replace('.mdx', '')  // Default slug
 
-        const topic = frontMatter.topic || "post"
-        //console.log("slug static paths: ", slug, topic)
-        return {
-            params: {
-                slug,
-                topic
-            }
-        }
+        const categories = frontMatter.categories || []
+        const possibleTopics = [frontMatter.topic ?? "post", ...categories].filter(Boolean)
+
+        // Both topic and categories are selected
+        const topics = [...new Set(possibleTopics)]
+        //console.log("possibleTopics (unique): ", topics)
+        topics.forEach(t => paths.push({ params: { slug, topic: t } }))
+
     })
     //console.info("[topic]/[slug].tsx", paths)
 

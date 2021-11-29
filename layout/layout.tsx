@@ -9,20 +9,12 @@ import {
     TealPinkBlob,
     PurplePinkBlob,
 } from '../components/Svg'
-import {
-    BellIcon,
-    CalendarIcon,
-    ChartBarIcon,
-    HomeIcon,
-    InboxIcon,
-    MenuAlt2Icon,
-    UsersIcon,
-    XIcon,
-} from '@heroicons/react/outline'
+import { MenuAlt2Icon, XIcon } from '@heroicons/react/outline'
 import { SearchIcon } from '@heroicons/react/solid'
 import { Toggle } from "../components/toggle";
 import { useRouter } from 'next/router'
-import { navlinks, footerLinks, socialMediaLinks, footerCredits } from "../site.config"
+import { navLinks, footerLinks } from "../settings"
+import { site } from "../settings"
 
 const userNavigation = [
     { name: 'Your Profile', href: '#' },
@@ -39,7 +31,7 @@ export default function Layout({ children }) {
     const router = useRouter()
 
     const [sidebarOpen, setSidebarOpen] = useState(false)
-    const navigation = navlinks.map(navlink => navlink.href === router.asPath ? { ...navlink, current: true } : navlink)
+    const navigation = navLinks.map(navlink => navlink.href === router.asPath ? { ...navlink, current: true } : navlink)
     return (
         <div className="h-auto min-h-screen flex overflow-hidden relative z-10 !bg-transparent">
             <div className="absolute top-0 left-0 right-0 bottom-0 z-0 overflow-hidden">
@@ -185,7 +177,7 @@ export default function Layout({ children }) {
                         {/* SIDEBAR TOP BANNER*/}
                         <div className="flex items-center h-16 flex-shrink-0 px-4 bg-transparent justify-between">
                             <a href="/" className="ml-4 relative top-1" title="homepage"><WebmeisterGradientLogo className="" /></a>
-                           {/* <Toggle /> */}
+                            {/* <Toggle /> */}
                         </div>
 
                         {/* SIDEBAR MAIN */}
@@ -227,16 +219,16 @@ export default function Layout({ children }) {
                                                         )}
                                                         aria-hidden="true"
                                                         />*/}
-                                                        <svg
-                                                            className={classNames(
-                                                                open ? 'text-gray-700 dark:text-gray-300 rotate-90' : 'text-gray-700 dark:text-gray-300',
-                                                                'mr-2 flex-shrink-0 h-5 w-5 transform group-hover:text-gray-400 transition-colors ease-in-out duration-150'
-                                                            )}
-                                                            viewBox="0 0 20 20"
-                                                            aria-hidden="true"
-                                                        >
-                                                            <path d="M6 6L14 10L6 14V6Z" fill="currentColor" />
-                                                        </svg>
+                                                    <svg
+                                                        className={classNames(
+                                                            open ? 'text-gray-700 dark:text-gray-300 rotate-90' : 'text-gray-700 dark:text-gray-300',
+                                                            'mr-2 flex-shrink-0 h-5 w-5 transform group-hover:text-gray-400 transition-colors ease-in-out duration-150'
+                                                        )}
+                                                        viewBox="0 0 20 20"
+                                                        aria-hidden="true"
+                                                    >
+                                                        <path d="M6 6L14 10L6 14V6Z" fill="currentColor" />
+                                                    </svg>
                                                     {item.name}
 
                                                 </Disclosure.Button>
@@ -363,10 +355,10 @@ export default function Layout({ children }) {
                 <div className="block md:hidden">
 
                     <Footer
-                        title="cbsofyalioglu"
-                        credits={footerCredits}
+                        title={site.name}
+                        credits={site.credits}
                         links={footerLinks}
-                        social={socialMediaLinks}
+                        social={site.socialMediaLinks}
                     />
                 </div>
             </div>

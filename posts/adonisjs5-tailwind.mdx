@@ -1,0 +1,532 @@
+---
+title: "A Simple AdonisJS 5 and Tailwind Setup"
+date: "2021-05-15"
+description: "A basic setup for AdonisJS 5 with TailwindCSS. In this tutorial post, I will create a simple starter application boilerplate for AdonisJS."
+cover: "/posts/covers/adonisjs5-tailwind.webp"
+slug: "adonisjs5-tailwind"
+topic: "code"
+canonical: "https://www.cbsofyalioglu.com/code/adonisjs5-tailwind/"
+language: "eng"
+categories:
+  - "code"
+  - "post"
+tags:
+  - "adonisjs 5"
+  - "adonisjs and tailwind"
+keywords:
+  - "adonisjs 5"
+  - "adonisjs and tailwind"
+---
+
+AdonisJS 5 has released its stable version. I plan this post to be a tutorial about AdonisJS 5. In this article, I will do the basic setups for the AdonisJS application and integrate it with the Tailwind CSS library. If you are interested in reactive front-end libraries, you can also read [AdonisJS and SolidJS](https://www.cbsofyalioglu.com/code/adonisjs-solidjs/)
+
+* * *
+
+My only back-end experience is with Python Django. I have been thinking of using Node for a long time. But I just couldn't get used to Node frameworks. I think Django has a big impact on this. I like to use [Django with JavaScript](https://www.cbsofyalioglu.com/post/django-and-modern-js-libraries-svelte/).
+
+However, I have been watching a few libraries that interested me for a while. Among them is AdonisJS.
+
+AdonisJS has been migrated to the newer version 5. I previously failed because I tried to use it during this transition before. Fortunately, this time I got used to the concepts of Adonis.
+
+## AdonisJS 5
+
+AdonisJS is an opinionated, fully-featured web framework for Node.js.
+
+Also, AdonisJS is one of the few Node.js frameworks (if not the only one) that has first-class support for SQL databases. It has Lucid ORM. This is maybe one of the most important factors for me to try AdonisJS. Because Django is a batteries-included framework and it has a nice ORM.
+
+### Installation of AdonisJS
+
+There are two ways to install it. My choice would be using yarn. However, it doesn't work in my case. It throws an error. Therefore, I'll use the way of `npm init`.
+
+```
+# npm
+npm init adonis-ts-app@latest myapp
+
+# OR
+
+# yarn
+yarn create adonis-ts-app myapp
+```
+
+### Choosing Project Type and Initial Customization
+
+Choose project.
+
+```
+    _       _             _         _
+   / \   __| | ___  _ __ (_)___    | |___
+  / _ \ / _` |/ _ \| '_ \| / __|_  | / __|
+ / ___ \ (_| | (_) | | | | \__ \ |_| \__ \
+/_/   \_\__,_|\___/|_| |_|_|___/\___/|___/
+
+
+CUSTOMIZE PROJECT
+❯ Select the project structure …  Press <ENTER> to select
+  api   (Tailored for creating a REST API server)
+▸ web   (Traditional web application with server-rendered templates)
+  slim  (A smallest possible AdonisJS application)
+```
+
+You can customize your settings like below.
+
+```
+CUSTOMIZE PROJECT
+❯ Select the project structure · web
+❯ Enter the project name · myapp
+❯ Setup eslint? (y/N) · true
+❯ Setup prettier? (y/N) · true
+❯ Configure webpack encore for compiling front-end assets? (y/N) · true
+```
+
+```
+npm i @adonisjs/lucid
+```
+
+### Starting Server
+
+Change your directory to the newly created one and start the development server.
+
+```
+╭─────────────────────────────────────────────────╮
+│    Run following commands to get started        │
+│─────────────────────────────────────────────────│
+│                                                 │
+│    ❯ cd myapp                                   │
+│    ❯ node ace serve --watch                     │
+│                                                 │
+╰─────────────────────────────────────────────────╯
+```
+
+Open a new tab in your browser and visit `http://127.0.0.1:3333/`. You'll see a welcoming message like this.
+
+![AdonisJS 5 Welcome Screen](/posts/00-adonis-server-welcome-1024x461.jpg)
+
+## Database and Lucid ORM Installation
+
+I'll install the database and Lucid ORM. I'll choose to use SQLite.
+
+```
+# Install Lucid ORM
+npm i @adonisjs/lucid
+```
+
+After that, let Adonis make database arrangements for you.
+
+```
+node ace configure @adonisjs/lucid
+```
+
+Use `SPACE` to select SQLite, then press `ENTER`.
+
+```
+❯ Select the database driver you want to use …  Press <SPACE> to select
+◯ SQLite
+◯ MySQL / MariaDB
+◯ PostgreSQL
+◯ OracleDB
+◯ Microsoft SQL Server
+```
+
+Choose browser for instructions. A new tab including setup instructions will be automatically open. However, You won't see proper SQLite instructions.
+
+```
+❯ Select where to display instructions · browser
+```
+
+You can also check [Wave Snippets](https://www.wavesnippets.com/) for this kind of presentation
+
+You'll find SQLite settings in the `config/database.ts` file. I'll change my database filepath.
+
+```
+// config/database.ts
+import Env from '@ioc:Adonis/Core/Env'
+import { DatabaseConfig } from '@ioc:Adonis/Lucid/Database'
+
+const databaseConfig: DatabaseConfig = {
+
+  connection: Env.get('DB_CONNECTION'),
+
+  connections: {
+
+    sqlite: {
+      client: 'sqlite',
+      connection: {
+        filename: "database/db.sqlite",// <---------- changed ------|
+      },
+      migrations: {
+        naturalSort: true,
+      },
+      useNullAsDefault: true,
+      healthCheck: false,
+      debug: false,
+    },
+  }
+}
+
+export default databaseConfig
+```
+
+Also, don't forget to install the SQLite driver.
+
+```
+npm i sqlite3
+```
+
+Also, in order to create an SQLite database via the graphical user interface, you should install [DB Browser for SQLite](https://sqlitebrowser.org/)
+Install and create a database file located at `database/db.sqlite`.
+
+## Creating Models
+
+```
+node ace make:model User
+```
+
+The final code of `app/Models/User.ts` is below:
+
+```typescript
+import { DateTime } from 'luxon'
+import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+
+export default class User extends BaseModel {
+  @column({ isPrimary: true })
+  public id: number
+
+  @column()
+  public name?: string
+
+  @column()
+  public username: string
+
+  @column()
+  public email: string
+
+  @column({ serializeAs: null })
+  public password: string
+
+  @column()
+  public imageUrl?: string
+
+  @column()
+  public rememberMeToken?: string
+
+  @column.dateTime({ autoCreate: true })
+  public createdAt: DateTime
+
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  public updatedAt: DateTime
+}
+```
+
+### Creating Migration
+
+Now, We'll create a database migration for the model.
+
+First, create migration file node ace make:migration user. This will create a migration file that looks like this:
+
+```typescript
+// database/migrations/1620593365657_users.ts
+import BaseSchema from '@ioc:Adonis/Lucid/Schema'
+
+export default class Users extends BaseSchema {
+  protected tableName = 'users'
+
+  public async up () {
+    this.schema.createTable(this.tableName, (table) => {
+      table.increments('id')
+      table.timestamps(true)
+    })
+  }
+
+  public async down () {
+    this.schema.dropTable(this.tableName)
+  }
+}
+```
+
+Now, add the new lines and change the migration file. The final form should look like this :
+
+```typescript
+// database/migrations/1620593365657_users.ts
+import BaseSchema from '@ioc:Adonis/Lucid/Schema'
+
+export default class Users extends BaseSchema {
+  protected tableName = 'users'
+
+  public async up() {
+    this.schema.createTable(this.tableName, (table) => {
+      table.increments('id')
+      table.string('name', 50) // New
+      table.string('username', 50).unique().notNullable() // New
+      table.string('email', 255).unique().notNullable() // New
+      table.string('password', 180).notNullable() // New
+      table.string('image_url', 100) // New
+      table.string('remember_me_token').nullable() // New
+      table.timestamps(true)
+    })
+  }
+
+  public async down() {
+    this.schema.dropTable(this.tableName)
+  }
+}
+```
+
+Now, the following command will make the migration:
+
+```
+node ace migration:run user
+```
+
+You can open DB for SQLite app and check if it is true.
+
+![](/posts/01-migration-succeed.png-1024x432.jpg)
+
+## Create Views
+
+Adonis uses Edge template engine, which I really like.
+First, create a master layout file which is a blueprint of our front-end.
+
+```
+# this will create resources/views/layouts/master.edge
+node ace make:view layouts/master
+```
+
+Now, we can add some code to the file. You'll notice that `@!section('content')` part. The `master.edge` file will be used by another template.
+Add the lines below to the `resources/views/layouts/master.edge` file.
+
+```markup
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Webmeister's Adonis Introduction</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+</head>
+<body>
+    <div class="container-fliud">
+        @!section('content')
+    </div>
+
+</body>
+</html>
+
+```
+
+Let's create a file that will be used as a route view.
+
+```bash
+# this will create resources/views/index.edge
+node ace make:view index
+```
+
+Also, add these codes to the `resources/views/index.edge` file:
+
+```markup
+@layout('layouts/master')
+@section('content')
+<main>
+
+</main>
+@endsection
+```
+
+The Adonis router automatically look in `resources/views` folder for the view.
+Open your route file and change it according to this:
+
+```typescript
+// start/routes.ts
+Route.get('/', async ({ view }) => {
+  return view.render('index')
+})
+```
+
+Now, we can create reusable components. I'll first create a navigation bar. In Edge, we can do this by the partial templates. Partials are used on many pages and views. I'll also use [Devdojo Tail's demo components](https://devdojo.com/tails).
+
+```
+# this will create resources/views/partials/navbar.edge
+node ace make:view partials/navbar
+```
+
+Add the codes to the `resources/partials/navbar.edge` file.
+
+```markup
+<header class="w-full px-8 text-gray-700 bg-white">
+  <div class="container flex flex-col flex-wrap items-center justify-between py-5 mx-auto md:flex-row max-w-7xl">
+      <div class="relative flex flex-col md:flex-row">
+          <a href="#_" class="flex items-center mb-5 font-medium text-gray-900 lg:w-auto lg:items-center lg:justify-center md:mb-0">
+              <span class="mx-auto text-xl font-black leading-none text-gray-900 select-none">tails<span class="text-indigo-600">.</span></span>
+          </a>
+          <nav class="flex flex-wrap items-center mb-5 text-base md:mb-0 md:pl-8 md:ml-8 md:border-l md:border-gray-200">
+              <a href="#_" class="mr-5 font-medium leading-6 text-gray-600 hover:text-gray-900">Home</a>
+              <a href="#_" class="mr-5 font-medium leading-6 text-gray-600 hover:text-gray-900">Features</a>
+              <a href="#_" class="mr-5 font-medium leading-6 text-gray-600 hover:text-gray-900">Pricing</a>
+              <a href="#_" class="mr-5 font-medium leading-6 text-gray-600 hover:text-gray-900">Blog</a>
+          </nav>
+      </div>
+
+      <div class="inline-flex items-center ml-5 space-x-6 lg:justify-end">
+          <a href="#" class="text-base font-medium leading-6 text-gray-600 whitespace-no-wrap transition duration-150 ease-in-out hover:text-gray-900">
+              Sign in
+          </a>
+          <a href="#" class="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-white whitespace-no-wrap bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
+              Sign up
+          </a>
+      </div>
+  </div>
+</header>
+```
+
+Because `navbar` component will be on every page, we should inform the master layout. We insert the partial template by putting this `@include('partials/navbar')` in the proper place.
+
+```markup
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Webmeister's Adonis Introduction</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+</head>
+<body>
+    <div class="container-fliud">
+        @include('partials/navbar')
+        @!section('content')
+    </div>
+
+</body>
+</html>
+```
+
+## Adding Tailwind to Adonis
+
+On your project directory, install the dependencies:
+
+```bash
+# install dependencies
+npm install -D tailwindcss@latest postcss@latest autoprefixer@latest
+
+# create postcss config file
+touch postcss.config.js
+
+# also install postcss-load
+npm i -D postcss-loader
+
+# create tailwind config file
+npx tailwindcss init
+```
+
+Set the `postcss.config.js`.
+
+```javascript
+// postcss.config.js
+module.exports = {
+  plugins: [require('tailwindcss'), require('autoprefixer')],
+}
+```
+
+Also, make tailwind configs as follow. (Note: I'm also exploring Tailwind and the code below includes my settings)
+
+```javascript
+// tailwind.config.js
+const colors = require('tailwindcss/colors')
+
+module.exports = {
+  mode: 'jit',
+  purge: ['./resources/views/**/*.edge', './resources/assets/ts/**/*.ts'],
+  darkMode: 'class', // or 'media' or 'class'
+  theme: {
+    extend: {},
+  },
+  variants: {
+    extend: {},
+  },
+  plugins: [],
+  theme: {
+    colors: {
+      transparent: 'transparent',
+      current: 'currentColor',
+      black: colors.black,
+      white: colors.white,
+      gray: colors.trueGray,
+      indigo: colors.indigo,
+      red: colors.rose,
+      yellow: colors.amber,
+      teal: colors.teal,
+      darkblue: colors.blueGray,
+    },
+  },
+}
+```
+
+We should also tell the webpack that we will use Postcss. Fortunately, the webpack settings are already done for us. We just need to uncomment the line:
+
+```javascript
+// webpack.config.js
+
+/* Find the line below and uncomment it */
+Encore.enablePostCssLoader()
+
+/*
+```
+
+We should create a separate CSS file for tailwinds. On your project's root directory, create the file.
+
+```
+touch resources/css/tailwind.css
+```
+
+```css
+/* resources/css/tailwind.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+Import `tailwind.css` to `app.css`. Open `app.css` file. Only add this single line to the top of the file.
+
+```css
+@import "./tailwind.css";
+/*
+*
+*/
+```
+
+We'll finish adding Tailwind to the Adonis5 app with this final single-line modification. Open your `master.edge` file, and add this single line to the head part:
+`<link rel="stylesheet" type="text/css" href="{{ asset('assets/app.css') }}">`
+
+The final form of the `master.edge` should look like this.
+
+```markup
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Webmeister's Adonis Introduction</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/app.css') }}">
+
+</head>
+<body>
+    <div class="container-fliud">
+        @include('partials/navbar')
+        @!section('content')
+    </div>
+
+</body>
+</html>
+```
+
+If you open your app, you'll see that Tailwind is successfully integrated with the AdonisJS app.
+
+![Tailwind Header AdonisJS](/posts/02-tailwind-navbar-1024x52.jpg)
+
+![](https://secureservercdn.net/160.153.137.163/x9c.98f.myftpupload.com/wp-content/uploads/2021/09/SolidJS-scaled.webp?time=1633136514)
+
+### SolidJS: First Impressions - Reactive Primitives
+
+SolidJS is a true reactive library that allows you to use JSX for your frontend projects. In this blog post, I’ll share my first impressions.

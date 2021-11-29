@@ -5,12 +5,15 @@ cover: "/posts/covers/django-svelte.webp"
 date: "2020-07-22"
 slug: "django-and-modern-js-libraries-svelte"
 topic: "code"
+language: "eng"
 canonical: "https://www.cbsofyalioglu.com/post/django-and-modern-js-libraries-svelte/"
 categories:
   - "code"
   - "featured"
   - "post"
-language: "eng"
+tags:
+  - "python & javascript"
+  - "fullstack"
 keywords:
   - "django svelte"
 ---
@@ -303,7 +306,7 @@ export default app;
 
 Next, fill the ‘App.svelte’ file with proper logic.
 
-```markup
+```svelte
 <!-- App.svelte -->
 <script>
   import { Router, Link, Route } from "svelte-routing";
@@ -343,32 +346,40 @@ Before routing pages, I will first write the client-side queries. Please open ap
 ```javascript
 import { GraphQLProvider, reportCacheErrors } from "graphql-svelte";
 const client = GraphQLProvider({
-url: 'http://127.0.0.1:8000/graphql',
-headers: () => ({
-  "content-type": "application/json",
-  Accept: 'application/json'
-})
-})
+    url: 'http://127.0.0.1:8000/graphql',
+    headers: () => ({
+        "content-type": "application/json",
+        Accept: 'application/json'
+    })
+});
 client.graphql.on('cache', reportCacheErrors) // our first query will
 requests all movies // with only given fields // note the usage of string literals (`)
-export const MOVIE_LIST_QUERY = `query movieList{movieList{name, posterUrl, slug}}
-`
+export const MOVIE_LIST_QUERY = `
+    query movieList{movieList{
+        name, posterUrl, slug
+        }
+}`
 // Note the usage of argument. // the exclamation mark makes the slug argument as required // without it , argument will be optional
-export const MOVIE_QUERY = `query movie($slug:String!){           movie(slug:$slug){             id, name, year, summary, posterUrl, slug         }     } ` // This is generic query function // We will use this with one of the above queries and // variables if needed export async function get(query, variables = null) {     const response =  await client.get({ query , variables })     console.log("response", response);     return response }
+export const MOVIE_QUERY = `
+    query movie($slug:String!){
+        movie(slug:$slug){
+            id, name, year, summary, posterUrl, slug
+            }
+        }
+ `
+ // This is generic query function // We will use this with one of the above queries and // variables if needed export async function get(query, variables = null) {     const response =  await client.get({ query , variables })     console.log("response", response);     return response }
 ```
 
 Now, route pages: MovieList.svelte will be shown on the homepage as we defined in the above. If the user clicks any movie card, then MoviePage.svelte file will be rendered.
 
 Fill the MovieList.svelte.
 
-```javascript
-
-    import { Router, Link, Route } from "svelte-routing";
+```svelte
+<script>
     import { get, MOVIE_QUERY, MOVIE_LIST_QUERY } from "./api.js";
 	var movielist = get(MOVIE_LIST_QUERY);
-<script>
+
     import { Router, Link, Route } from "svelte-routing";
-    import { get, MOVIE_QUERY, MOVIE_LIST_QUERY } from "./api.js";
     var movielist = get(MOVIE_LIST_QUERY);
 </script>
 <div class="wrapper">
@@ -422,13 +433,62 @@ Fill the MovieList.svelte.
         cursor: pointer;
     }
 </style>
+
 ```
 
 Also, fill MoviePage.svelte according to this.
 
-```javascript
-import { Router, Link, Route } from "svelte-routing";     import { get, MOVIE_QUERY, MOVIE_LIST_QUERY } from "./api.js";     var movielist = get(MOVIE_LIST_QUERY); </script> <div class="wrapper">     <!-- promise is pending -->     {#await movielist}         loading     <!-- promise was fulfilled -->     {:then response}         {#if response.data.movieList.length > 0}             {#each response.data.movieList as movie}                 <div class="card">                     <Link to={`/movie/${movie.slug}`}>                         <img class="poster" alt={movie.name} src={movie.posterUrl} />                         <p class="movie-title">{movie.name}</p>                     </Link>                 </div>             {/each}         {/if}     <!-- promise was rejected -->     {:catch error}         <p>Something went wrong: {error.message}</p>     {/await} </div> <style>     .wrapper {         width:100%;         height: auto;         display:flex;         flex-direction: row;         flex-wrap: wrap;     }     .card {         box-sizing: border-box;         position: relative;         width:200px;         height:auto;         margin:16px;         border-radius: 8px;         overflow: hidden;         box-shadow: 0 4px 4px rgba(0,0,0,0.25);     }     .poster {         width:100%;         height:auto;         cursor: pointer;     }     .movie-title {         padding:4px 8px;         font-weight: bold;         text-decoration: none;         cursor: pointer;     } </style>
+```svelte
+<script>
+import { Router, Link, Route } from "svelte-routing";
+import { get, MOVIE_QUERY, MOVIE_LIST_QUERY } from "./api.js";
+var movielist = get(MOVIE_LIST_QUERY);
+</script>
+    <div class="wrapper">
+        <!-- promise is pending -->
+        {#await movielist}
+        loading
+        <!-- promise was fulfilled -->
+        {:then response}
+        {#if response.data.movieList.length > 0}
+        {#each response.data.movieList as movie}
+    <div class="card">
+    <Link to={`/movie/${movie.slug}`}>
+    <img class="poster" alt={movie.name} src={movie.posterUrl} />
+    <p class="movie-title">{movie.name}</p>
+    </Link>
+    </div>{/each}         {/if}     <!-- promise was rejected -->     {:catch error}         <p>Something went wrong: {error.message}</p>     {/await} </div>
 
+    <style>
+    .wrapper {
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .card {
+        box-sizing: border-box;
+        position: relative;
+        width: 200px;
+        height: auto;
+        margin: 16px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    }
+    .poster {
+        width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+    .movie-title {
+        padding: 4px 8px;
+        font-weight: bold;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    </style>
 ```
 
 

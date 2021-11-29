@@ -73,6 +73,16 @@ const config = {
         destination: '/',
         permanent: true,
       },
+      {
+        source: '/en/content-creation-tools/',
+        destination: '/productivity/content-creation-tools/',
+        permanent: true,
+      },
+      {
+        source: '/en/content-creation-tools/',
+        destination: '/productivity/content-creation-tools/',
+        permanent: true,
+      },
     ]
   },
   async headers() {

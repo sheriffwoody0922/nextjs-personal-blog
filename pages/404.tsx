@@ -2,18 +2,11 @@ import { Icon404, WebmeisterLogo } from '../components/Svg'
 
 export default function Custom404() {
     return (
-        <section className="min-h-[100vh] !max-w-full  relative overflow-hidden z-60">
+        <section className="!min-h-[96vh] !max-w-full  relative overflow-hidden z-60">
             <div className="w-full h-screen bg-overlay absolute py-20 sm:py-20 lg:py-20">
                 <div className="flex flex-col items-center">
-                    <a
-                        href="/"
-                        className="inline-flex items-center text-black-800 text-5xl md:text-5xl font-bold gap-2.5 mb-0"
-                        aria-label="logo"
-                    >
-                        <WebmeisterLogo cls="w-40 h-40" color="current" />
-                    </a>
 
-                    <p className="text-indigo-500 text-sm md:text-base font-semibold uppercase mb-4">
+                    <p className="text-indigo-500 text-sm md:text-base font-semibold uppercase mb-4 mt-10 sm:mt-20 md:mt-30">
                         SORRY
                     </p>
                     <h1 className="text-gray-800 text-2xl md:text-3xl font-bold text-center mb-2">

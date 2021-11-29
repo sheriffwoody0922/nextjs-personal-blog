@@ -20,15 +20,9 @@ class MyDocument extends Document {
                     <link rel="icon" type="image/png" href="/logo/favicon-32x32.png" sizes="32x32" />
                     <link rel="icon" type="image/png" href="/logo/favicon-16x16.png" sizes="16x16" />
                     <link rel="icon" type="image/png" href="/logo/favicon-128.png" sizes="128x128" />
-                    <meta name="application-name" content="&nbsp;" />
-                    <meta name="msapplication-TileColor" content="#FFFFFF" />
-                    <meta name="msapplication-TileImage" content="mstile-144x144.png" />
-                    <meta name="msapplication-square70x70logo" content="mstile-70x70.png" />
-                    <meta name="msapplication-square150x150logo" content="mstile-150x150.png" />
-                    <meta name="msapplication-wide310x150logo" content="mstile-310x150.png" />
-                    <meta name="msapplication-square310x310logo" content="mstile-310x310.png" />
                     <link rel="icon" href="/logo/favicon.ico" />
 
+                    {/*
                     <script
                         type="application/ld+json"
                         dangerouslySetInnerHTML={{
@@ -72,8 +66,9 @@ class MyDocument extends Document {
                             }`,
                         }}
                     ></script>
+                    */}
 
-                    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-141617385-17" />
+                    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3GKQHRYFHX" />
                     <script
                         dangerouslySetInnerHTML={{
                             __html: `
@@ -81,7 +76,7 @@ class MyDocument extends Document {
                                 function gtag(){dataLayer.push(arguments);}
                                 gtag('js', new Date());
 
-                                gtag('config', 'UA-141617385-17');
+                                gtag('config', 'G-3GKQHRYFHX');
                             `,
                         }}
                     />

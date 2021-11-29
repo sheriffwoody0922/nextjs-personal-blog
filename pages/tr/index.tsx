@@ -14,7 +14,7 @@ Bu yüzden zamanımın büyük çoğunluğu web üzerinde geçiyor. İlginç uyg
 `
 
 export default function Blog({ posts }) {
-    console.log("Blog posts: ", posts)
+    //console.log("Blog posts: ", posts)
     return (
         <div className="min-h-screen">
             <Head>
@@ -64,9 +64,8 @@ export default function Blog({ posts }) {
                         <p className="max-w-screen-md text-gray-500 md:text-lg text-center mx-auto">{description}</p>
                     </div>
 
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-3  gap-4 md:gap-6 xl:gap-8">
                         {/* Article */}
-                        <ul>
+                        <ul className="grid sm:grid-cols-2 lg:grid-cols-3  gap-4 md:gap-6 xl:gap-8">
                             {posts.map(post => (
                                 <li
                                     key={post.slug}
@@ -78,10 +77,9 @@ export default function Blog({ posts }) {
                                         layout="fill"
                                         loading="lazy"
                                         src={post.frontMatter.thumbnail || post.frontMatter.cover || "/img/placeholder.webp"}
-                                        alt={post.frontMatter.keywords[0] || post.frontMatter.title}
+                                        alt={(post.frontMatter.keywords && post.frontMatter.keywords[0]) || post.frontMatter.title}
                                         className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition ease-out duration-500 z-0"
                                     />
-                                    <WebmeisterLogo color="white" cls="z-10 relative top-12 md:top-30 ml-auto mr-auto opacity-20 w-20 h-20" />
 
                                     <div className="bg-gradient-to-t from-gray-800 md:via-transparent to-transparent absolute inset-0 pointer-events-none"></div>
 
@@ -102,7 +100,6 @@ export default function Blog({ posts }) {
                                 </li>
                             ))}
                         </ul>
-                    </div>
                 </div>
             </div>
         </div>
@@ -115,7 +112,7 @@ export const getStaticProps = async () => {
         const markdownWithMeta = fs.readFileSync(path.join('posts', filename), 'utf-8')
         const { data: frontMatter } = matter(markdownWithMeta)
         if (frontMatter.language && frontMatter.language.toLowerCase() === "tr") {
-            console.log("Turkish")
+            //console.log("Turkish")
             return {
                 frontMatter,
 

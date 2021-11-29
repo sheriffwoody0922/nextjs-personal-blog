@@ -1,0 +1,147 @@
+---
+title: "SolidJS Setup in AdonisJS"
+description: "This blog post shows how to integrate SolidJS frontend library with AdonisJS backend framework."
+date: "2021-10-21"
+cover: "/posts/covers/adonis-solidjs.webp"
+slug: "adonisjs-solidjs"
+topic: "code"
+canonical: "https://www.cbsofyalioglu.com/code/adonisjs-solidjs/"
+language: "eng"
+categories:
+  - "code"
+  - "post"
+tags:
+  - "adonisjs"
+  - "solidjs"
+keywords:
+    - "solidjs and adonisjs"
+    - "solidjs"
+    - "adonisjs"
+---
+
+This blog post shows how to integrate SolidJS frontend library with AdonisJS backend framework. This will be a relatively short article. I think **AdonisJS - SolidJS** would be my favorite web development stack.
+
+## Introduction
+
+AdonisJS is a fully-featured Node.js framework. It follows the Model-View-Controller (MVC) pattern and has its own template engine, Object-Relational-Mapper (ORM), authorization, and authentication modules. I also wrote a post about [AdonisJS and Tailwind CSS](https://www.cbsofyalioglu.com/code/adonisjs5-tailwind/) before.
+
+
+On the other hand, SolidJS is a declarative, efficient, and flexible frontend library. Moreover, SolidJS is truly a reactive JavaScript library, unlike ReactJS. If you have developed a frontend application with React, you'll definitely love SolidJS.
+
+
+Also, if you don't have any SolidJS experience before, I suggest reading [SolidJS and Reactive Primitives](https://www.cbsofyalioglu.com/code/solidjs-and-reactive-primitives/).
+
+## AdonisJS Setup
+
+We need to install AdonisJS 5 because our SolidJS application will be built on it.
+
+```bash
+yarn create adonis-ts-app adonis-solid-integration
+```
+
+I'm going to choose `web` as the project type.
+
+```bash
+   / \\   __| | ___  _ __ (_)___    | |___
+  / _ \\ / _` |/ _ \\| '_ \\| / __|_  | / __|
+ / ___ \\ (_| | (_) | | | | \\__ \\ |_| \\__ \\
+/_/   \\_\\__,_|\\___/|_| |_|_|___/\\___/|___/
+
+CUSTOMIZE PROJECT
+❯ Select the project structure …  Press <ENTER> to select
+  api   (Tailored for creating a REST API server)
+❯ web   (Traditional web application with server rendered templates)
+  slim  (A smallest possible AdonisJS application)
+```
+
+After choosing the project type, other customization options will be appeared. Setting up Eslint totally up to you. However, **you should enable Webpack Encore**. Otherwise, your frontend assets will not be compiled.
+
+```bash
+CUSTOMIZE PROJECT
+❯ Select the project structure · web
+❯ Enter the project name · adonis-solid-integration
+❯ Setup eslint? (y/N) · false
+❯ Configure webpack encore for compiling frontend assets? (y/N) · true
+
+[ success ]  Project created successfully
+
+╭─────────────────────────────────────────────────╮
+│    Run following commands to get started        │
+│─────────────────────────────────────────────────│
+│                                                 │
+│    ❯ cd adonis-solid-integration                │
+│    ❯ node ace serve --watch                     │
+│                                                 │
+╰─────────────────────────────────────────────────╯
+```
+
+Let change the current directory to the project directory.
+
+```bash
+cd adonis-solid-integration
+```
+
+## SolidJS Setup
+
+Installing _SolidJS on an AdonisJS_ app alone is not enough because it uses JSX syntax. Therefore, we need to install `babel-preset-solid` babel plugin as a development dependency.
+
+```bash
+# Install SolidJS
+yarn add solid-js
+
+# Install Babel plugin
+yarn add -D babel-preset-solid
+```
+
+AdonisJS uses [Edge template engine](https://docs.adonisjs.com/guides/views/introduction). By default, the `resources/views/welcome.edge` is the default view for the homepage. As you know, it can be changed from `start/routes.ts` file. However, we need to modify the `welcome.edge` file so that we can render our Solid application inside the correct DOM element.
+
+```markup
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdonisJS - A fully featured web framework for Node.js</title>
+  @entryPointStyles('app')
+</head>
+<body>
+
+  <div id="app"></div>
+
+  @entryPointScripts('app')
+</body>
+</html>
+```
+
+Open your main JavaScript file: `resources/js/app.js` and fill it like below:
+
+```jsx
+// resources/js/app.js
+import "../css/app.css";
+import { createSignal, onCleanup } from "solid-js";
+import { render } from "solid-js/web";
+
+const App = () => {
+  const [count, setCount] = createSignal(0),
+    timer = setInterval(() => setCount(count() + 1), 1000);
+
+  onCleanup(() => clearInterval(timer));
+
+  const style = `
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    font-size:128px;
+    font-weight:bold;
+    height:100vh;
+  `;
+  return <div style={style}>{count()}</div>;
+};
+
+render(() => <App />, document.getElementById("app"));
+```
+
+You'll easily notice the different styling syntax comparing to React. You can see other [styling syntax in SolidJS](https://www.cbsofyalioglu.com/code/styling-and-control-flow-in-solidj/#styling).
+
+Now you can start the app by executing the command below. Then you will see a timer on your screen.

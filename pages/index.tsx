@@ -4,7 +4,8 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import Footer from '../layout/footer'
-
+import { ArticleSeo } from "../components/next-seo"
+import { site } from "../settings"
 import HomepageProjects from '../components/HomepageProjects'
 
 import decorativePatterns from '../public/img/decorative/background-patterns.png'
@@ -12,7 +13,15 @@ import decorativePatterns from '../public/img/decorative/background-patterns.png
 function Home() {
     return (
         <>
-            <Header />
+            <Head>
+                <ArticleSeo
+                    type="website"
+                    title={site.title}
+                    description={site.description}
+                    canonical={site.website}
+                    cover={site.cover}
+                />
+            </Head>
             <main className="content-section main z-20 px-4 sm:pt-40">
                 <HeroDark />
                 <Features />
@@ -155,47 +164,6 @@ function Features() {
                 </div>
             </div>
         </section>
-    )
-}
-
-function Header() {
-    return (
-        <Head>
-            <title>Design &amp; Development | Articles, Bookmarks, Portfolio</title>
-            <meta
-                name="description"
-                content="Full-featured web services: web development, e-commerce, and search engine optimization. I'm an engineer focusing on web development and providing solutions for Wix and Shopify."
-            />
-            <link rel="canonical" href="https://www.cbsofyalioglu.com/" />
-            <meta property="og:type" content="website" />
-            <meta property="og:url" content="https://www.cbsofyalioglu.com/" />
-            <meta property="og:title" content="Design &amp; Development | Articles, Bookmarks, Portfolio" />
-            <meta
-                property="og:description"
-                content="Full-featured web services: web development, e-commerce, and search engine optimization. I'm an engineer focusing on web development and providing solutions for Wix and Shopify."
-            />
-            <meta
-                property="og:image"
-                content="https://www.cbsofyalioglu.com/img/hero-dark.webp"
-            ></meta>
-
-            <meta property="twitter:card" content="summary_large_image" />
-            <meta property="twitter:url" content="https://www.cbsofyalioglu.com/" />
-            <meta property="twitter:title" content="Design&amp;Development" />
-            <meta
-                property="twitter:description"
-                content="Full-featured web services: web development, e-commerce, and search engine optimization. I'm an engineer focusing on web development and providing solutions for Wix and Shopify."
-            />
-            <meta
-                property="twitter:image"
-                content="https://www.cbsofyalioglu.com/img/hero-dark.webp"
-            />
-
-            <meta
-                name="description"
-                content="Full-featured web services: web development, e-commerce, and search engine optimization. I'm an engineer focusing on web development and providing solutions for Wix and Shopify."
-            />
-        </Head>
     )
 }
 

@@ -1,0 +1,128 @@
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "Organization",
+            "@id": "https://www.holisticseo.digital/#organization",
+            "name": "Holistic SEO",
+            "url": "https://www.holisticseo.digital"
+        },
+        {
+            "@type": "WebSite",
+            "@id": "https://www.holisticseo.digital/#website",
+            "url": "https://www.holisticseo.digital",
+            "name": "Holistic SEO",
+            "publisher": {
+                "@id": "https://www.holisticseo.digital/#organization"
+            },
+            "inLanguage": "en-US"
+        },
+        {
+            "@type": "ImageObject",
+            "@id": "https://www.holisticseo.digital/wp-content/uploads/2020/08/verify-and-test-robots-txt.jpg",
+            "url": "https://www.holisticseo.digital/wp-content/uploads/2020/08/verify-and-test-robots-txt.jpg",
+            "width": "1200",
+            "height": "600",
+            "caption": "How to verify and test Robots.txt via Python",
+            "inLanguage": "en-US"
+        },
+        {
+            "@type": "BreadcrumbList",
+            "@id": "https://www.holisticseo.digital/python-seo/verify-test-robots-txt-file/#breadcrumb",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": "1",
+                    "item": {
+                        "@id": "https://www.holisticseo.digital",
+                        "name": "Home"
+                    }
+                },
+                {
+                    "@type": "ListItem",
+                    "position": "2",
+                    "item": {
+                        "@id": "https://www.holisticseo.digital/python-seo/",
+                        "name": "Python SEO"
+                    }
+                },
+                {
+                    "@type": "ListItem",
+                    "position": "3",
+                    "item": {
+                        "@id": "https://www.holisticseo.digital/python-seo/verify-test-robots-txt-file/",
+                        "name": "How to Verify and Test Robots.txt File via Python"
+                    }
+                }
+            ]
+        },
+        {
+            "@type": "Person",
+            "@id": "https://www.holisticseo.digital/author/koray-tugberk-gubur/",
+            "name": "Koray Tu\u011fberk G\u00dcB\u00dcR",
+            "description": "Holistic SEO Expert Koray Tu\u011fberk G\u00dcB\u00dcR is author of the Holisticseo.digital. He works in several fields related to Marketing and Coding.",
+            "url": "https://www.holisticseo.digital/author/koray-tugberk-gubur/",
+            "image": {
+                "@type": "ImageObject",
+                "@id": "https://secure.gravatar.com/avatar/8816429f4e1293ddeb7acec7f2c6d5ac?s=96&amp;r=g",
+                "url": "https://secure.gravatar.com/avatar/8816429f4e1293ddeb7acec7f2c6d5ac?s=96&amp;r=g",
+                "caption": "Koray Tu\u011fberk G\u00dcB\u00dcR",
+                "inLanguage": "en-US"
+            },
+            "sameAs": [
+                "https://www.holisticseo.digital",
+                "https://www.linkedin.com/in/koray-tugberk-gubur/",
+                "https://twitter.com/KorayGubur"
+            ],
+            "worksFor": {
+                "@id": "https://www.holisticseo.digital/#organization"
+            }
+        },
+        {
+            "@type": "WebPage",
+            "@id": "https://www.holisticseo.digital/python-seo/verify-test-robots-txt-file/#webpage",
+            "url": "https://www.holisticseo.digital/python-seo/verify-test-robots-txt-file/",
+            "name": "How to Verify and Test Robots.txt File via Python - Holistic SEO",
+            "datePublished": "2020-08-02T11:29:18+00:00",
+            "dateModified": "2020-08-14T22:18:55+00:00",
+            "author": {
+                "@id": "https://www.holisticseo.digital/author/koray-tugberk-gubur/"
+            },
+            "isPartOf": {
+                "@id": "https://www.holisticseo.digital/#website"
+            },
+            "primaryImageOfPage": {
+                "@id": "https://www.holisticseo.digital/wp-content/uploads/2020/08/verify-and-test-robots-txt.jpg"
+            },
+            "inLanguage": "en-US",
+            "breadcrumb": {
+                "@id": "https://www.holisticseo.digital/python-seo/verify-test-robots-txt-file/#breadcrumb"
+            }
+        },
+        {
+            "@type": "Article",
+            "headline": "How to Verify and Test Robots.txt File via Python - Holistic SEO",
+            "datePublished": "2020-08-02T11:29:18+00:00",
+            "dateModified": "2020-08-14T22:18:55+00:00",
+            "author": {
+                "@id": "https://www.holisticseo.digital/author/koray-tugberk-gubur/"
+            },
+            "publisher": {
+                "@id": "https://www.holisticseo.digital/#organization"
+            },
+            "description": "Verify a Robots.txt File with Python \u2713 How to test URLs according to a specific Robots.txt File via Python \u2713 Bulk Robots.txt Testing with Python Scripts \u2713",
+            "name": "How to Verify and Test Robots.txt File via Python - Holistic SEO",
+            "@id": "https://www.holisticseo.digital/python-seo/verify-test-robots-txt-file/#richSnippet",
+            "isPartOf": {
+                "@id": "https://www.holisticseo.digital/python-seo/verify-test-robots-txt-file/#webpage"
+            },
+            "image": {
+                "@id": "https://www.holisticseo.digital/wp-content/uploads/2020/08/verify-and-test-robots-txt.jpg"
+            },
+            "inLanguage": "en-US",
+            "mainEntityOfPage": {
+                "@id": "https://www.holisticseo.digital/python-seo/verify-test-robots-txt-file/#webpage"
+            }
+        }
+    ]
+}

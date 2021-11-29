@@ -25,6 +25,8 @@ body {
   overflow-x: hidden;
   background-color: #161617;
   text-decoration-skip-ink: auto;
+  scroll-behavior: smooth !important;
+
 }
 
 * {
@@ -84,6 +86,14 @@ html:not(.dark) .bg-trans {
   border-radius: 12px;
   border: 1px solid rgba(209, 213, 219, 0.3);
 }
+/* Glassmorphism card effect */
+.glass-card-card {
+  backdrop-filter: blur(20px) saturate(200%);
+  -webkit-backdrop-filter: blur(20px) saturate(200%);
+  background-color: rgba(17, 25, 40, 0.85);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.125);
+}
 
 /* This is a layer above the gradients and below the content*/
 #main-layout {
@@ -135,6 +145,14 @@ html.dark #main-layout {
     top: 100vh;
     right: -25%;
   }
+  .blur-blob.blur-404 {
+  position: relative;
+  z-index: -1 !important;
+  width: 100%;
+  left: 0vw;
+  top: 0vh !important;
+}
+
 }
 .blur-blob {
   position: absolute !important;
@@ -158,6 +176,18 @@ html.dark #main-layout {
   top: -40vh;
   right: -60vw;
 }
+
+.blur-blob.blur-404 {
+    position: relative;
+    z-index: -1 !important;
+    width:100%;
+    left:0vw;
+    bottom: -30vh;
+}
+
+
+
+
 span.project-url {
   color: rgba(255, 255, 255, 0.9) !important;
   font-size: 12px;
@@ -234,4 +264,7 @@ html:not(.dark) .lottie-icon svg g path {
   max-width:240px;
 
 }
+
+
+
 

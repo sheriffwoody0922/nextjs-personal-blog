@@ -1,17 +1,11 @@
 import { useState } from 'react';
 import '../styles/tailwind.css'
 import '../styles/globals.css'
-
+import React from 'react';
 import type { AppProps } from 'next/app'
 import Layout from '../layout/layout'
-
-import {
-    TealBlob,
-    BluePurpleBlob,
-    ThreeColorsBlob,
-    TealPinkBlob,
-    PurplePinkBlob,
-} from '../components/Svg'
+import { site } from "../settings"
+import { ArticleSeo } from "../components/next-seo"
 //import { CssBaseline } from '@nextui-org/react';
 
 
@@ -21,13 +15,20 @@ export function reportWebVitals(metric) {
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
-        <>
+        <React.Fragment>
             <Layout>
+                <ArticleSeo
+                    type="website"
+                    title={site.title}
+                    description={site.description}
+                    canonical={site.website}
+                    cover={site.cover}
+                />
                 <Component {...pageProps} />
 
             </Layout>
             {/* MESH GRADIENTS */}
-        </>
+        </React.Fragment>
 
 
     )
