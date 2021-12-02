@@ -20,7 +20,7 @@ import {
     HeroPattern,
 } from '../../components/Svg'
 import { useScript } from "../../lib/hooks"
-import { ArticleSeo } from "../../components"
+import { ArticleSeo, ScrollTopButton } from "../../components"
 import { site } from "../../settings"
 
 
@@ -126,6 +126,7 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource }) => {
                 </div>
 
             </article>
+            <ScrollTopButton />
         </>
     )
 }

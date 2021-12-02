@@ -124,6 +124,42 @@
     font-style: italic;
 }
 
+/* PT-SERIF */
+@font-face {
+  font-family: 'PTSerif-Regular';
+  src: url('../public/fonts/PTSerif-Regular.ttf') format('ttf');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'PTSerif-Italic';
+  src: url('../public/fonts/PTSerif-Italic.ttf') format('ttf');
+  font-weight: 400;
+  font-display: swap;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'PTSerif-Bold';
+  src: url('../public/fonts/PTSerif-Bold.ttf') format('ttf');
+  font-weight: 700;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'PTSerif-BoldItalic';
+  src: url('../public/fonts/PTSerif-BoldItalic.ttf') format('ttf');
+  font-weight: 700;
+  font-display: swap;
+  font-style: italic;
+}
+
+
+
+
 h1 {
     font-family: 'Satoshi-Regular';
     font-style: normal;

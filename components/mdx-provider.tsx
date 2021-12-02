@@ -13,6 +13,7 @@ import { Code } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import { CardEnlarge } from './card'
 import { whitelist, site } from '../settings'
+import {Video} from "./video"
 
 const ResponsiveImage = props => (
     <Image alt={props.alt} layout="responsive" {...props} />
@@ -27,7 +28,7 @@ function Anchor(props) {
     let sameDomain, doFollow, urlObject;
 
     // Internal Links
-    if (props.href.startsWith("#") || props.href.startsWith("/")) {
+    if (props.href.startsWith("#") || props.href.startsWith("/") || props.href.startsWith(site.website)) {
         attr.className = "internal"
         sameDomain = true
     }
@@ -80,6 +81,7 @@ function Anchor(props) {
     return <a {...attr} {...props} />
 }
 
+
 export default function MdxProvider({ source, components, className, ...props }) {
     const comp = {
         h1: props => <span className="text-gray-800 text-4xl lg:text-5xl font-bold text-center mb-4 md:mb-6">{props.children}</span>,
@@ -92,6 +94,7 @@ export default function MdxProvider({ source, components, className, ...props })
             //console.log("peops", props)
             return <pre className="mdx-pre">{props.children}</pre>
         },
+        Video: (props) => <Video {...props} />,
         a: (props) => <Anchor {...props} />,
 
         CardEnlarge: props => <CardEnlarge {...props} />

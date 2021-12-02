@@ -32,6 +32,7 @@ export default function BookmarkCollectionPage({ collection, bookmarks }) {
                     {bookmarks.map(bkm => (
 
                         <CardCover
+                            key={bkm.link}
                             nofollow={true}
                             title={bkm.title}
                             cover={bkm.cover}
