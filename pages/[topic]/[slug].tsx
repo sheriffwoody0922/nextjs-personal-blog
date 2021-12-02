@@ -30,12 +30,17 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource }) => {
     const router = useRouter()
     const canonical = frontMatter.canonical || site.website + router.asPath
 
-    //console.log("post page props: ", slug, topic, frontMatter)
-    //console.log("\nrouter", router)
+    const colors = ["bg-yellow-100 text-yellow-800", " bg-green-100 text-green-800", "bg-blue-100 text-blue-800", "bg-indigo-100 text-indigo-800", "bg-purple-100 text-purple-800"]
+
+    const categories = [...new Set([topic, ...frontMatter.categories])]
+    const categoriesWoutPost = categories.filter(cat => cat !== "post")
+    const tags = frontMatter.tags
+    //const keywords = frontMatter.keywords
+    //console.log("categories", categoriesWoutPost, tags, keywords)
     return (
         <>
             <Head>
-
+                <title>{frontMatter.title}</title>
                 <ArticleSeo
                     title={frontMatter.title}
                     descriptiopn={frontMatter.description}
@@ -48,14 +53,24 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource }) => {
                 />
             </Head>
 
-            <article className="relative pt-24 pb-60 flex flex-col items-center">
+            <article className="relative pt-8 pb-60 flex flex-col items-center">
                 <header className="w-full max-w-[700px] h-auto pt-20 ml-auto mr-auto relative flex flex-col items-center">
                     <span className="mb-2 text-sm">{frontMatter.date}</span>
                     <h1 className="text-gray-800 text-4xl lg:text-5xl font-bold text-center mb-4 md:mb-6">{frontMatter.title}</h1>
                     <p className="max-w-screen-md text-gray-500 md:text-lg text-center mx-auto">{frontMatter.description}</p>
 
+                    <div className="flex w-full justify-center mt-4">
+                        {categoriesWoutPost?.map((cat, index) =>
+                            <a href={`/${cat}`}
+                                title={`See ${cat} posts`}
+                                key={cat}
+                                className={`inline-flex mx-2 items-center px-3 py-0.5 rounded-full text-sm font-medium ${colors[index]}`}
+                            >
+                                {cat}
+                            </a>
+                        )}
+                    </div>
                     <div className="relative h-[400px] w-full overflow-hidden rounded-lg  my-12">
-
 
                         <Image
                             id="primary-image"
@@ -82,7 +97,7 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource }) => {
                         viewBox="0 0 1775 844"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                        className="blur-blob"
+                        className="blur-blob absolute bottom-4 left-0 right-0 w-full"
                     >
                         <g clipPath="url(#clip0_15:2)">
                             <g filter="url(#filter0_f_15:2)">
@@ -125,6 +140,19 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource }) => {
                     </svg>
                 </div>
 
+                <hr className="border-gray-100" />
+
+                <div className="flex flex-wrap justify-center !max-w-6xl  mt-4 pt-8">
+                    {tags?.map((tag) =>
+                        <strong
+
+                            key={tag}
+                            className="inline-flex mx-2 mt-2 justify-center items-center px-3 py-0.5 rounded-full text-sm font-medium bg-gray-100 !text-gray-800"
+                        >
+                            {tag}
+                        </strong>
+                    )}
+                </div>
             </article>
             <ScrollTopButton />
         </>

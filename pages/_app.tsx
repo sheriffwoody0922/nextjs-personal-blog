@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import Head from 'next/head'
+
 import '../styles/tailwind.css'
 import '../styles/globals.css'
 import React from 'react';
@@ -17,13 +19,16 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (
         <React.Fragment>
             <Layout>
-                <ArticleSeo
-                    type="website"
-                    title={site.title}
-                    description={site.description}
-                    canonical={site.website}
-                    cover={site.cover}
-                />
+                <Head>
+
+                    <ArticleSeo
+                        type="website"
+                        title={site.title}
+                        description={site.description}
+                        canonical={site.website}
+                        cover={site.cover}
+                    />
+                </Head>
                 <Component {...pageProps} />
 
             </Layout>

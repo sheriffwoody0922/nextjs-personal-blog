@@ -65,12 +65,14 @@ export function SocialMetaHead(props) {
 
     return (
         <>
+            <title>{data.title}</title>
+            <meta name="description" content={data.description} />
             {Object.keys(ogdata).map(og => opengraph(og, ogdata[og]))}
             {Object.keys(twitterdata).map(tw => opengraph(tw, twitterdata[tw]))}
 
             {props.type === "article" && Object.keys(articledata).map(a => article(a, articledata[a]))}
 
-            {Object.keys(data).map(d => meta(d, data[d]))}
+            {/*Object.keys(data).filter(d => d !== "title").map(d => meta(d, data[d])) */}
             <link rel="canonical" href={data.canonical} />
         </>
     )
