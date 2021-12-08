@@ -37,6 +37,10 @@ const config = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  images: {
+    deviceSizes: [640, 768, 1024, 1280, 1536, 1920],
+    minimumCacheTTL: 60,
+  },
   env: {
     DOMAIN:
       process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://webmeister.org',

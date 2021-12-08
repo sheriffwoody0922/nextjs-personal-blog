@@ -66,7 +66,8 @@ function Home({ featuredPosts, turkishPosts, englishPosts }) {
                                 >
                                     <Image
                                         layout="fill"
-                                        loading="lazy"
+                                        sizes="30vw"
+                                        priority
                                         src={post.frontMatter.thumbnail || post.frontMatter.cover || "/img/placeholder.webp"}
                                         alt={(post.frontMatter.keywords && post.frontMatter.keywords[0]) || post.frontMatter.title}
                                         className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition duration-500 z-0"
@@ -125,7 +126,7 @@ function Home({ featuredPosts, turkishPosts, englishPosts }) {
                                 >
                                     <Image
                                         layout="fill"
-                                        loading="lazy"
+                                        sizes="30vw"
                                         src={post.frontMatter.thumbnail || post.frontMatter.cover || "/img/placeholder.webp"}
                                         alt={(post.frontMatter.keywords && post.frontMatter.keywords[0]) || post.frontMatter.title}
                                         className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition duration-500 z-0"
@@ -184,7 +185,7 @@ function Home({ featuredPosts, turkishPosts, englishPosts }) {
                                 >
                                     <Image
                                         layout="fill"
-                                        loading="lazy"
+                                        sizes="30vw"
                                         src={post.frontMatter.thumbnail || post.frontMatter.cover || "/img/placeholder.webp"}
                                         alt={(post.frontMatter.keywords && post.frontMatter.keywords[0]) || post.frontMatter.title}
                                         className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition duration-500 z-0"

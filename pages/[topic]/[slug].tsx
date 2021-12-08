@@ -94,10 +94,10 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource }) => {
                         <Image
                             id="primary-image"
                             layout="fill"
-                            loading="lazy"
+                            sizes="50vw"
+                            priority
                             placeholder="blur"
                             blurDataURL="/img/placeholder.webp"
-                            sizes="100vw"
                             src={frontMatter.thumbnail || frontMatter.cover || "/img/placeholder.webp"}
                             alt={(frontMatter.keywords && frontMatter.keywords[0]) || frontMatter.name}
                             className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition duration-200 z-0"
