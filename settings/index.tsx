@@ -19,7 +19,17 @@ export const site = {
         id: "https://www.cbsofyalioglu.com/me",  //id and page should be same
         page: "https://www.cbsofyalioglu.com/me", //id and page should be same
         url: ["https://webmeister.org", "https://www.cbsofyalioglu.com/"],
+        email: "cbsofyalioglu@gmail.com",
         jobTitle: "Expert Web Developer",
+        birthDate: "1987-06-30",
+        address: {
+            "@type": "PostalAddress",
+            "streetAddress": "Akcay caddesi no:350 d:14",
+            "addressLocality": "Izmir",
+            "addressRegion": "Izmir",
+            "postalCode": "35500",
+            "addressCountry": "Turkey"
+        },
         alumniOf: {
             "@type": "CollegeOrUniversity",
             "name": "Boğaziçi University",

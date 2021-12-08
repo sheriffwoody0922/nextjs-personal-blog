@@ -20,7 +20,7 @@ import {
     HeroPattern,
 } from '../../components/Svg'
 import { useScript } from "../../lib/hooks"
-import { ArticleSeo, ScrollTopButton } from "../../components"
+import { ArticleSeo, ScrollTopButton, MetaTags, RichData } from "../../components"
 import { site } from "../../settings"
 
 
@@ -35,30 +35,45 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource }) => {
     const categories = [...new Set([topic, ...frontMatter.categories])]
     const categoriesWoutPost = categories.filter(cat => cat !== "post")
     const tags = frontMatter.tags
+    const keywords = frontMatter.keywords
     //const keywords = frontMatter.keywords
-    //console.log("categories", categoriesWoutPost, tags, keywords)
+    //console.log("categories", frontMatter)
     return (
         <>
             <Head>
-                <title>{frontMatter.title}</title>
-                <ArticleSeo
+                <title key="h-title-tag">{frontMatter.title}</title>
+                <meta name="title" content={frontMatter.title} key="h-title" />
+                <meta name="description" content={frontMatter.description} key="h-description" />
+                <link rel="canonical" href={frontMatter.canonical} key="h-canonical" />
+                <RichData
+                    type="article"
+                    articleType={frontMatter.articleType}
+                    title={frontMatter.title}
+                    canonical={canonical}
+                    description={frontMatter.description}
+                    date={frontMatter.date}
+                    modified={frontMatter.modified}
+                    cover={frontMatter.cover}
+                    frontMatter={frontMatter}
+                />
+                <MetaTags
+                    type="article"
                     title={frontMatter.title}
                     descriptiopn={frontMatter.description}
                     canonical={canonical}
                     topic={frontMatter.topic}
-                    data={frontMatter.date}
-                    cover={frontMatter.cover}
+                    tags={frontMatter.tags}
+                    date={frontMatter.date}
                     modified={frontMatter.modified}
-                    type="article"
+                    cover={frontMatter.cover}
+
                 />
             </Head>
 
-            <article className="relative pt-8 pb-60 flex flex-col items-center">
+            <article className="relative pt-8 pb-60 flex flex-col items-center px-4">
                 <header className="w-full max-w-[700px] h-auto pt-20 ml-auto mr-auto relative flex flex-col items-center">
-                    <span className="mb-2 text-sm">{frontMatter.date}</span>
-                    <h1 className="text-gray-800 text-4xl lg:text-5xl font-bold text-center mb-4 md:mb-6">{frontMatter.title}</h1>
-                    <p className="max-w-screen-md text-gray-500 md:text-lg text-center mx-auto">{frontMatter.description}</p>
-
+                    <h1 className="text-gray-800 text-4xl lg:text-5xl font-bold text-center mb-2 md:mb-2">{frontMatter.title}</h1>
+                    <span className="mb-2 text-xs">UPDATED: <time dateTime={frontMatter.modified}>{frontMatter.modified}</time></span>
                     <div className="flex w-full justify-center mt-4">
                         {categoriesWoutPost?.map((cat, index) =>
                             <a href={`/${cat}`}
@@ -70,7 +85,11 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource }) => {
                             </a>
                         )}
                     </div>
-                    <div className="relative h-[400px] w-full overflow-hidden rounded-lg  my-12">
+
+                    <p className="max-w-screen-md text-gray-500 md:text-lg text-center mx-auto mt-4">{frontMatter.description}</p>
+
+
+                    <div className="relative h-[400px] w-full overflow-hidden rounded-lg mt-12 mb-4 flex flex-col justify-end">
 
                         <Image
                             id="primary-image"
@@ -83,6 +102,17 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource }) => {
                             alt={(frontMatter.keywords && frontMatter.keywords[0]) || frontMatter.name}
                             className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition duration-200 z-0"
                         />
+                    </div>
+                    <div className="flex flex-wrap justify-start !max-w-6xl  mb-4 relative z-10">
+                        {tags?.map((tag) =>
+                            <strong
+
+                                key={tag}
+                                className="inline-flex mx-2 mt-2 justify-center items-center  rounded-md border-gray-50 border px-2 py-1 text-xs font-medium dark:text-gray-300 text-gray-800"
+                            >
+                                #{tag}
+                            </strong>
+                        )}
                     </div>
                 </header>
                 <main className="markdown-content z-10 post-page min-h-screen w-full max-w-[700px] h-auto pt-4 ml-auto mr-auto relative flex flex-col">
@@ -143,7 +173,7 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource }) => {
                 <hr className="border-gray-100" />
 
                 <div className="flex flex-wrap justify-center !max-w-6xl  mt-4 pt-8">
-                    {tags?.map((tag) =>
+                    {keywords?.map((tag) =>
                         <strong
 
                             key={tag}

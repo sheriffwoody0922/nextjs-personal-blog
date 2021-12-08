@@ -2,6 +2,7 @@
 title: "SolidJS Setup in AdonisJS"
 description: "This blog post shows how to integrate SolidJS frontend library with AdonisJS backend framework."
 date: "2021-10-21"
+modified: "2021-12-06"
 cover: "/posts/covers/adonis-solidjs.webp"
 slug: "adonisjs-solidjs"
 topic: "code"
@@ -13,10 +14,11 @@ categories:
 tags:
   - "adonisjs"
   - "solidjs"
+  - "adonis solidjs"
 keywords:
     - "solidjs and adonisjs"
-    - "solidjs"
-    - "adonisjs"
+    - "how to use solidjs in adonis"
+    - "adonisjs 5 with solidjs"
 ---
 
 This blog post shows how to integrate SolidJS frontend library with AdonisJS backend framework. This will be a relatively short article. I think **AdonisJS - SolidJS** would be my favorite web development stack.
@@ -91,6 +93,24 @@ yarn add solid-js
 
 # Install Babel plugin
 yarn add -D babel-preset-solid
+```
+
+We need to add the code below to `webpack.config.js` file.
+
+```
+/*
+|--------------------------------------------------------------------------
+| Encore Babel Configs
+|--------------------------------------------------------------------------
+*/
+Encore.configureBabel(
+	babelConfig => {
+		babelConfig.presets.push('solid')
+	},
+	{
+		exclude: /node_modules/
+	}
+)
 ```
 
 AdonisJS uses [Edge template engine](https://docs.adonisjs.com/guides/views/introduction). By default, the `resources/views/welcome.edge` is the default view for the homepage. As you know, it can be changed from `start/routes.ts` file. However, we need to modify the `welcome.edge` file so that we can render our Solid application inside the correct DOM element.

@@ -10,7 +10,7 @@ type CardProps = {
     nofollow: boolean
 }
 export function CardEnlarge(props: CardProps) {
-    return <div key={props.link} className="grid grid-cols-1 mt-4">
+    return <div key={props.link} className="card-enlarge grid grid-cols-1 mt-4">
         <div className="glass-card flex flex-col sm:flex-row items-stretch border rounded-lg overflow-hidden !min-h-[160px]">
 
 
@@ -34,16 +34,15 @@ export function CardEnlarge(props: CardProps) {
             <div className="flex flex-col pl-4 pt-4 pb-2 xl:pt-4 xl:pb-2 xl:px-4 justify-between relative !h-full" data-tip={props.excerpt}>
                 <div className="flex flex-col p-0 m-0">
 
-                    <h2 className="text-gray-800 text-xl font-bold">
-                        <a target="_blank"
-                            href={props.link}
-                            className="transition duration-100 no-underline"
-                            rel={props.nofollow ? "nofollow noopener" : "noopener"}
-                        >
-                            {props.title}
-                        </a>
-                    </h2>
-                    <p className="text-gray-500 text-md mt-2 mb-2 leading-6 overflow-ellipsis overflow-hidden">{props.description || props.excerpt}</p>
+
+                    <a target="_blank"
+                        href={props.link}
+                        className="transition duration-100 no-underline text-xl"
+                        rel={props.nofollow ? "nofollow noopener" : "noopener"}
+                    >
+                        <h3 className="text-gray-800 text-xl font-bold mt-2">{props.title}</h3>
+                    </a>
+                    <p className="text-gray-500 text-md mt-2 mb-2 leading-6 overflow-ellipsis overflow-hidden text-md">{props.description || props.excerpt}</p>
 
                 </div>
 
@@ -83,7 +82,7 @@ export function CardCover(props: CardProps) {
                 <div className="flex justify-start items-end mt-auto">
 
                     {props.tags?.map(tag => (
-                        <span key={tag} className="text-gray-500 text-sm border rounded px-2 py-1 mr-2">
+                        <span key={tag} className="text-gray-500 text-sm border rounded px-2 py-1 mr-2 overflow-ellipsis">
                             {tag}
                         </span>
                     ))}

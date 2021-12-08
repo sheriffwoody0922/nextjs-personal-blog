@@ -37,7 +37,7 @@ export default function Footer(props: FooterProps) {
 
 
                     <nav
-                        className="flex flex-row justify-center mb-4 -ml-4 -mr-4 relative !z-50"
+                        className="flex flex-row justify-center mb-4 -ml-4 -mr-4 relative !z-40"
                         aria-label="social navigation"
                     >
                         <a

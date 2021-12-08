@@ -7,7 +7,7 @@ import React from 'react';
 import type { AppProps } from 'next/app'
 import Layout from '../layout/layout'
 import { site } from "../settings"
-import { ArticleSeo } from "../components/next-seo"
+import { MetaTags } from "../components/next-seo"
 //import { CssBaseline } from '@nextui-org/react';
 
 
@@ -20,8 +20,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         <React.Fragment>
             <Layout>
                 <Head>
-
-                    <ArticleSeo
+                    <title key="h-title-tag">{site.title}</title>
+                    <meta name="title" content={site.title} key="h-title" />
+                    <meta name="description" content={site.description} key="h-description" />
+                    <link rel="canonical" href={site.website} key="h-canonical" />
+                    <MetaTags
                         type="website"
                         title={site.title}
                         description={site.description}

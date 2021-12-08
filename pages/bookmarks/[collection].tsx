@@ -28,14 +28,14 @@ export default function BookmarkCollectionPage({ collection, bookmarks }) {
                     </div>
                 </div>
 
-                <ul className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4 md:gap-6 xl:gap-8">
+                <ul className="grid sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3  gap-4 md:gap-6 xl:gap-8">
                     {bookmarks.map(bkm => (
 
                         <CardCover
                             key={bkm.link}
                             nofollow={true}
                             title={bkm.title}
-                            cover={bkm.cover}
+                            cover={bkm.cover || "/cbsofyalioglu-homepage.webp"}
                             excerpt={bkm.excerpt}
                             link={bkm.link}
                             tags={bkm.tags}

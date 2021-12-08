@@ -22,6 +22,7 @@ html.dark {
 
 /* Text Colors */
 html.dark span,
+html.dark aside,
 html.dark p,
 html.dark li,
 html.dark h1,
@@ -33,6 +34,7 @@ html.dark h6 {
   color: var(--light-text);
 }
 html:not(.dark) span,
+html:not(.dark) aside,
 html:not(.dark) li,
 html:not(.dark) p,
 html:not(.dark) h1,

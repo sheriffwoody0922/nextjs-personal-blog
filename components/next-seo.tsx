@@ -5,46 +5,48 @@ import Script from 'next/script'
 
 import { NextSeo } from "next-seo"
 import { site } from "../settings"
+import { Fragment } from "react"
 
-export function ArticleSeo(props) {
-    return (
-        <>
-            <SocialMetaHead {...props} />
-            <RichData />
-        </>
-    )
+const defaultImage = {
+    url: site.cover,
+    width: 1366,
+    height: 826,
+    alt: site.title
 }
 
-export function SocialMetaHead(props) {
+export function MetaTags(props) {
     const currentDate = new Date()
-    const data = {
-        title: props.title || site.title,
-        description: props.description || site.description,
-        canonical: props.canonical || site.website,
-    }
+    const isArticle = props.type === "article"
+    const haveTags = props.tags && props.tags.length > 0
+    const twitterHandle = site.socialMediaLinks?.twitter.split("/")[site.socialMediaLinks?.twitter.split("/").length - 1]
+    const coverUrl = props.cover?.startsWith("https") ? props.cover : site.website + props.cover
+    //console.log("twitter", twitterHandle)
     const ogdata = {
-        type: "article",
+        type: props.type,
         locale: site.locale,
-        title: data.title,
-        description: data.description,
-        url: data.canonical,
+        title: props.title,
+        description: props.description,
+        url: props.canonical,
         site_name: site.name,
-        images: [{
-            url: props.cover?.startsWith("https") ? props.cover : site.website + props.cover,
-            width: 2200,
-            height: 1400,
-            alt: data.title
-        }]
     }
+    const ogimages = [{
+        url: coverUrl,
+        width: 2200,
+        height: 1400,
+        alt: props.title
+    },
+        defaultImage
+    ]
 
     const articledata = {
         author: site.socialMediaLinks.linkedin,
+        publisher: site.website,
         section: props.topic,
-        tags: props.tags
+        tag: props.topic
     }
+
     if (props.modified) {
         const date_published = new Date(props.date)
-        //const current_date = new Date()
         const modification_date = new Date(props.modified)
         ogdata.updated_time = modification_date
         articledata.published_time = date_published
@@ -52,36 +54,67 @@ export function SocialMetaHead(props) {
         articledata.updated_time = modification_date
     }
     const twitterdata = {
-        title: data.title,
-        description: data.description,
-        url: data.canonical,
+        title: props.title,
+        description: props.description,
+        url: props.canonical,
         cardType: 'summary_large_image',
-        creator: "@" + site.socialMediaLinks?.twitter.split("/")[site.socialMediaLinks?.twitter.split("/") - 1]
+        creator: "@" + twitterHandle
     }
-    const opengraph = (type, content) => (<meta property={`og:${type}`} content={`${content}`} key={type} />)
-    const twitter = (type, content) => (<meta name={`twitter:${type}`} content={`${content}`} key={type} />)
-    const meta = (name, content) => (<meta name={name} content={content} key={name} />)
-    const article = (type, content) => (<meta property={`article:${type}`} content={`${content}`} key={type} />)
+    const opengraph = (type, content) => (<meta property={`og:${type}`} content={`${content}`} key={"og-" + type} />)
+    const twitter = (type, content) => (<meta name={`twitter:${type}`} content={`${content}`} key={"tw-" + type} />)
+    const article = (type, content) => (<meta property={`article:${type}`} content={`${content}`} key={"article-" + type} />)
 
     return (
-        <>
-            <title>{data.title}</title>
-            <meta name="description" content={data.description} />
+        <Fragment>
+
+
+            {/* OPEN GRAPH BASIC */}
             {Object.keys(ogdata).map(og => opengraph(og, ogdata[og]))}
+
+            {/* OG ARTICLE BASIC */}
+            {isArticle && Object.keys(articledata).map(a => article(a, articledata[a]))}
+
+            {/* OG ARTICLE TAGS  */}
+            {haveTags && props.tags.map(articletag => <meta property="article:tag" content={articletag} key={"articletag-" + articletag} />)}
+
+            {/* OG IMAGES  */}
+            {ogimages.map(ogimg => (<Fragment key={ogimg.url}>
+                <meta property="og:image" content={ogimg.url} />
+                <meta property="og:image:secure_url" content={ogimg.url} />
+                <meta property="og:image:width" content={ogimg.width} />
+                <meta property="og:image:height" content={ogimg.height} />
+                <meta property="og:image:alt" content={ogimg.alt} />
+            </Fragment>))
+            }
+
+
             {Object.keys(twitterdata).map(tw => opengraph(tw, twitterdata[tw]))}
-
-            {props.type === "article" && Object.keys(articledata).map(a => article(a, articledata[a]))}
-
-            {/*Object.keys(data).filter(d => d !== "title").map(d => meta(d, data[d])) */}
-            <link rel="canonical" href={data.canonical} />
-        </>
+        </Fragment>
     )
 }
 
 
 
 export function RichData(props) {
-    const jsonld = {
+    const isArticle = props.type === "article"
+    const isTechArticle = props.articleType === "TechArticle"
+    const articleType = isTechArticle ? "TechArticle" : "BlogPosting"
+
+    const personRichData = {
+        "@type": "Person",
+        "@id": site.author.id,
+        "name": site.author.name,
+        "url": site.author.url,
+        "jobTitle": site.author.jobTitle,
+        "email": site.author.email,
+        "sameAs": site.author.sameAs,
+        "birthDate": site.author.birthDate,
+        "address": site.author.address,
+        "alumniOf": site.author.alumniOf,
+        "image": site.author.image,
+        "logo": site.author.logo,
+    }
+    const mainRichData = {
         "@context": "https://schema.org",
         "@graph": [
             {
@@ -122,30 +155,15 @@ export function RichData(props) {
                     }
                 ]
             },
-            {
-                "@type": "Person",
-                "@id": site.author.id,
-                "name": site.author.name,
-                "url": site.author.url,
-                "sameAs": site.author.sameAs
-            }
+            personRichData
         ]
     }
     const articlegraph = {
-        "@type": "Article",
+        "@type": articleType,
         "headline": props.title,
         "datePublished": props.date,
         "dateModified": props.modified,
-        "author": {
-            "@id": site.author.id,
-            "logo": site.author.logo,
-            "name": site.author.name,
-            "jobTitle": site.author.jobTitle,
-            "url": site.author.url,
-            "alumniOf": site.author.alumniOf,
-            "image": site.author.image,
-            "sameAs": site.author.sameAs
-        },
+        "author": personRichData,
         "publisher": {
             "@id": site.website
         },
@@ -163,10 +181,37 @@ export function RichData(props) {
             "@id": props.canonical + "#main-entity"
         }
     }
-    if (props.type === "article") {
-        jsonld["graph"].push(articlegraph)
+    // ARTICLE SPECIFIC
+    // expects [{ type: "Thing", name: "Canva", sameAs: "https://www.wikidata.org/wiki/Q35997" }]
+    const mentions = props.mentions || props.frontMatter.mentions
+    if (mentions) {
+        articlegraph["mentions"] = mentions.map(
+            m => ({ "@type": m.type, "name": m.name, "sameAs": m.sameAs })
+        )
     }
-    return <Script type="application/ld+json">{jsonld}</Script>
+
+    // TECH ARTICLE SPECIFIC
+    // expects 'Beginner' or 'Expert'
+    const proficiencyLevel: ("Beginner" | "Expert") = props.proficiencyLevel || props.frontMatter.proficiencyLevel
+    if (proficiencyLevel) {
+        articlegraph["proficiencyLevel"] = proficiencyLevel
+    }
+    // TECH ARTICLE SPECIFIC
+    // Prerequisites needed to fulfill steps in article.
+    const dependencies: string[] = props.dependencies || props.frontMatter.dependencies
+    if (dependencies) {
+        articlegraph["dependencies"] = dependencies
+    }
+    if (props.type === "article") {
+        mainRichData["@graph"].push(articlegraph)
+    }
+    return (
+        <script type="application/ld+json" key="h-rich"
+            dangerouslySetInnerHTML={{
+                __html: JSON.stringify(mainRichData)
+            }}
+        />
+    )
 }
 
 

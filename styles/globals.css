@@ -26,7 +26,6 @@ body {
   background-color: #161617;
   text-decoration-skip-ink: auto;
   scroll-behavior: smooth !important;
-
 }
 
 * {
@@ -146,13 +145,12 @@ html.dark #main-layout {
     right: -25%;
   }
   .blur-blob.blur-404 {
-  position: relative;
-  z-index: -1 !important;
-  width: 100%;
-  left: 0vw;
-  top: 0vh !important;
-}
-
+    position: relative;
+    z-index: -1 !important;
+    width: 100%;
+    left: 0vw;
+    top: 0vh !important;
+  }
 }
 .blur-blob {
   position: absolute !important;
@@ -178,15 +176,12 @@ html.dark #main-layout {
 }
 
 .blur-blob.blur-404 {
-    position: relative;
-    z-index: -1 !important;
-    width:100%;
-    left:0vw;
-    bottom: -30vh;
+  position: relative;
+  z-index: -1 !important;
+  width: 100%;
+  left: 0vw;
+  bottom: 0vh;
 }
-
-
-
 
 span.project-url {
   color: rgba(255, 255, 255, 0.9) !important;
@@ -252,7 +247,6 @@ html:not(.dark) .lottie-icon svg g path {
   box-shadow: inset 0 0 3px grey;
   border-radius: 16px;
 }
-
 /*thumb*/
 
 ::-webkit-scrollbar-thumb {
@@ -261,10 +255,13 @@ html:not(.dark) .lottie-icon svg g path {
 }
 
 *[data-id='tooltip'] {
-  max-width:240px;
-
+  max-width: 240px;
 }
 
-
-
+.text-shadow {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+.text-shadow-light {
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+}
 

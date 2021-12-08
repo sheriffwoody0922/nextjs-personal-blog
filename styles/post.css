@@ -2,27 +2,27 @@
   text-align: left;
 }
 
-.post-page h1 {
+.post-page > h1 {
   margin-top: 64px;
   margin-bottom: 16px;
 }
-.post-page h2 {
+.post-page > h2 {
   margin-top: 48px;
   margin-bottom: 8px;
 }
-.post-page h3 {
+.post-page > h3 {
   margin-top: 64px;
   margin-bottom: 8px;
 }
-.post-page h4 {
+.post-page > h4 {
   margin-top: 64px;
   margin-bottom: 8px;
 }
-.post-page h5 {
+.post-page > h5 {
   margin-top: 64px;
   margin-bottom: 8px;
 }
-.post-page h6 {
+.post-page > h6 {
   margin-top: 32px;
   margin-bottom: 8px;
 }
@@ -134,7 +134,7 @@ background-image: linear-gradient(
   opacity: 1;
   transform: translateY(-1px);
   -webkit-transform: translateY(-1px);
-  transform: scaleX(1);
-  -webkit-transform: scaleX(1);
+  transform: scaleX(1.1);
+  -webkit-transform: scaleX(1.1);
   height: 4px;
 }

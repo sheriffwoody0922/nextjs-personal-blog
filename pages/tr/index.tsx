@@ -15,45 +15,20 @@ Bu yüzden zamanımın büyük çoğunluğu web üzerinde geçiyor. İlginç uyg
 
 export default function Blog({ posts }) {
     //console.log("Blog posts: ", posts)
+    const sortedPosts = posts.sort((a, b) => {
+        const ad = new Date(a.frontMatter.date)
+        const bd = new Date(b.frontMatter.date)
+        return bd - ad
+    })
     return (
         <div className="min-h-screen">
             <Head>
-                <title key="title" >Design &amp; Development | Can Burak Sofyalıoğlu</title>
-
-                <meta name="title" content="Design &amp; Development | Can Burak Sofyalıoğlu" />
-                <meta
-                    name="description"
-                    content="Full-featured web services: web development, e-commerce, and search engine optimization. I'm an engineer focusing on web development and providing solutions for Wix and Shopify."
-                />
-
-                <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://www.cbsofyalioglu.com/blog/" />
-                <meta property="og:title" content="Design &amp; Development | Can Burak Sofyalıoğlu" key="title" />
-                <meta
-                    property="og:description"
-                    content="Full-featured web services: web development, e-commerce, and search engine optimization. I'm an engineer focusing on web development and providing solutions for Wix and Shopify."
-                />
-                <meta
-                    property="og:image"
-                    content="https://www.cbsofyalioglu.com/img/hero-dark.webp"
-                ></meta>
-
-                <meta property="twitter:card" content="summary_large_image" />
-                <meta property="twitter:url" content="https://www.cbsofyalioglu.com/blog/" />
-                <meta property="twitter:title" content="Design &amp; Development | Articles on web development" key="title" />
-                <meta
-                    property="twitter:description"
-                    content="Full-featured web services: web development, e-commerce, and search engine optimization. I'm an engineer focusing on web development and providing solutions for Wix and Shopify."
-                />
-                <meta
-                    property="twitter:image"
-                    content="https://www.cbsofyalioglu.com/img/hero-dark.webp"
-                />
-
-                <meta
-                    name="description"
-                    content="Full-featured web services: web development, e-commerce, and search engine optimization. I'm an engineer focusing on web development and providing solutions for Wix and Shopify."
-                />
+                <Head>
+                    <title key="h-title-tag">Design &amp; Development | Can Burak Sofyalıoğlu</title>
+                    <meta name="title" content="Design &amp; Development | Can Burak Sofyalıoğlu" key="h-title" />
+                    <meta name="description" content="Kişisel blog. Çoğunlukla web üzerine yazılar ve dijital araçlar." key="h-description" />
+                    <link rel="canonical" href="https://www.cbsofyalioglu.com/tr/" key="h-canonical" />
+                </Head>
             </Head>
             <div className=" py-6 sm:py-8 lg:py-12">
                 <div className="max-w-screen-2xl px-4 md:px-8 mx-auto">
@@ -66,7 +41,7 @@ export default function Blog({ posts }) {
 
                         {/* Article */}
                         <ul className="grid sm:grid-cols-2 lg:grid-cols-3  gap-4 md:gap-6 xl:gap-8">
-                            {posts.map(post => (
+                        {sortedPosts.map(post => (
                                 <li
                                     key={post.slug}
                                     title={post.frontMatter.title}

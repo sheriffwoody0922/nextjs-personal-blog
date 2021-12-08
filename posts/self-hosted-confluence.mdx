@@ -1,16 +1,28 @@
 ---
 title: "Hosted Confluence with Custom Domain"
 date: "2020-11-13"
-categories: 
-  - "en"
-  - "how-to"
-tags: 
-  - "eng"
+modified: "2021-09-29"
+description: "In this article, We'll install Confluence with a custom domain on our servers. By doing this, you will host your confluence on your domain."
+cover: "/posts/covers/confluence.jpg"
+slug: "self-hosted-confluence"
+canonical: "https://www.cbsofyalioglu.com/how-to/self-hosted-confluence/"
+topic: "how-to"
+categories:
+  - "post"
+language: "eng"
+tags:
+  - "atlassian confluence"
+  - "hosted confluence"
+  - "confluence with custom domain"
+keywords:
+  - "hosted atlassian confluence"
+  - "atlassian confluence with custom domain"
+  - "confluence with custom domain"
 ---
 
 ****What is Confluence?****
 
-Confluence is a team collaboration and wiki software developed by Australian software company Atlassian.  
+Confluence is a team collaboration and wiki software developed by Australian software company Atlassian.
 It is a web-based application and written in the Java programming language. It was released in 2004 (Voav) as an enterprise knowledge management software.
 
 One of our customers from [Istanbul Airport Transfer Expert](https://istanbultransferexpert.com/) and [Istanbul Cruise Port Transfer](https://istanbulcruisetransfer.com/) ask about the possibility of using Atlassian Confluence as a self-hosted wiki program. We look for solutions for a while. Later on, we discovered the Cloudron app. In this article, We'll install Confluence with a custom domain on our servers. By doing that you'll have a Confluence on your server whether for your [content creation](https://www.cbsofyalioglu.com/en/content-creation-tools/) or any knowledgebase purposes.
@@ -31,7 +43,7 @@ Fortunately, Cloudron made it easier for us to use it on our own servers. By doi
 
 ### ****How much does it cost to use Self-Hosted Confluence?****
 
-Confluence requires at least 4 GB RAM. Thus, the most expensive cost will be the cloud instance. Cloudron is free for personal usage up to 2 apps which is completely sufficient for us.  
+Confluence requires at least 4 GB RAM. Thus, the most expensive cost will be the cloud instance. Cloudron is free for personal usage up to 2 apps which is completely sufficient for us.
 Therefore, the cost of using Confluence with a custom domain will be:
 
 - ****$20/month**** Cloud Cost on Digital Ocean + one-time license fee of ****$10****.
@@ -87,7 +99,7 @@ First, visit the project page on Digital Ocean. If any IP number is assigned to 
 
 To make an illustration, Let say we have a domain [livicomturkiye.com](https://livicomturkiye.com/). We also decided to use a subdomain for the Confluence app, let's say **notes.[l](https://livicomturkiye.com)ivicomturkiye.com**.
 
-Second, Whether your DNS provider is DA or not, visit your domain name provider's website. Go to the DNS management page of your domain name.  
+Second, Whether your DNS provider is DA or not, visit your domain name provider's website. Go to the DNS management page of your domain name.
 Add these two '**A records**' that target the IP number we saved above.
 
 | Host | Target |
@@ -95,7 +107,7 @@ Add these two '**A records**' that target the IP number we saved above.
 | notes | 46.101.148.85 |
 | my.notes | 46.101.148.85 |
 
-The first one is the subdomain name you use with Confluence. The second one is the cloudron panel with a prefix of **mine.**  
+The first one is the subdomain name you use with Confluence. The second one is the cloudron panel with a prefix of **mine.**
 Save the records.
 
 You can control whether your domain is pointing to the correct IP by visiting **dnschecker.org**. If the **A record** points to the correct IP, you can proceed. DNS propagation can take some time. Therefore, this process can take time.
@@ -119,12 +131,12 @@ Click Next. Now, Cloudron will start to make proper internal configurations. Whe
 
 #### **Confluence Installation**
 
-If we did everything right, we see an empty Cloudron page.  
+If we did everything right, we see an empty Cloudron page.
 On the upper right menu, click App Store. Before this, you fill the login form of Cloudron.
 
 ![confluence-installed-cloudron](images/7-start-confluence.jpg)
 
-Write your credentials and log in.  
+Write your credentials and log in.
 Search Confluence and install it.
 
 * * *

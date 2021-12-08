@@ -4,19 +4,36 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import Footer from '../layout/footer'
-import { ArticleSeo } from "../components/next-seo"
+import { RichData, MetaTags } from "../components/next-seo"
 import { site } from "../settings"
 import HomepageProjects from '../components/HomepageProjects'
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import decorativePatterns from '../public/img/decorative/background-patterns.png'
+import { WebmeisterGradientLogo } from "../components/logo"
+import { LinkIcon } from "../components"
 
-function Home({ posts }) {
+function Home({ featuredPosts, turkishPosts, englishPosts }) {
+    const sortedFeaturedPosts = featuredPosts.sort((a, b) => {
+        const ad = new Date(a.frontMatter.date)
+        const bd = new Date(b.frontMatter.date)
+        return bd - ad
+    })
+    const sortedEnglishPosts = englishPosts.sort((a,b) => {
+        const ad = new Date(a.frontMatter.date)
+        const bd = new Date(b.frontMatter.date)
+        return bd - ad
+    }).slice(0,6)
+    const sortedTurkishPosts = turkishPosts.sort((a, b) => {
+        const ad = new Date(a.frontMatter.date)
+        const bd = new Date(b.frontMatter.date)
+        return bd - ad
+    }).slice(0,6)
     return (
         <>
             <Head>
-                <ArticleSeo
+                <MetaTags
                     type="website"
                     title={site.title}
                     description={site.description}
@@ -24,22 +41,25 @@ function Home({ posts }) {
                     cover={site.cover}
                 />
             </Head>
-            <main className="content-section main z-20 px-4 pt-20 sm:pt-40">
-                <div className=" py-6 sm:py-8 lg:py-12">
+            <main className="content-section main z-20 px-4 pt-16 sm:pt-16">
+                <div className="">
                     <div className="max-w-screen-2xl px-4 md:px-8">
-                <HeroDark />
-                        {/* Text */}
-                        <div className="mb-10 md:mb-16">
-                            <h2 className="text-gray-800 text-4xl lg:text-5xl font-bold text-left mb-4 md:mb-6">Blog <span className="text-xl"><a href="/en" className="mr-2 underline">ENG </a>/<a href="/tr" className="ml-2 underline"> TR&nbsp;</a></span></h2>
+                        <HeroDark />
+
+                        {/* FEATURED */}
+                        <div className="mb-8">
+                            <h2 className="text-gray-800 text-4xl lg:text-5xl text-left mb-4 md:mb-6">
+                                Featured posts
+                            </h2>
 
                             <p className="max-w-screen-md text-gray-500 md:text-lg text-left">Some of the blog posts that are written in Turkish and English.</p>
                         </div>
 
-                        {/* Article */}
+
                         <ul className="grid sm:grid-cols-2 lg:grid-cols-3  gap-4 md:gap-6 xl:gap-8">
-                            {posts.map(post => (
+                            {sortedFeaturedPosts.map(post => (
                                 <li
-                                    key={post.slug}
+                                    key={"featured-" + post.slug}
                                     title={post.frontMatter.title}
                                     href={`/${post.topic}/${post.slug}`}
                                     className="group h-48 md:h-64 xl:h-64 flex flex-col  rounded-lg shadow-lg overflow-hidden relative"
@@ -71,6 +91,125 @@ function Home({ posts }) {
                                 </li>
                             ))}
                         </ul>
+
+
+                        {/* ENGLISH */}
+                        <div className="mt-16 md:mt-20 mb-8">
+                            <h2 className="text-gray-800 text-4xl lg:text-5xl text-left mb-4 md:mb-6">
+                                <a href="/en/">Articles in English <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-6 w-6 inline-block"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                                    />
+                                </svg></a>
+                            </h2>
+
+                            <p className="max-w-screen-md text-gray-500 md:text-lg text-left"></p>
+                        </div>
+
+                        <ul className="grid sm:grid-cols-2 lg:grid-cols-3  gap-4 md:gap-6 xl:gap-8">
+                            {sortedEnglishPosts.map(post => (
+                                <li
+                                    key={"english-" + post.slug}
+                                    title={post.frontMatter.title}
+                                    href={`/${post.topic}/${post.slug}`}
+                                    className="group h-48 md:h-64 xl:h-64 flex flex-col  rounded-lg shadow-lg overflow-hidden relative"
+                                >
+                                    <Image
+                                        layout="fill"
+                                        loading="lazy"
+                                        src={post.frontMatter.thumbnail || post.frontMatter.cover || "/img/placeholder.webp"}
+                                        alt={(post.frontMatter.keywords && post.frontMatter.keywords[0]) || post.frontMatter.title}
+                                        className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition duration-500 z-0"
+                                    />
+
+                                    <div className="bg-gradient-to-t from-gray-800 md:via-transparent to-transparent absolute inset-0 pointer-events-none"></div>
+
+                                    <div className="relative p-4 mt-auto">
+                                        <span className="block !text-gray-200 text-sm">{post.frontMatter.date}</span>
+                                        <h2 className="!text-white text-xl font-semibold transition duration-100 mb-2 relative">
+                                            <a
+                                                title={post.frontMatter.title}
+                                                href={`/${post.topic}/${post.slug}`}
+                                                className="group"
+                                            >
+                                                {post.frontMatter.title}
+                                            </a>
+                                        </h2>
+                                        <p>{post.frontMatter.e}</p>
+                                        <a className="!text-indigo-300 " href={`/${post.topic}`} title={`See ${post.topic} articles`}>{post.category}</a>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+
+                        {/* TURKISH */}
+                        <div className="mt-16 md:mt-20 mb-8">
+                            <h2 className="text-gray-800 text-4xl lg:text-5xl text-left mb-4 md:mb-6">
+                                <a href="/tr/">Articles in Turkish <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-6 w-6 inline-block"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                                    />
+                                </svg></a>
+                            </h2>
+
+                            <p className="max-w-screen-md text-gray-500 md:text-lg text-left"></p>
+                        </div>
+
+
+                        <ul className="grid sm:grid-cols-2 lg:grid-cols-3  gap-4 md:gap-6 xl:gap-8">
+                            {sortedTurkishPosts.map(post => (
+                                <li
+                                    key={"turkish-" + post.slug}
+                                    title={post.frontMatter.title}
+                                    href={`/${post.topic}/${post.slug}`}
+                                    className="group h-48 md:h-64 xl:h-64 flex flex-col  rounded-lg shadow-lg overflow-hidden relative"
+                                >
+                                    <Image
+                                        layout="fill"
+                                        loading="lazy"
+                                        src={post.frontMatter.thumbnail || post.frontMatter.cover || "/img/placeholder.webp"}
+                                        alt={(post.frontMatter.keywords && post.frontMatter.keywords[0]) || post.frontMatter.title}
+                                        className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition duration-500 z-0"
+                                    />
+
+                                    <div className="bg-gradient-to-t from-gray-800 md:via-transparent to-transparent absolute inset-0 pointer-events-none"></div>
+
+                                    <div className="relative p-4 mt-auto">
+                                        <span className="block !text-gray-200 text-sm">{post.frontMatter.date}</span>
+                                        <h2 className="!text-white text-xl font-semibold transition duration-100 mb-2 relative">
+                                            <a
+                                                title={post.frontMatter.title}
+                                                href={`/${post.topic}/${post.slug}`}
+                                                className="group"
+                                            >
+                                                {post.frontMatter.title}
+                                            </a>
+                                        </h2>
+                                        <p>{post.frontMatter.e}</p>
+                                        <a className="!text-indigo-300 " href={`/${post.topic}`} title={`See ${post.topic} articles`}>{post.category}</a>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+
                     </div>
                 </div>
             </main>
@@ -79,7 +218,6 @@ function Home({ posts }) {
 }
 
 export function HeroDark() {
-
     return (
         <header className="relative w-full overflow-hidden z-20 hero">
             <div className="relative top-0 right-0 bottom-0 left-0 w-full h-auto">
@@ -87,18 +225,17 @@ export function HeroDark() {
                     <div className="absolute top-0 right-0 hidden w-full h-full -ml-32 transform scale-100 translate-x-1/2 translate-y-20  md:block -rotate-12 opacity-90" />
                     <div className="flex flex-col items-center justify-between w-full  relative z-10">
 
-                        <div className="flex flex-col items-start justify-center w-full pt-10 pb-10 -mt-10 md:pb-24 md:pr-16 z-20">
+                        <div className="flex flex-col items-start justify-center w-full pt-0 pb-10 md:pr-16 z-20">
                             <h1 className="animate-text-xs text-5xl md:text-6xl lg:text-7xl xl:text-7xl max-w-8xl xl:leading-tight dark:text-gray-50 bg-clip-text z-10 ">
-                                Hi 👋 , I'm Can. <br />I build digital products.
+                                <span>Design</span> & <span>Development</span>
                             </h1>
-                            <p className="animate-text-lg text-xl opacity-80 my-10 ">
-                                I'm an engineer focusing on web development and e-commerce.
+                            <p className="animate-text-lg text-xl opacity-80  uppercase mt-4">by Can Burak Sofyalıoğlu</p>
+                            {/*<p className="animate-text-lg text-xl opacity-80 my-10 ">
+                                Hi, I'm Can. I'm an engineer and focusing on web development and e-commerce.
                                 <br />
-                                I'm providing <em>freelance web development</em> solutions as a <em>Wix expert</em> and <em>Shopify expert</em>.
-                                <br />
-                                This is the website that I share my blog posts and some useful tools. Those are mostly about web development.
-                            </p>
-
+                                This is my personal blog mostly about development and design.
+                            </p> */}
+                        <hr />
                         </div>
 
                         <div className="absolute z-0 md:relative md:z-10 flex items-center justify-center w-full md:pt-0 mt-32 mb-16 md:mt-1 opacity-75 md:opacity-100"></div>
@@ -220,11 +357,14 @@ function Features() {
 
 export const getStaticProps = async () => {
     const files = fs.readdirSync(path.join('posts'))
-    const posts = files.map(filename => {
+    const featuredPosts = []
+    const turkishPosts = []
+    const englishPosts = []
+    files.forEach(filename => {
         const markdownWithMeta = fs.readFileSync(path.join('posts', filename), 'utf-8')
         const { data: frontMatter } = matter(markdownWithMeta)
         if (frontMatter.categories && frontMatter.categories.includes("featured")) {
-            return {
+            featuredPosts.push({
                 frontMatter,
                 // The slug will be user defined if exists in the frontmatter
                 // Otherwise use default slug obtained from filename
@@ -232,12 +372,37 @@ export const getStaticProps = async () => {
 
                 // If category exists use it,  otherwise use 'posts' directory
                 topic: frontMatter.topic || "featured"
-            }
+            })
         }
-    }).filter(Boolean)
+        if (frontMatter.language === "eng" || frontMatter.language === "en"){
+            englishPosts.push({
+                frontMatter,
+                // The slug will be user defined if exists in the frontmatter
+                // Otherwise use default slug obtained from filename
+                slug: frontMatter.slug || filename.split(".")[0],
+
+                // If category exists use it,  otherwise use 'posts' directory
+                topic: frontMatter.topic
+            })
+        }
+        if (frontMatter.language === "tr") {
+            turkishPosts.push({
+                frontMatter,
+                // The slug will be user defined if exists in the frontmatter
+                // Otherwise use default slug obtained from filename
+                slug: frontMatter.slug || filename.split(".")[0],
+
+                // If category exists use it,  otherwise use 'posts' directory
+                topic: frontMatter.topic
+            })
+        }
+    })
+    ///console.log("posts: ", featuredPosts, turkishPosts, englishPosts)
     return {
         props: {
-            posts
+            featuredPosts,
+            turkishPosts,
+            englishPosts
         }
     }
 }

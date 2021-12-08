@@ -1,7 +1,8 @@
 ---
-title: "Ücretsiz Blog Açma -  WordPress Blog Oluşturma   (2021)"
+title: "Ücretsiz WordPress Blog Açma (2021)"
 description: "Hiç kod kullanmadan ücretsiz blog açma meselesini merak ediyorsanız, üstelik ücretsiz WordPress blog sitesi sahibi olmak için ..."
 date: "2021-02-15"
+modified: "2021-11-02"
 cover: "/posts/covers/ucretsiz-wordpress-blog-acma.webp"
 slug: "ucretsiz-wordpress-blog-acma"
 topic: "blog-acmak"
@@ -13,9 +14,11 @@ categories:
 tags:
   - "wordpress"
   - "ücretsiz wordpress"
+  - "ücretsiz blog"
 keywords:
-  - "wordpress"
   - "ücretsiz wordpress"
+  - "ücretsiz wordpress blog nasıl açılır"
+  - "ücretsiz blog nasıl açılır"
 ---
 
 Hiç kod kullanmadan ücretsiz blog açma meselesini merak ediyorsanız bu yazıda bunun cevabını bulacaksınız. Üstelik ücretsiz WordPress site açma desem. Tamam düzeltiyorum. Bu yazının sonuna geldiğinizde, ücretsiz WordPress ile geliştirilmiş bir siteye sahip olacaksınız.
@@ -48,10 +51,10 @@ Sunucu dediğimiz bilgisayar ziyaretçisine hangi bilginin gösterileceğine kar
 
 Mesela LAMP denilen teknolojiler bütünü bunlara bir örnektir.
 
-L ---> A ---> M ---> P  
-Linux: Sunucu bilgisayarın işletim sistemi  
-Apache: HTTP Sunucusu  
-MySQL: SQL tipi Veri Tabanı  
+L ---> A ---> M ---> P
+Linux: Sunucu bilgisayarın işletim sistemi
+Apache: HTTP Sunucusu
+MySQL: SQL tipi Veri Tabanı
 PHP: Sunucunun üzerinde çalışan yazılım dili
 
 Özetlemek gerekirse, bir ziyaretçi siteye geldiğinde şunlar olur:
@@ -88,7 +91,7 @@ Peki öyle bir çalışma ortamı kursak ki sadece siteyi güncelleyeceğimiz za
 
 [Jamstack nedir?](https://www.cbsofyalioglu.com/programlama/wordpress-vs-jamstack/) Yazılım dünyasındaki gelişmeler ile sunucu ücretlerinin düşmeye başlaması bize yeni bir mimarinin kapısını araladı.
 
-J --> A --> M  
+J --> A --> M
 JavaScript --> API --> Markup
 
 Temel olarak iki ana ilke üzerine dayanır. Pre-rendering (Ön işleme) ve decoupling (ayrıştırma).
@@ -97,7 +100,7 @@ Diğer mimarilere göre daha güvenlidir. Daha ucuzdur. Daha hızlıdır.
 
 Ancak bir çok 3.taraf ile entegrasyon sağlamak yorucu olabilmektedir.
 
-Daha önce sunucu tarafında yapılan işlemler yükleri artık burada başka adımlara dağıtılmış vaziyette.  
+Daha önce sunucu tarafında yapılan işlemler yükleri artık burada başka adımlara dağıtılmış vaziyette.
 Mesela, sunucu tarafında hangi bilginin veri tabanında çekilmeceğine karar veren mantıksal kod burada JavaScript tarafından sağlanır.
 
 Veri tabanı artık 3.taraf hizmetler ile sağlanacaktır. Burada iki programın haberleşmesini sağlayan API (Application Program Interface) ekosistemi devreye girer.
@@ -142,7 +145,7 @@ Ben bu yazıda Local uygulamasını kullanarak anlatmayı seçiyorum. FlyWheel b
 
 - Açılan pencereden işletim sisteminizi seçiniz
 - Gerekli form bilgilerini doldurunuz.
-- Alttaki buton ile uygulamanın kurulum dosyasının bilgisayarınıza indiriniz.  
+- Alttaki buton ile uygulamanın kurulum dosyasının bilgisayarınıza indiriniz.
     Ardından uygulamanın bilgisayarınıza inmesini bekleyiniz. İndirilen dosya ile kurulumu gerçekleştiriniz.
 
 #### 1.2) WordPress Blog Kurulumu
@@ -172,7 +175,7 @@ Bir WordPress blog nasıl kullanılır sorusu bu yazının kapsamı dışındad�
 
 ### 2.1) Yönetici ve Blog Sayfasına Erişim
 
-  
+
 Eğer siteniz değilse aktif hale getiriniz. Ardından sağ taraftaki "ADMIN" ve "OPEN SITE" düğmelerine tıklayarak sırasıyla WordPress yönetici sayfasını ve blog sayfanızı açınız.
 
 Yönetici sayfasına geldiğinizde, size kullanıcı adı ve parola sorduğunu göreceksiniz. Buraya 1.2'nin son adımında girdiğiniz kullanıcı adı ve parolayı giriniz. Artık yönetici sayfasına erişmiş bulunmaktasınız.
@@ -253,7 +256,7 @@ Açılan sayfada ismimizi giriyor ve Personal/Blog seçeneğini seçiyoruz. Fark
 
 #### 3.2) Alan Adını Netlify'a Yönlendirme
 
-Sizlere söz verdiğim gibi WordPress'de geliştirilmiş sitenizi, özel alan adınız ile birlikte ücretsiz şekilde yayımlayacağız.  
+Sizlere söz verdiğim gibi WordPress'de geliştirilmiş sitenizi, özel alan adınız ile birlikte ücretsiz şekilde yayımlayacağız.
 Bunun için daha önceden bir alan adınız olduğunu var sayıyorum.
 
 Eğer yoksa indirimli satın alımlar yapabileceğiniz referanslı [GoDaddy](http://godaddy.pro/q5M) linki üzerinden bir hesap oluşturabilir ve istediğiniz alan adınızı alabilirsiniz.
@@ -315,7 +318,7 @@ Ardından "Destination URL" kısmına kullanmak istediğimiz alan adının URL's
 
 "Personal Access Token" kısmının yanında "How do I get this" bağlantısına tıklayınız. Netlify sayfası açılacak. Kutucuğa herhangi bir şey yazabilirsiniz. Ben "local-wp" yazıyorum.
 
-Ardından "Generate Token" düğmesine basarak Token'inizi oluşturn.  
+Ardından "Generate Token" düğmesine basarak Token'inizi oluşturn.
 Şimdi bir çok harf ve rakamdan oluşan bu Token'i kopyalayın ve WordPress sayfasındaki "Personal Access Token" kutucuğuna yapıştırınız.
 
 ##### 3.3.2) Netlify Uzak Erişimi için Hedef Projeyi Seçme
