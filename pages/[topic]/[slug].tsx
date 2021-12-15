@@ -19,7 +19,7 @@ import {
     HeroPattern,
 } from '../../components/Svg'
 import { useScript } from "../../lib/hooks"
-import { ArticleSeo, MetaTags, RichData, ListItemCard } from "../../components"
+import { ArticleSeo, MetaTags, RichData, ListItemCard, ScrollTopSimpleButton } from "../../components"
 import { site } from "../../settings"
 
 const MdxProvider = dynamic(() => import('../../components/mdx/mdx-provider'))
@@ -202,7 +202,7 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource, relatedPosts }) => {
                     )}
                 </ul>
             </aside>
-            <ScrollTopButton />
+            <ScrollTopSimpleButton />
         </>
     )
 }

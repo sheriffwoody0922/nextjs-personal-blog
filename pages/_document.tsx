@@ -22,7 +22,6 @@ class MyDocument extends Document {
                     <link rel="icon" type="image/png" href="/logo/favicon-16x16.png" sizes="16x16" />
                     <link rel="icon" type="image/png" href="/logo/favicon-128.png" sizes="128x128" />
                     <link rel="icon" href="/logo/favicon.ico" />
-
                     <link
                         rel="preload"
                         href="/fonts/Satoshi-Regular.woff2"
@@ -30,28 +29,6 @@ class MyDocument extends Document {
                         crossOrigin=""
                         type="font/woff2"
                     />
-
-
-                    <Script afterInteractive src="https://www.googletagmanager.com/gtag/js?id=UA-141617385-4"/>
-                    <Script afterInteractive
-                        id="google-analytics"
-                        dangerouslySetInnerHTML={{
-                            __html: `
-                                window.dataLayer = window.dataLayer || [];
-                                function gtag(){dataLayer.push(arguments);}
-                                gtag('js', new Date());
-
-                                gtag('config', 'UA-141617385-4');
-                                gtag('config', 'G-3GKQHRYFHX');
-                            `,
-                        }}
-                    />
-
-                    <Script
-                        afterInteractive
-                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9259748524746137"
-                        crossOrigin="anonymous"/>
-
                 </Head>
                 <body className="bg-gray-50 dark:bg-gray-900">
                     <Main />
