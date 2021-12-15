@@ -1,0 +1,488 @@
+---
+title: 'Introduction to WebRTC (Real-Time Communication)'
+description: 'An introductory tutorial to WebRTC Real-Time Communication'
+date: '2021-12-12'
+modified: '2021-12-12'
+cover: '/posts/covers/webrtc.webp'
+slug: 'introduction-to-webrtc'
+topic: 'code'
+canonical: 'https://www.cbsofyalioglu.com/code/introduction-to-web-rtc/'
+language: 'eng'
+categories:
+  - 'code'
+  - 'post'
+tags:
+  - 'webrtc'
+  - 'real-time communication'
+keywords:
+  - 'introduction to webrtc'
+related:
+  - "solidjs-and-reactive-primitives"
+  - "adonisjs-solidjs"
+  - "content-creation-tools"
+  - 'free-design-resources'
+---
+
+In this blog post, I will summarize my notes taken while learning the WebRTC technology and its implementations. Because I'm a newbie to the concept, the article can be read as a WebRTC tutorial.
+
+## Introduction to WebRTC API
+
+### What is WebRTC?
+
+WebRTC (Real-Time Communication) is a technology that allows your application to send video, voice, and generic data between peers.
+
+In other words, we can build powerful voice and video-communication applications with this open standard.
+
+WebRTC is an open-source project and is also supported by the game-setters of the internet: Apple, Google, Microsoft, and Mozilla.
+
+### What are the benefits of using WebRTC?
+
+-   It allows audio and video communication to work inside web pages.
+-   It will enable direct peer-to-peer communication.
+-   It eliminates the need to install plugins and native apps.
+
+### What platforms can support WebRTC?
+
+The WebRTC implementation is available as a regular JavaScript API in all modern browsers and native clients for Android and iOS.
+
+### The maturity level of WebRTC
+
+Its specifications have been published by [World Wide Web Consortium (W3C)](https://www.w3.org/). W3C has four maturity levels. [The maturity levels of W3C](https://en.wikipedia.org/wiki/World_Wide_Web_Consortium#Specification_maturation) in ascending order are:
+
+1.  **Working draft (WD):** Relatively early stage. \*\*\*\*the standard document may have significant differences from its final form. Thus, a considerable number of changes can be made in the future.
+2.  **Candidate recommendation (CR):** At this stage, the significant features of the specifications are mostly decided.
+3.  **Proposed recommendation (PR):** At this stage, the document is submitted to the W3C Advisory Council for final approval. It rarely causes any significant changes to a standard as it passes to the next phase.
+4.  **W3C recommendation (REC):** This is the most mature stage of development. At this point, the standard has undergone extensive review and testing under both theoretical and practical conditions.
+
+Nearly a decade was past when the first draft of WebRTC was published. Some of the milestones for WebRTC is as follows:
+
+-   October 2011: the W3C published its first draft for the spec.
+-   February 2013: first cross-browser video call.
+-   February 2014: first cross-browser data transfers.
+-   November 2017: Working Draft to Candidate Recommendation.
+-   January 2021: Candidate Recommendation to Recommendation.
+
+##
+
+## WebRTC API
+
+WebRTC consists of several interrelated APIs and protocols which work together to achieve this.
+
+It mainly covers two different technologies:
+
+1.  Media capturing
+2.  Peer-to-peer connection.
+
+Also, it has three JavaScript APIs for significant components of WebRTC.
+
+1.  [**MediaStream**](https://developer.mozilla.org/en-US/docs/Web/API/MediaStream): Access the input devices (microphone, webcam) and get a stream of media.
+2.  [**RTCPeerConnection**](https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection): Connecting another WebRTC endpoint across the internet and sending audio and video in realtime
+3.  [**RTCDataChannel**](https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel): Ability to do those not just for audio and video but also arbitrary application data
+
+Those API's are: existed for those three main tasks, respectively:
+
+1.  Acquiring audio and video
+2.  Communicating audio and video
+3.  Communicating arbitrary data
+
+<img
+    style={{
+        width: '100%',
+        height: 'auto',
+    }}
+    alt="WebRTC tasks and JS API"
+    src={'/posts/webrtc-tasks-and-js-api.webp'}
+/>
+
+## Simple media stream example
+
+Before digging deeper into the technical details, I want to show you a simple example.
+
+```jsx
+// PROMISES VERSION
+var constraints = { video: true, audio: true } // MediaStreamConstraints
+
+navigator.mediaDevices
+    .getUserMedia(constraints)
+    .then((stream) => {
+        console.log('Got MediaStream:', stream)
+    })
+    .catch((error) => {
+        console.error('Error accessing media devices.', error)
+    })
+
+// ASYNC/AWAIT VERSION
+const openMediaDevices = async (constraints) => {
+    return await navigator.mediaDevices.getUserMedia(constraints)
+}
+
+try {
+    const stream = openMediaDevices({ video: true, audio: true })
+    console.log('Got MediaStream:', stream)
+} catch (error) {
+    console.error('Error accessing media devices.', error)
+}
+```
+
+<br />
+
+I'm going to make some minor changes and put the JavaScript code in HTML. Then your browser will render a small rectangle with a button.
+
+If you click the button, you'll see a permission request to open your camera. If you give the permission, then your camera is going to open for you. You'll also find the modified code below.
+
+
+```html
+<div class="box">
+	<div class="inner-box">
+		<video autoplay=""></video>
+		<button id="cam-button">Open Camera</button>
+	</div>
+</div>
+
+<script>
+    import "./styles.css";
+	var constraints = {
+		video: true
+	};
+
+	function successCallback(stream) {
+		var video = document.querySelector("video");
+		video.srcObject = stream;
+	};
+
+	function errorCallback(error) {
+		console.log("navigator.getUserMedia error: ", error);
+	};
+
+	async function openCamera() {
+		const stream = await navigator.mediaDevices.getUserMedia(constraints)
+		var video = document.querySelector("video");
+		video.srcObject = stream;
+};
+
+	document.querySelector("#cam-button").addEventListener("click", openCamera);
+</script>
+
+<style>
+	.box {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 100%;
+	}
+
+	.inner-box {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		border: 2px solid #1c2832;
+		border-radius: 8px;
+	}
+
+	#cam-button {
+		color: white;
+		background-color: #1c2832;
+		padding: 8px 16px;
+		margin: 16px;
+		cursor: pointer;
+	}
+</style>
+```
+
+Now, we can proceed the next phase and make our hands dirty.
+
+## Media Devices
+
+[The Media Stream API](https://developer.mozilla.org/en-US/docs/Web/API/Media_Streams_API) is the top-level API, and it provides interfaces and methods for working with streams. I'm not going to explain every technique and property but focus on the MediaDevices API.
+
+You'll remember the function that requested your permission to open your camera. Let's look at its components and their brief definitions.
+
+<!--truncate-->
+
+```js
+navigator.mediaDevices.getUserMedia(constraints)
+```
+
+According to MDN:
+
+-   **Navigator Object**: [The Navigator interface](https://developer.mozilla.org/en-US/docs/Web/API/Navigator) represents the state and the identity of the user agent. It allows scripts to query it and to register themselves to carry on some activities. You can retrieve the read-only `navigator` object by `window.navigtor`.
+-   **MediaDevices Objects:** [The mediaDevices read-only property](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/mediaDevices) returns a MediaDevices object, which provides access to connected media input devices like cameras and microphones, as well as screen sharing. You can access it by `navigator.mediaDevices`.
+-   **getUserMedia Method**: [The MediaDevices.getUserMedia() method](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia) prompts the user for permission to use a media input which produces a MediaStream with tracks containing the requested types of media.
+
+![[static/img/media-stream-getusermedia2.webp]]
+
+## The MediaDevices interface
+
+We are going to use this object to obtain access to any hardware source of media data. The object has 5 methods and also one event listener property:
+
+1.  ondevicechange (event)
+2.  enumerateDevices()
+3.  getMediaDisplay()
+4.  getUserMedia()
+5.  getSupportedConstraints()
+6.  selectAudioOutput()
+
+Since those are out of scope, I'm not going to mention [selectAudioOutput method](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/selectAudioOutput).
+
+---
+
+### 1) Listen device changes (devicechange)
+
+We can also add an event listener to the object to listen to device changes.
+
+```js
+// Listen for changes to media devices and update the list accordingly
+navigator.mediaDevices.addEventListener('devicechange', (event) => {
+    // We will fill later here
+})
+```
+
+---
+
+### 2) Querying media devices (enumerateDevices)
+
+In many cases, we need to check all the connected cameras and microphones to provide useful feedback to users. To do that, we use `navigator.mediaDevices.enumerateDevices()` method. This will return a promise that resolves to an array of `MediaDevicesInfo`.
+Each `MediaDevicesInfo` contains a property named kind with the value `audioinput`, `audiooutput`, or `videoinput`, indicating what type of media device it is.
+
+```js
+// types: audioinput, audiooutput, videoinput
+async function getConnectedDevices(type) {
+    const devices = await navigator.mediaDevices.enumerateDevices()
+    return devices.filter((device) => device.kind === type)
+}
+
+const videoCameras = getConnectedDevices('videoinput')
+console.log('Cameras found:', videoCameras)
+```
+
+You can also inspect your device by executing the below code in your browser console.
+
+```js
+// Copy and paste the below code to your browser console
+async function getAllConnectedDevices() {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    return devices
+}
+
+try {
+	const myDevices = await getAllConnectedDevices()
+	console.log(myDevices)
+} catch (e){
+	console.error(e)
+}
+
+// Prints
+(3) [InputDeviceInfo, InputDeviceInfo, MediaDeviceInfo]
+0: InputDeviceInfo
+deviceId: ""
+groupId: "c075ad655df0e7c197c0f3c97b8d6e41be9013axx12861679450fabaeddb9dbc78"
+kind: "audioinput"
+label: ""
+[[Prototype]]: InputDeviceInfo
+1: InputDeviceInfo
+deviceId: "f659dfbfea91d3fb0f7e59b1b8d6e41be9013axx128616799b6f312815800c1bbbc1c8c9"
+groupId: "556ef68b73e43bfc259574e0bf0785d0c32160671c2232b8d6e41be9013axx128616798"
+kind: "videoinput"
+label: "FaceTime HD Camera (Built-in) (05ac:8514)"
+[[Prototype]]: InputDeviceInfo
+2: MediaDeviceInfo
+deviceId: ""
+groupId: "b8d6e41be9013axx1286167999de5dfdcfc91d6d0ef57d7d429c9d5c81631d56b3636f9789fadff"
+kind: "audiooutput"
+label: ""
+[[Prototype]]: MediaDeviceInfo
+length: 3
+[[Prototype]]: Array(0)
+```
+
+---
+
+### 3) Sharing/recording display (getDisplayMedia)
+
+The method is for sharing your display or some part of it.
+
+![getDisplayMedia screenshot](/posts/get-display-media.webp)
+
+The method prompts the user to select a display or portion of a collection (such as a window) to capture the contents. In this way, it can produce MediaStream. The resulting stream can then be recorded using the [MediaStream Recording API](https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API).
+
+It is clear that the getDisplayMedia method can be used for nefarious activities against the user. For this reason, some [precautions are taken the browsers](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getDisplayMedia#privacy_and_security) as follows:
+
+-   The permissions acquired from the user is not persisted like how it is in the `getUserMedia()` method. Therefore, the user must be prompted every time.
+-   The call to `getDisplayMedia()` must be made from code running in response to a user action, such as in an event handler.
+-   The specified constraints can't be used to limit the options available to the user. Instead, they must be applied after the user chooses a source, to generate output that matches the constraints.
+-   Browsers are encouraged to warn users about sharing displays or windows that contain browsers and keep a close eye on what other content might be getting captured and shown to other users.
+
+The function below optionally takes a constraints parameter and returns a promise that resolves to a MediaStream.
+
+```js
+// In order to record or share the media stream
+navigator.mediaDevices.getDisplayMedia(constraints) // constraints is optional
+```
+
+The constraints for `getDisplayMedia()` differ from the constraints that are used for regular media input.
+
+```js
+const constraints = {
+    video: {
+        cursor: 'always' | 'motion' | 'never',
+        displaySurface: 'application' | 'browser' | 'monitor' | 'window',
+    },
+}
+```
+
+
+### 4) Acquiring audio and video (getUserMedia)
+
+The `getUserMedia()` function is responsible for acquiring audio and video. The function does two things:
+
+1.  Prompts the user for permission to use media input.
+2.  Produces a MediaStream.
+
+The other important things to know are:
+
+-   It takes only one argument: a `MediaStreamConstraints` object. (we will cover it soon)
+-   When the function runs, it returns a Promise that resolves to a MediaStream with tracks containing the requested media types.
+-   Because users are not required to choose, the returned promise may be neither resolved nor rejected.
+-   It is important to note that the `getUserMedia()` function is available only in secure contexts (`HTTPS`, `file:///`, `localhost`). Otherwise, the `navigator.mediaDevices` returns `undefined`.
+
+I said that the method only takes one parameter. Let's look at this constraints parameter closer.
+
+#### Constraints
+
+It is a [MediaTrackConstraints](https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints) object and allows us to specify and constrain the requested media. In other words, this object allows us to specify the media we requested.
+
+For instance, minimum video resolution or the camera type we need must be defined in this object. Therefore, there are plenty of constraint properties we need to understand.
+
+Before starting with a simple example, there are essential things to know about constraints object:
+
+-   The constraints object can have audio and video properties. Either or both must be specified.
+-   If the browser cannot find all media tracks with the specified types that meet the constraints given, then the returned promise is rejected with `NotFoundError DOMException`.
+-   Giving `true` to any of those properties means that it is necessarily required. If one cannot be included, then the method results in an error.
+-   Aside from giving `true`, an object can give additional constraints to specify requirements: `min`, `max`, `exact`, `ideal`.
+
+##### An Example constraints object
+
+To give an idea, an example for constraints object can be:
+
+```js
+// Example constraints
+{
+	audio: true,    // Mandatory constraint
+	video: {
+    width: {
+			min: 1024,   // Mandatory constraint
+			ideal: 1280, // Not Mandatory
+			max: 1920    // Mandatory constraint
+		},
+    height: {
+			exact: 1080  // Mandatory constraint
+		}
+  }
+}
+```
+
+```js
+// The resolution you provide (with the keywords: min, max, exact)
+// must be supported by the selected camera
+
+// ✅  This works on my computer
+const hdConstraints = {
+    video: { width: { min: 1280 }, height: { min: 720 } },
+}
+// ✅  This works also
+const vgaConstraints = {
+    video: { width: { exact: 640 }, height: { exact: 480 } },
+}
+
+// ❌ This doesn't work on my computer
+const invalidConstraints = {
+    video: { width: { min: 2048 }, height: { min: 720 } },
+}
+```
+
+##### **Constraint types**
+
+The following [constraint types](https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints#constraints) are used to specify a constraint for a property.
+
+-   **ConstrainBoolean:** Its value may either be set to a Boolean (`true` or `false`) or an object containing (**`exact`** or `ideal`).
+-   **ConstrainDouble:** Its value may either be set to a a `double-precision floating-point number` or an object containing (`max`, `min`, `exact`, `ideal`)
+-   **ConstrainDOMString**: Its value may either be set to a `string`, an `array of strings`, or an object containing (**`exact`** or `ideal`
+-   **ConstrainULong**: Its value may either be set to an `integer number` or an object containing (`max`, `min`, `exact`, `ideal`)
+
+##### Some examples of constraints
+
+```ja
+// on mobile devices, the following will prefer the front camera // (if one is available) over the rear one
+{ audio: true, video: { facingMode: "user" } }
+
+// To _require_ the rear camera, use
+{ audio: true, video: { facingMode: { exact: "environment" } } }
+
+
+// If you have a `deviceId` from mediaDevices.enumerateDevices(), // you can use it to request a specific device:
+{ video: { deviceId: myPreferredCameraDeviceId } }
+
+// to _require_ the specific camera, you would use:
+{ video: { deviceId: { exact: myExactCameraOrBustDeviceId } } }
+```
+
+#### Exceptions
+
+| Exception (DOMException) | Details                                                                                                                                                                               |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| NotFoundError            | Thrown if no media tracks of the type specified were found that satisfy the given constraints.                                                                                        |
+| NotReadableError         | Although the user granted permission to use the matching devices, a hardware error occurred at the operating system, browser, or Web page level which prevented access to the device. |
+| OverconstrainedError     | Resulted in no candidate devices.                                                                                                                                                     |
+| SecurityError            | Thrown if user media support is disabled on the Document                                                                                                                              |
+| TypeError                | Thrown if the list of constraints specified is empty, or has all constraints set to `false`. Als thrown in non-secure context                                                         |
+|                          |                                                                                                                                                                                       |
+
+---
+
+### 5) Constrainable properties of user agent (getSupportedConstraints)
+
+Because only constraints supported by the user agent are included in the list, each of these Boolean properties has the value `true`.
+
+```js
+let supportedConstraints = navigator.mediaDevices.getSupportedConstraints()
+console.log(supportedConstraints)
+
+/*
+{
+"aspectRatio": true,
+"autoGainControl": true,
+"brightness": true,
+"channelCount": true,
+"colorTemperature": true,
+"contrast": true,
+"deviceId": true,
+"echoCancellation": true,
+"exposureCompensation": true,
+"exposureMode": true,
+"exposureTime": true,
+"facingMode": true,
+"focusDistance": true,
+"focusMode": true,
+"frameRate": true,
+"groupId": true,
+"height": true,
+"iso": true,
+"latency": true,
+"noiseSuppression": true,
+"pan": true,
+"pointsOfInterest": true,
+"resizeMode": true,
+"sampleRate": true,
+"sampleSize": true,
+"saturation": true,
+"sharpness": true,
+"tilt": true,
+"torch": true,
+"whiteBalanceMode": true,
+"width": true,
+"zoom": true
+}
+*/
+```
+
+The next step will be reviewing peer connections.

@@ -124,5 +124,14 @@
                 "@id": "https://www.holisticseo.digital/python-seo/verify-test-robots-txt-file/#webpage"
             }
         }
+    ],
+    "mentions": [
+        { "@type": "Thing", "name": "buyer persona", "sameAs": "https://www.wikidata.org/wiki/Q30895532" },
+        { "@type": "Thing", "name": "Figma", "sameAs": "https://www.wikidata.org/wiki/Q96186334" },
+        { "@type": "Thing", "name": "Photopea", "sameAs": "https://www.wikidata.org/wiki/Q58327261" },
+        { "@type": "Thing", "name": "Piktochart", "sameAs": "https://www.wikidata.org/wiki/Q17074977" },
+        { "@type": "Thing", "name": "Powtoon", "sameAs": "https://www.wikidata.org/wiki/Q7235924" },
+        { "@type": "Thing", "name": "Giphy", "sameAs": "https://www.wikidata.org/wiki/Q17054335" },
+        { "@type": "Thing", "name": "Roam Research", "sameAs": "https://www.wikidata.org/wiki/Q98066309"  }
     ]
 }

@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.cbsofyalioglu.com
+
+# Sitemaps
+Sitemap: https://www.cbsofyalioglu.com/sitemap.xml

@@ -7,7 +7,13 @@ type CardProps = {
     cover?: string,
     excerpt?: string,
     tags?: string[],
-    nofollow: boolean
+    slug?: string,
+    index?: number,
+    thumbnail?:string,
+    nofollow?: boolean,
+    keywords?: string[],
+    topic?: string,
+    date?: string
 }
 export function CardEnlarge(props: CardProps) {
     return <div key={props.link} className="card-enlarge grid grid-cols-1 mt-4">
@@ -63,7 +69,7 @@ export function CardCover(props: CardProps) {
     return (
 
         <li key={props.link} className="flex flex-col frost-blur border rounded-lg overflow-hidden glass-card-card">
-            <a href={props.link} rel={props.nofollow ? "nofollow noopener" : "noopener"} className="group h-48 md:h-64 block bg-gray-100 overflow-hidden relative">
+            <a href={props.link} rel={props.nofollow ? "nofollow noopener" : "noopener"} className="group h-32 md:h-32 lg:h-36 block bg-gray-100 overflow-hidden relative">
                 <img
                     src={props.cover}
                     loading="lazy"
@@ -77,16 +83,50 @@ export function CardCover(props: CardProps) {
                     <a href={props.link} rel={props.nofollow ? "nofollow noopener" : "noopener"} className="hover:text-indigo-500 active:text-indigo-600 transition duration-100">{props.title}</a>
                 </h3>
 
-                <p className="text-gray-500 mb-2">{props.excerpt || props.description}</p>
+                <p className="text-gray-500 mb-2 text-sm">{props.excerpt || props.description}</p>
 
                 <div className="flex justify-start items-end mt-auto">
 
                     {props.tags?.map(tag => (
-                        <span key={tag} className="text-gray-500 text-sm border rounded px-2 py-1 mr-2 overflow-ellipsis">
+                        <span key={tag} className="text-gray-300 text-xs border rounded px-2 py-1 mr-2 my-2 overflow-ellipsis">
                             {tag}
                         </span>
                     ))}
                 </div>
+            </div>
+        </li>
+    )
+}
+
+export function ListItemCard(props: CardProps){
+    return (
+        <li
+
+            title={props.title}
+            className="group h-48 md:h-64 xl:h-64 flex flex-col  rounded-lg shadow-lg overflow-hidden relative"
+        >
+            <Image
+                layout="fill"
+                sizes="30vw"
+                loading="lazy"
+                src={props.thumbnail || props.cover || "/img/placeholder.webp"}
+                alt={(props.keywords && props.keywords[0]) || props.title}
+                className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition duration-500 z-0"
+            />
+
+            <div className="bg-gradient-to-t from-gray-800 md:via-transparent to-transparent absolute inset-0 pointer-events-none"></div>
+
+            <div className="relative p-4 mt-auto">
+                {props.date && <span className="block !text-gray-200 text-sm">{props.date}</span>}
+                <h2 className="!text-white text-xl font-semibold transition duration-100 mb-2 relative">
+                    <a
+                        title={props.title}
+                        href={`/${props.topic}/${props.slug}/`}
+                        className="group"
+                    >
+                        {props.title}
+                    </a>
+                </h2>
             </div>
         </li>
     )

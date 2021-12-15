@@ -14,25 +14,16 @@ import decorativePatterns from '../public/img/decorative/background-patterns.png
 import { WebmeisterGradientLogo } from "../components/logo"
 import { LinkIcon } from "../components"
 
+
 function Home({ featuredPosts, turkishPosts, englishPosts }) {
-    const sortedFeaturedPosts = featuredPosts.sort((a, b) => {
-        const ad = new Date(a.frontMatter.date)
-        const bd = new Date(b.frontMatter.date)
-        return bd - ad
-    })
-    const sortedEnglishPosts = englishPosts.sort((a,b) => {
-        const ad = new Date(a.frontMatter.date)
-        const bd = new Date(b.frontMatter.date)
-        return bd - ad
-    }).slice(0,6)
-    const sortedTurkishPosts = turkishPosts.sort((a, b) => {
-        const ad = new Date(a.frontMatter.date)
-        const bd = new Date(b.frontMatter.date)
-        return bd - ad
-    }).slice(0,6)
+
     return (
         <>
             <Head>
+                <title key="h-title-tag">{site.title}</title>
+                <meta name="title" content={site.title} key="h-title" />
+                <meta name="description" content={site.description} key="h-description" />
+                <link rel="canonical" href={site.website} key="h-canonical" />
                 <MetaTags
                     type="website"
                     title={site.title}
@@ -43,11 +34,11 @@ function Home({ featuredPosts, turkishPosts, englishPosts }) {
             </Head>
             <main className="content-section main z-20 px-4 pt-16 sm:pt-16">
                 <div className="">
-                    <div className="max-w-screen-2xl px-4 md:px-8">
+                    <div className="max-w-screen-2xl px-4 md:px-8 pb-40">
                         <HeroDark />
 
                         {/* FEATURED */}
-                        <div className="mb-8">
+                        <div className="mb-8 animate-text-2xl">
                             <h2 className="text-gray-800 text-4xl lg:text-5xl text-left mb-4 md:mb-6">
                                 Featured posts
                             </h2>
@@ -57,17 +48,17 @@ function Home({ featuredPosts, turkishPosts, englishPosts }) {
 
 
                         <ul className="grid sm:grid-cols-2 lg:grid-cols-3  gap-4 md:gap-6 xl:gap-8">
-                            {sortedFeaturedPosts.map(post => (
+                            {featuredPosts.map((post, index) => (
                                 <li
                                     key={"featured-" + post.slug}
                                     title={post.frontMatter.title}
-                                    href={`/${post.topic}/${post.slug}`}
-                                    className="group h-48 md:h-64 xl:h-64 flex flex-col  rounded-lg shadow-lg overflow-hidden relative"
+                                    className="animate-text-3xl group h-48 md:h-64 xl:h-64 flex flex-col  rounded-lg shadow-lg overflow-hidden relative"
                                 >
                                     <Image
+                                        priority={index < 2 ? true : undefined}
                                         layout="fill"
                                         sizes="30vw"
-                                        priority
+                                        loading={index < 2 ? undefined : "lazy"}
                                         src={post.frontMatter.thumbnail || post.frontMatter.cover || "/img/placeholder.webp"}
                                         alt={(post.frontMatter.keywords && post.frontMatter.keywords[0]) || post.frontMatter.title}
                                         className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition duration-500 z-0"
@@ -80,7 +71,7 @@ function Home({ featuredPosts, turkishPosts, englishPosts }) {
                                         <h2 className="!text-white text-xl font-semibold transition duration-100 mb-2 relative">
                                             <a
                                                 title={post.frontMatter.title}
-                                                href={`/${post.topic}/${post.slug}`}
+                                                href={`/${post.topic}/${post.slug}/`}
                                                 className="group"
                                             >
                                                 {post.frontMatter.title}
@@ -95,7 +86,7 @@ function Home({ featuredPosts, turkishPosts, englishPosts }) {
 
 
                         {/* ENGLISH */}
-                        <div className="mt-16 md:mt-20 mb-8">
+                        <div className="mt-16 md:mt-40 mb-8">
                             <h2 className="text-gray-800 text-4xl lg:text-5xl text-left mb-4 md:mb-6">
                                 <a href="/en/">Articles in English <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -117,16 +108,17 @@ function Home({ featuredPosts, turkishPosts, englishPosts }) {
                         </div>
 
                         <ul className="grid sm:grid-cols-2 lg:grid-cols-3  gap-4 md:gap-6 xl:gap-8">
-                            {sortedEnglishPosts.map(post => (
+                            {englishPosts.map(post => (
                                 <li
                                     key={"english-" + post.slug}
                                     title={post.frontMatter.title}
-                                    href={`/${post.topic}/${post.slug}`}
+
                                     className="group h-48 md:h-64 xl:h-64 flex flex-col  rounded-lg shadow-lg overflow-hidden relative"
                                 >
                                     <Image
                                         layout="fill"
                                         sizes="30vw"
+                                        loading="lazy"
                                         src={post.frontMatter.thumbnail || post.frontMatter.cover || "/img/placeholder.webp"}
                                         alt={(post.frontMatter.keywords && post.frontMatter.keywords[0]) || post.frontMatter.title}
                                         className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition duration-500 z-0"
@@ -139,7 +131,7 @@ function Home({ featuredPosts, turkishPosts, englishPosts }) {
                                         <h2 className="!text-white text-xl font-semibold transition duration-100 mb-2 relative">
                                             <a
                                                 title={post.frontMatter.title}
-                                                href={`/${post.topic}/${post.slug}`}
+                                                href={`/${post.topic}/${post.slug}/`}
                                                 className="group"
                                             >
                                                 {post.frontMatter.title}
@@ -153,7 +145,7 @@ function Home({ featuredPosts, turkishPosts, englishPosts }) {
                         </ul>
 
                         {/* TURKISH */}
-                        <div className="mt-16 md:mt-20 mb-8">
+                        <div className="mt-16 md:mt-40 mb-8">
                             <h2 className="text-gray-800 text-4xl lg:text-5xl text-left mb-4 md:mb-6">
                                 <a href="/tr/">Articles in Turkish <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -176,16 +168,16 @@ function Home({ featuredPosts, turkishPosts, englishPosts }) {
 
 
                         <ul className="grid sm:grid-cols-2 lg:grid-cols-3  gap-4 md:gap-6 xl:gap-8">
-                            {sortedTurkishPosts.map(post => (
+                            {turkishPosts.map(post => (
                                 <li
                                     key={"turkish-" + post.slug}
                                     title={post.frontMatter.title}
-                                    href={`/${post.topic}/${post.slug}`}
                                     className="group h-48 md:h-64 xl:h-64 flex flex-col  rounded-lg shadow-lg overflow-hidden relative"
                                 >
                                     <Image
                                         layout="fill"
                                         sizes="30vw"
+                                        loading="lazy"
                                         src={post.frontMatter.thumbnail || post.frontMatter.cover || "/img/placeholder.webp"}
                                         alt={(post.frontMatter.keywords && post.frontMatter.keywords[0]) || post.frontMatter.title}
                                         className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition duration-500 z-0"
@@ -198,7 +190,7 @@ function Home({ featuredPosts, turkishPosts, englishPosts }) {
                                         <h2 className="!text-white text-xl font-semibold transition duration-100 mb-2 relative">
                                             <a
                                                 title={post.frontMatter.title}
-                                                href={`/${post.topic}/${post.slug}`}
+                                                href={`/${post.topic}/${post.slug}/`}
                                                 className="group"
                                             >
                                                 {post.frontMatter.title}
@@ -222,7 +214,7 @@ export function HeroDark() {
     return (
         <header className="relative w-full overflow-hidden z-20 hero">
             <div className="relative top-0 right-0 bottom-0 left-0 w-full h-auto">
-                <div className="relative  mx-auto max-w-7xl z-10" >
+                <div className="relative max-w-7xl z-10" >
                     <div className="absolute top-0 right-0 hidden w-full h-full -ml-32 transform scale-100 translate-x-1/2 translate-y-20  md:block -rotate-12 opacity-90" />
                     <div className="flex flex-col items-center justify-between w-full  relative z-10">
 
@@ -230,13 +222,13 @@ export function HeroDark() {
                             <h1 className="animate-text-xs text-5xl md:text-6xl lg:text-7xl xl:text-7xl max-w-8xl xl:leading-tight dark:text-gray-50 bg-clip-text z-10 ">
                                 <span>Design</span> & <span>Development</span>
                             </h1>
-                            <p className="animate-text-lg text-xl opacity-80  uppercase mt-4">by Can Burak Sofyalıoğlu</p>
+                            <p className="animate-text-lg text-sm sm:text-xl opacity-80  uppercase mt-4">by Can Burak Sofyalıoğlu</p>
                             {/*<p className="animate-text-lg text-xl opacity-80 my-10 ">
                                 Hi, I'm Can. I'm an engineer and focusing on web development and e-commerce.
                                 <br />
                                 This is my personal blog mostly about development and design.
                             </p> */}
-                        <hr />
+                            <hr className="animate-hr -left-20 sm:-left-36"/>
                         </div>
 
                         <div className="absolute z-0 md:relative md:z-10 flex items-center justify-center w-full md:pt-0 mt-32 mb-16 md:mt-1 opacity-75 md:opacity-100"></div>
@@ -364,6 +356,8 @@ export const getStaticProps = async () => {
     files.forEach(filename => {
         const markdownWithMeta = fs.readFileSync(path.join('posts', filename), 'utf-8')
         const { data: frontMatter } = matter(markdownWithMeta)
+
+        // Featured
         if (frontMatter.categories && frontMatter.categories.includes("featured")) {
             featuredPosts.push({
                 frontMatter,
@@ -375,6 +369,8 @@ export const getStaticProps = async () => {
                 topic: frontMatter.topic || "featured"
             })
         }
+
+        // English
         if (frontMatter.language === "eng" || frontMatter.language === "en"){
             englishPosts.push({
                 frontMatter,
@@ -386,6 +382,8 @@ export const getStaticProps = async () => {
                 topic: frontMatter.topic
             })
         }
+
+        // Turkish
         if (frontMatter.language === "tr") {
             turkishPosts.push({
                 frontMatter,
@@ -398,12 +396,27 @@ export const getStaticProps = async () => {
             })
         }
     })
+    const sortedFeaturedPosts = featuredPosts.sort((a, b) => {
+        const ad = new Date(a.frontMatter.date)
+        const bd = new Date(b.frontMatter.date)
+        return bd - ad
+    })
+    const sortedEnglishPosts = englishPosts.sort((a, b) => {
+        const ad = new Date(a.frontMatter.date)
+        const bd = new Date(b.frontMatter.date)
+        return bd - ad
+    }).slice(0, 6)
+    const sortedTurkishPosts = turkishPosts.sort((a, b) => {
+        const ad = new Date(a.frontMatter.date)
+        const bd = new Date(b.frontMatter.date)
+        return bd - ad
+    }).slice(0, 6)
     ///console.log("posts: ", featuredPosts, turkishPosts, englishPosts)
     return {
         props: {
-            featuredPosts,
-            turkishPosts,
-            englishPosts
+            featuredPosts: sortedFeaturedPosts,
+            turkishPosts: sortedTurkishPosts,
+            englishPosts: sortedEnglishPosts
         }
     }
 }

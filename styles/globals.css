@@ -1,7 +1,8 @@
-@import './fonts.css';
+@import './typography.css';
 @import './animations.css';
 @import './post.css';
 @import './mantine.css';
+@import './fonts.css';
 
 /*
 @import './sidebar.css';
@@ -265,3 +266,22 @@ html:not(.dark) .lottie-icon svg g path {
   text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
 }
 
+hr {
+  margin: 0 auto;
+  margin-top: 32px;
+  margin-bottom: 64px;
+  width: 100%;
+  border: 0;
+  height: 1px;
+  position: relative;
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.75),
+    rgba(255, 255, 255, 0)
+  );
+}
+
+.footer-box {
+  z-index: -10 !important;
+}

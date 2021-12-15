@@ -6,17 +6,32 @@ import Head from 'next/head'
 import { useEffect } from 'react'
 import { GetStaticProps } from 'next'
 import { useScript } from "../../lib/hooks"
-import { bookmarkCollections } from "../../settings"
-import { Tooltip } from '@mantine/core';
+import { bookmarkCollections, site } from "../../settings"
 import { CardEnlarge, CardCover } from "../../components"
+import { MetaTags } from "../../components"
 
 export default function BookmarkCollectionPage({ collection, bookmarks }) {
-    //console.log("page collection: ", collection, bookmarks)
+    const title = `${site.name} | Bookmarks: ${collection.name}`
+    const description = collection.description + " The list of digital tools that is curated by me."
+    const canonical = `${site.website}/bookmarks/${collection.title}/`
 
     return (
         <>
-            <section className="relative pt-12 pb-60 flex flex-col items-center px-4 sm:px-12 md:px-16 lg:px-24 xl:px-32">
-                <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+            <Head>
+                <title key="h-title-tag">{title}</title>
+                <meta name="title" content={title} key="h-title" />
+                <meta name="description" content={description} key="h-description" />
+                <link rel="canonical" href={canonical} key="h-canonical" />
+                <MetaTags
+                    type="website"
+                    title={title}
+                    description={description}
+                    canonical={canonical}
+                    cover={site.cover}
+                />
+            </Head>
+            <section className="relative pt-20 pb-60 flex flex-col items-center px-4 sm:px-12 md:px-16 lg:px-24 xl:px-32">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center">
                         <p className="text-base font-bold text-indigo-600 tracking-wide uppercase">BOOKMARKS</p>
                         <h1 className="mt-1 text-4xl font-semibod text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
@@ -27,8 +42,8 @@ export default function BookmarkCollectionPage({ collection, bookmarks }) {
                         </p>
                     </div>
                 </div>
-
-                <ul className="grid sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3  gap-4 md:gap-6 xl:gap-8">
+                <hr/>
+                <ul className="grid sm:grid-cols-2 mt-20 lg:grid-cols-2 xl:grid-cols-3  gap-4 md:gap-6 xl:gap-8">
                     {bookmarks.map(bkm => (
 
                         <CardCover
@@ -90,62 +105,6 @@ export const getStaticPaths = async () => {
 
 
 
-function _CardEnlarge(bkm: object) {
-    return <li key={bkm.link} className="glass-card flex flex-col md:flex-row items-stretch border rounded-lg overflow-hidden !min-h-[220px]">
-        <a
-            rel="nofollow noopener"
-            target="_blank"
-            href={bkm.link}
-            title={bkm.title}
-            className="group  w-full md:w-48 xl:w-40 sm:h-48 !min-h-52 md:h-full block self-start flex-shrink-0 bg-gray-100 overflow-hidden relative"
-        >
-            <img
-                src={bkm.cover}
-                data-tip={bkm.excerpt}
-                loading="lazy"
-                alt="Photo by Minh Pham"
-                className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 ease-out transition duration-500" />
-
-        </a>
-
-
-
-        <div className="flex flex-col px-4 pt-4 pb-2 xl:pt-4 xl:pb-2 xl:px-4 justify-between relative !h-full" data-tip={bkm.excerpt}>
-            <div className="flex flex-col p-0 m-0">
-
-                <h2 className="text-gray-800 text-3xl font-bold">
-                    <a target="_blank"
-                        href={bkm.link}
-                        rel="nofollow noopener"
-                        className="hover:text-indigo-500 active:text-indigo-600 transition duration-100"
-                    >
-                        {bkm.title}
-                    </a>
-                </h2>
-                <Tooltip
-
-                    label={bkm.excerpt}
-                    color="violet"
-                    wrapLines
-                    width={240}
-                    withArrow
-                >
-                    <p className="text-gray-500 text-md mt-2 mb-2 leading-6 overflow-ellipsis overflow-hidden">{bkm.excerpt}</p>
-                </Tooltip>
-            </div>
-
-            <div className="flex ">
-                {bkm.tags.map(tag => (
-                    <span key={tag} className="text-indigo-500 font-semibold text-sm mr-1 border-2 border-gray-200 rounded-md px-2">
-                        {tag}
-                    </span>
-                ))}
-            </div>
-
-        </div>
-
-    </li>
-}
 
 async function fetchRaindropCollections() {
     let allCollections, fetchError

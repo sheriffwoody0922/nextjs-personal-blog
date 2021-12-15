@@ -1,15 +1,14 @@
 // @ts-nocheck
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Script from 'next/script'
 import { serialize } from 'next-mdx-remote/serialize'
-import { MDXRemote } from 'next-mdx-remote'
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
-import MdxProvider from "../../components/mdx-provider"
 import {
     PurpleBlob,
     BluePurpleBlob,
@@ -20,24 +19,69 @@ import {
     HeroPattern,
 } from '../../components/Svg'
 import { useScript } from "../../lib/hooks"
-import { ArticleSeo, ScrollTopButton, MetaTags, RichData } from "../../components"
+import { ArticleSeo, MetaTags, RichData, ListItemCard } from "../../components"
 import { site } from "../../settings"
 
+const MdxProvider = dynamic(() => import('../../components/mdx/mdx-provider'))
+const ScrollTopButton = dynamic(() => import("../../components/button"))
 
-
-
-const PostPage = ({ slug, topic, frontMatter, mdxSource }) => {
+const PostPage = ({ slug, topic, frontMatter, mdxSource, relatedPosts }) => {
     const router = useRouter()
     const canonical = frontMatter.canonical || site.website + router.asPath
 
     const colors = ["bg-yellow-100 text-yellow-800", " bg-green-100 text-green-800", "bg-blue-100 text-blue-800", "bg-indigo-100 text-indigo-800", "bg-purple-100 text-purple-800"]
 
     const categories = [...new Set([topic, ...frontMatter.categories])]
-    const categoriesWoutPost = categories.filter(cat => cat !== "post")
+    const categoriesWoutPost = categories.filter(cat => (cat !== "post") && (cat !== "featured"))
     const tags = frontMatter.tags
     const keywords = frontMatter.keywords
     //const keywords = frontMatter.keywords
     //console.log("categories", frontMatter)
+    const ArticleHead = () => (
+        <header className="w-full max-w-[760px] h-auto pt-20 ml-auto mr-auto relative flex flex-col items-center">
+            <h1 className="text-gray-800 animate-text-md text-5xl lg:text-7xl  text-center mb-4 md:mb-2 mt-8 sm:mt-0">{frontMatter.title}</h1>
+            <span className="my-2 text-xs  animate-text-lg !dark:text-gray-200 !text-gray-500">UPDATED: <time dateTime={frontMatter.modified}>{frontMatter.modified}</time></span>
+            <div className="flex w-full justify-center mt-2 sm:mt-4">
+                {categoriesWoutPost?.map((cat, index) =>
+                    <a href={`/${cat}`}
+                        title={`See ${cat} posts`}
+                        key={"article-header-category-" + cat}
+                        className={`animate-text-lg inline-flex mx-2 items-center px-3 py-0.5 rounded-full text-sm font-medium ${colors[index]} `}
+                    >
+                        {cat}
+                    </a>
+                )}
+            </div>
+            <p className="animate-text-xl max-w-screen-md text-gray-500 md:text-lg text-center mx-auto mt-20 sm:mt-8 mb-40 sm:mb-4">{frontMatter.description}</p>
+            <div className="relative h-auto min-h-[250px] sm:min-h-[300px] md:min-h-[400px] w-full overflow-hidden rounded-lg mt-12 mb-4 flex flex-col justify-end">
+
+                <Image
+                    id="primary-image"
+                    layout="intrinsic"
+                    width={2200}
+                    height={1400}
+                    priority
+                    //loading="lazy"
+                    placeholder="blur"
+                    blurDataURL="/img/placeholder.webp"
+                    src={frontMatter.thumbnail || frontMatter.cover || "/img/placeholder.webp"}
+                    alt={(frontMatter.keywords && frontMatter.keywords[0]) || frontMatter.name}
+                    className="animate-text-2xl w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition duration-200 z-0"
+                />
+            </div>
+            <div className="flex flex-wrap justify-center !max-w-6xl  mb-4 relative z-10">
+                {tags?.map((tag) =>
+                    <span
+
+                        key={"article-header-tag-" + tag}
+                        className="animate-text-4xl inline-flex mx-1 mt-2 justify-center items-center  rounded-md border-gray-50 border px-2 py-1 text-xs font-medium dark:text-gray-300 text-gray-800"
+                    >
+                        #{tag}
+                    </span>
+                )}
+            </div>
+        </header>
+    )
     return (
         <>
             <Head>
@@ -49,7 +93,7 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource }) => {
                     type="article"
                     articleType={frontMatter.articleType}
                     title={frontMatter.title}
-                    canonical={canonical}
+                    canonical={frontMatter.canonical}
                     description={frontMatter.description}
                     date={frontMatter.date}
                     modified={frontMatter.modified}
@@ -60,63 +104,22 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource }) => {
                     type="article"
                     title={frontMatter.title}
                     descriptiopn={frontMatter.description}
-                    canonical={canonical}
+                    canonical={frontMatter.canonical}
                     topic={frontMatter.topic}
                     tags={frontMatter.tags}
+                    keywords={frontMatter.keywords}
                     date={frontMatter.date}
                     modified={frontMatter.modified}
                     cover={frontMatter.cover}
-
+                    monetize={frontMatter.monetize}
+                    frontMatter={frontMatter}
                 />
             </Head>
+            <ArticleHead />
+            <article className="relative pt-8 pb-32 flex flex-col items-center px-4">
 
-            <article className="relative pt-8 pb-60 flex flex-col items-center px-4">
-                <header className="w-full max-w-[700px] h-auto pt-20 ml-auto mr-auto relative flex flex-col items-center">
-                    <h1 className="text-gray-800 text-4xl lg:text-5xl font-bold text-center mb-2 md:mb-2">{frontMatter.title}</h1>
-                    <span className="mb-2 text-xs">UPDATED: <time dateTime={frontMatter.modified}>{frontMatter.modified}</time></span>
-                    <div className="flex w-full justify-center mt-4">
-                        {categoriesWoutPost?.map((cat, index) =>
-                            <a href={`/${cat}`}
-                                title={`See ${cat} posts`}
-                                key={cat}
-                                className={`inline-flex mx-2 items-center px-3 py-0.5 rounded-full text-sm font-medium ${colors[index]}`}
-                            >
-                                {cat}
-                            </a>
-                        )}
-                    </div>
-
-                    <p className="max-w-screen-md text-gray-500 md:text-lg text-center mx-auto mt-4">{frontMatter.description}</p>
-
-
-                    <div className="relative h-[400px] w-full overflow-hidden rounded-lg mt-12 mb-4 flex flex-col justify-end">
-
-                        <Image
-                            id="primary-image"
-                            layout="fill"
-                            sizes="50vw"
-                            priority
-                            placeholder="blur"
-                            blurDataURL="/img/placeholder.webp"
-                            src={frontMatter.thumbnail || frontMatter.cover || "/img/placeholder.webp"}
-                            alt={(frontMatter.keywords && frontMatter.keywords[0]) || frontMatter.name}
-                            className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition duration-200 z-0"
-                        />
-                    </div>
-                    <div className="flex flex-wrap justify-start !max-w-6xl  mb-4 relative z-10">
-                        {tags?.map((tag) =>
-                            <strong
-
-                                key={tag}
-                                className="inline-flex mx-2 mt-2 justify-center items-center  rounded-md border-gray-50 border px-2 py-1 text-xs font-medium dark:text-gray-300 text-gray-800"
-                            >
-                                #{tag}
-                            </strong>
-                        )}
-                    </div>
-                </header>
                 <main className="markdown-content z-10 post-page min-h-screen w-full max-w-[700px] h-auto pt-4 ml-auto mr-auto relative flex flex-col">
-
+                    <hr />
                     <MdxProvider source={mdxSource} />
                 </main>
                 <div className="fixed top-40 w-full h-auto hidden">
@@ -170,13 +173,13 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource }) => {
                     </svg>
                 </div>
 
-                <hr className="border-gray-100" />
+
 
                 <div className="flex flex-wrap justify-center !max-w-6xl  mt-4 pt-8">
                     {keywords?.map((tag) =>
                         <strong
 
-                            key={tag}
+                            key={"article-footer-keywords-" + tag}
                             className="inline-flex mx-2 mt-2 justify-center items-center px-3 py-0.5 rounded-full text-sm font-medium bg-gray-100 !text-gray-800"
                         >
                             {tag}
@@ -184,54 +187,51 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource }) => {
                     )}
                 </div>
             </article>
+            <hr className="border-gray-100" />
+            {/* RELATED POSTS */}
+            <aside className="relative pt-20 pb-60 flex flex-col items-center px-4 ">
+                <h2 className="w-full max-w-[760px] mb-6 !text-left">{frontMatter.language === "tr" ? "İlginizi çekebilir" : "Other posts you may be interested"}</h2>
+                <ul className="grid sm:grid-cols-2 lg:grid-cols-2  gap-4 md:gap-6 xl:gap-8 w-full max-w-[760px]">
+                    {relatedPosts.map((rp) => <ListItemCard
+                        key={"article-featured-post-" + rp.slug}
+                        title={rp.title}
+                        topic={rp.topic}
+                        slug={rp.slug}
+                        cover={rp.cover}
+                    />
+                    )}
+                </ul>
+            </aside>
             <ScrollTopButton />
         </>
     )
 }
 
-function Decor() {
-    return (
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="481"
-            height="511"
-            fill="none"
-            viewBox="0 0 481 511"
-            className="post-decor"
-        >
-            <path
-                stroke="url(#paint0_linear_164_4)"
-                strokeWidth="10"
-                d="M258.585 510.792V402.113c0-20.007 16.219-36.226 36.226-36.226h39.849c20.008 0 36.227-16.219 36.227-36.227 0-20.007-16.219-36.226-36.227-36.226H149.906c-20.008 0-36.227-16.219-36.227-36.226 0-20.008 16.219-36.227 36.227-36.227h289.811c20.007 0 36.226-16.219 36.226-36.226 0-20.008-16.219-36.227-36.226-36.227H41.227C21.218 148.528 5 132.309 5 112.302c0-20.007 16.22-36.227 36.226-36.227h217.359c20.007 0 36.226-16.219 36.226-36.226V0"
-            ></path>
-            <defs>
-                <linearGradient
-                    id="paint0_linear_164_4"
-                    x1="120.575"
-                    x2="422.075"
-                    y1="-38.575"
-                    y2="599.925"
-                    gradientUnits="userSpaceOnUse"
-                >
-                    <stop stopColor="#FF0046"></stop>
-                    <stop offset="1" stopColor="#BD00FF"></stop>
-                </linearGradient>
-            </defs>
-        </svg>
-    );
-}
 export const getStaticProps = async ({ params: { slug, topic } }) => {
     //console.log("cat & slug: ", topic, slug)
     // This will be a correct filename rather than user-defined slug
+    let allPostsFrontMatters = []
+    let relatedPosts = []
     let currentPostSlug;
+    let currentPost;
+
+
+    // Read all frontMatter data and store them
+    fs.readdirSync(path.join("posts")).forEach(filename => {
+        const markdownWithMeta = fs.readFileSync(path.join('posts', filename), 'utf-8')
+        const { data: frontMatter } = matter(markdownWithMeta)
+        allPostsFrontMatters.push(frontMatter)
+    })
 
     // Iterate over all files to find corresponding post
-    for (const filename of fs.readdirSync(path.join('posts'))) {
+    for (const frontMatter of allPostsFrontMatters) {
         // The location of the .mdx file
-        const markdownWithMeta = fs.readFileSync(path.join('posts', filename), 'utf-8')
-
+        //const markdownWithMeta = fs.readFileSync(path.join('posts', filename), 'utf-8')
         // frontmatter data
-        const { data: frontMatter } = matter(markdownWithMeta)
+        //const { data: frontMatter } = matter(markdownWithMeta)
+
+        // slug of the iterated post
+        const postSlug = frontMatter.slug || filename.replace('.mdx', '')  // Default slug
 
         // topic of the iterated post
         const postTopic = frontMatter.topic
@@ -239,20 +239,31 @@ export const getStaticProps = async ({ params: { slug, topic } }) => {
         // All possible topics including the categories
         const categories = frontMatter.categories || []
         const postTopics = [frontMatter.topic ?? "post", ...categories].filter(Boolean)
-        const postSlug = frontMatter.slug || filename.replace('.mdx', '')  // Default slug
 
+        // if the topic prefix and slug are matches then terminate iteration
         if (postTopics.includes(topic) && postSlug === slug) {
             //console.info("Corresponding post found: ", filename)
-            currentPostSlug = filename
-            break;
+            currentPostSlug = frontMatter.slug
+            break
         }
     }
     if (!currentPostSlug) {
         throw new Error(`The post with a given slug couldn't be found!: (slug: ${slug}, topic${topic})`,)
     }
-
-    const markdownWithMeta = fs.readFileSync(path.join('posts', currentPostSlug), 'utf-8')
+    //console.log("current", currentPostSlug)
+    const markdownWithMeta = fs.readFileSync(path.join('posts', currentPostSlug + ".mdx"), 'utf-8')
     const { data: frontMatter, content } = matter(markdownWithMeta)
+
+    // Find related posts
+    if (frontMatter.related && frontMatter.related.length > 0) {
+        const relatedSlugs = frontMatter.related
+        relatedPosts = allPostsFrontMatters.filter(postFrontMatter => {
+            if (relatedSlugs.includes(postFrontMatter.slug)) {
+                return postFrontMatter
+            }
+        })
+    }
+    //console.log("relatedPosts", relatedPosts)
     //console.info("The post data: ", frontMatter)
     const mdxSource = await serialize(content)
     return {
@@ -260,7 +271,8 @@ export const getStaticProps = async ({ params: { slug, topic } }) => {
             frontMatter,
             slug,
             topic,
-            mdxSource
+            mdxSource,
+            relatedPosts
         }
     }
 }

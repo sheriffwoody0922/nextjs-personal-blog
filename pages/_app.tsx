@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Head from 'next/head'
 
 import '../styles/tailwind.css'
@@ -8,18 +8,25 @@ import type { AppProps } from 'next/app'
 import Layout from '../layout/layout'
 import { site } from "../settings"
 import { MetaTags } from "../components/next-seo"
+import { useAdvancedScript, useDebounce } from "../lib/hooks"
 //import { CssBaseline } from '@nextui-org/react';
 
+// export type Status = 'idle' | 'loading' | 'ready' | 'error'
+// export type ScriptElt = HTMLScriptElement | null
 
 export function reportWebVitals(metric) {
-    //console.log(metric)
+    console.log(metric)
 }
 
+
 function MyApp({ Component, pageProps }: AppProps) {
+    //console.log("AppComponent and props", Component, pageProps)
+
     return (
         <React.Fragment>
             <Layout>
                 <Head>
+                    {/*
                     <title key="h-title-tag">{site.title}</title>
                     <meta name="title" content={site.title} key="h-title" />
                     <meta name="description" content={site.description} key="h-description" />
@@ -30,7 +37,8 @@ function MyApp({ Component, pageProps }: AppProps) {
                         description={site.description}
                         canonical={site.website}
                         cover={site.cover}
-                    />
+                />
+                */}
                 </Head>
                 <Component {...pageProps} />
 

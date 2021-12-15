@@ -14,9 +14,9 @@ import {
 } from '@heroicons/react/outline'
 
 export const navLinks = [
-    { name: 'Home', href: '/', icon: HomeIcon, current: false },
-    { name: 'Blog', href: '/en/', icon: LibraryIcon, current: false },
-    { name: 'Blog (Turkish)', href: '/tr/', icon: ClipboardListIcon, current: false },
+    { name: 'Home', href: '/', current: false },
+    { name: 'Blog', href: '/en/', current: false },
+    { name: 'Blog (Turkish)', href: '/tr/', current: false },
     //{ name: 'Projects', href: '#', icon: FolderIcon, current: false },
 
     {

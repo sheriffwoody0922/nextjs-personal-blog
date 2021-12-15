@@ -34,12 +34,15 @@ const config = {
 
   experimental: { esmExternals: true },
   //reactStrictMode: true,
+  trailingSlash: true,
+
   eslint: {
     ignoreDuringBuilds: true,
   },
   images: {
+    domains: ['fra1.digitaloceanspaces.com', "www.cbsofyalioglu.com"],
     deviceSizes: [640, 768, 1024, 1280, 1536, 1920],
-    minimumCacheTTL: 60,
+    minimumCacheTTL: 86400,
   },
   env: {
     DOMAIN:
@@ -87,6 +90,11 @@ const config = {
         destination: '/productivity/content-creation-tools/',
         permanent: true,
       },
+      {
+          source: "/blog-acmak/notion-ile-ucretsiz-web-sayfasi-olusturmak/",
+          destination: "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/",
+          permanent:true
+      }
     ]
   },
   async headers() {

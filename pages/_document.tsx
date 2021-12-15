@@ -1,5 +1,6 @@
 // @ts-nocheck
 import Document, { Html, Head, Main, NextScript } from 'next/document'
+import Script from 'next/script'
 
 
 class MyDocument extends Document {
@@ -22,64 +23,35 @@ class MyDocument extends Document {
                     <link rel="icon" type="image/png" href="/logo/favicon-128.png" sizes="128x128" />
                     <link rel="icon" href="/logo/favicon.ico" />
 
-                    {/*
-                    <script
-                        type="application/ld+json"
-                        dangerouslySetInnerHTML={{
-                            __html: `
-                                {
-                                "@context": "https://schema.org/",
-                                "@type": "Person",
-                                "name": "Can Burak Sofyalıoğlu",
-                                "jobTitle": "Software Engineer",
-                                "logo": "https://cbsofyalioglu.fra1.cdn.digitaloceanspaces.com/cbs/webmeister/webmeister-digital-logo-siyah.png",
-                                "@id": "https://www.cbsofyalioglu.com/#/schema/person/46718b7c6c1047fc8bffca1e5404806e",
-                                "url": ["https://webmeister.org", "https://www.cbsofyalioglu.com/"],
-                                "alumniOf": {
-                                    "@type": "CollegeOrUniversity",
-                                    "name": "Boğaziçi University",
-                                    "sameAs": "https://en.wikipedia.org/wiki/Bo%C4%9Fazi%C3%A7i_University"
-                                },
-                                "image": {
-                                    "@type": "ImageObject",
-                                    "@id": "https://cbsofyalioglu.fra1.cdn.digitaloceanspaces.com/cbs/cbsofyalioglu-pp.jpg",
-                                    "inLanguage": "tr",
-                                    "url": "https://cbsofyalioglu.fra1.cdn.digitaloceanspaces.com/cbs/cbsofyalioglu-pp.jpg",
-                                    "contentUrl": "https://cbsofyalioglu.fra1.cdn.digitaloceanspaces.com/cbs/cbsofyalioglu-pp.jpg",
-                                    "width": 1011,
-                                    "height": 927,
-                                    "caption": "Can Burak Sofyalıoğlu"
-                                },
-                                "sameAs": [
-                                    "https://www.cbsofyalioglu.com",
-                                    "https://webmeister.org",
-                                    "https://www.facebook.com/john.baudrillard",
-                                    "https://www.linkedin.com/in/cbsofyalioglu/",
-                                    "https://www.pinterest.com/cbsofyalioglu/",
-                                    "https://stackoverflow.com/story/webmeister",
-                                    "https://www.figma.com/@webmeister",
-                                    "https://github.com/canburaks/",
-                                    "https://twitter.com/@webmeisterorg",
-                                    "https://open.spotify.com/user/canburaks",
-                                    "https://www.youtube.com/channel/UCww7ea5HVpGOBhm5x-ZvkLQ"
-                                ]
-                            }`,
-                        }}
-                    ></script>
-                    */}
+                    <link
+                        rel="preload"
+                        href="/fonts/Satoshi-Regular.woff2"
+                        as="font"
+                        crossOrigin=""
+                        type="font/woff2"
+                    />
 
-                    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3GKQHRYFHX" />
-                    <script
+
+                    <Script afterInteractive src="https://www.googletagmanager.com/gtag/js?id=UA-141617385-4"/>
+                    <Script afterInteractive
+                        id="google-analytics"
                         dangerouslySetInnerHTML={{
                             __html: `
                                 window.dataLayer = window.dataLayer || [];
                                 function gtag(){dataLayer.push(arguments);}
                                 gtag('js', new Date());
 
+                                gtag('config', 'UA-141617385-4');
                                 gtag('config', 'G-3GKQHRYFHX');
                             `,
                         }}
                     />
+
+                    <Script
+                        afterInteractive
+                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9259748524746137"
+                        crossOrigin="anonymous"/>
+
                 </Head>
                 <body className="bg-gray-50 dark:bg-gray-900">
                     <Main />

@@ -8,6 +8,7 @@ import path from 'path'
 import matter from 'gray-matter'
 import { BlogPosts } from '../../components/blog-posts'
 import { WebmeisterLogo } from '../../components/Svg'
+import { MetaTags } from '../../components'
 import { site } from '../../settings'
 
 export default function Blog({ posts }) {
@@ -17,13 +18,23 @@ export default function Blog({ posts }) {
         const bd = new Date(b.frontMatter.date)
         return bd - ad
     })
+    const canonical = "https://www.cbsofyalioglu.com/en/"
+    const title = "Design &amp; Development | Articles mostly about web development"
+    const description = "Articles mostly about web development. Django, AdonisJS, ReactJS, SolidJS ..."
     return (
         <>
             <Head>
                 <title key="h-title-tag">{site.title}</title>
-                <meta name="title" content="Design &amp; Development | Articles mostly about web development" key="h-title" />
-                <meta name="description" content="Design &amp; Development | Articles mostly about web development" key="h-description" />
-                <link rel="canonical" href="https://www.cbsofyalioglu.com/en/" key="h-canonical" />
+                <meta name="title" content={title} key="h-title" />
+                <meta name="description" content={description} key="h-description" />
+                <link rel="canonical" href={canonical} key="h-canonical" />
+                <MetaTags
+                    type="website"
+                    title={title}
+                    description={description}
+                    canonical={canonical}
+                    cover={site.cover}
+                />
             </Head>
             <div className="min-h-screen">
 
@@ -42,26 +53,25 @@ export default function Blog({ posts }) {
                                 <li
                                     key={"en-featured-" + post.frontMatter.slug + i}
                                     title={post.frontMatter.title}
-                                    href={`/${post.topic}/${post.slug}`}
                                     className="group h-48 md:h-64 xl:h-64 flex flex-col  rounded-lg shadow-lg overflow-hidden relative"
                                 >
                                     <Image
                                         layout="fill"
                                         sizes="30vw"
-                                        priority
+                                        loading="lazy"
                                         src={post.frontMatter.thumbnail || post.frontMatter.cover || "/img/placeholder.webp"}
                                         alt={(post.frontMatter.keywords && post.frontMatter.keywords[0]) || post.frontMatter.title}
                                         className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition duration-500 z-0"
                                     />
 
-                                    <div className="bg-gradient-to-t from-gray-800 md:via-transparent to-transparent absolute inset-0 pointer-events-none"></div>
+                                    <div className="bg-gradient-to-t from-gray-900 md:via-transparent to-transparent absolute inset-0 pointer-events-none"></div>
 
                                     <div className="relative p-4 mt-auto">
-                                        <span className="block !text-gray-200 text-sm">{post.frontMatter.date}</span>
+
                                         <h2 className="!text-white text-xl font-semibold transition duration-100 mb-2 relative">
                                             <a
                                                 title={post.frontMatter.title}
-                                                href={`/${post.topic}/${post.slug}`}
+                                                href={`/${post.topic}/${post.slug}/`}
                                                 className="group"
                                             >
                                                 {post.frontMatter.title}

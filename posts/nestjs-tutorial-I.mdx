@@ -1,0 +1,323 @@
+---
+title: "NestJS Tutorial Part I: Basics, Routing, Validation"
+date: "2021-12-13"
+modified: "2021-12-13"
+description: "The first part of the NestJS tutorial series includes the basics, modules, controllers, and validation."
+cover: "/posts/covers/nestjs-tutorial-I.webp"
+slug: "nestjs-tutorial-I"
+topic: "code"
+canonical: "https://www.cbsofyalioglu.com/code/nestjs-tutorial-I/"
+language: "eng"
+categories:
+  - "code"
+  - "post"
+  - "featured"
+tags:
+  - "nestjs basics"
+  - "nestjs modules"
+  - "nestjs controllers"
+  - "nestjs data validations"
+keywords:
+  - "nestjs tutorial"
+  - "nestjs introduction"
+  - "nestjs for starters"
+  - "nestjs basics"
+related:
+  - "adonisjs-solidjs"
+  - "solidjs-and-reactive-primitives"
+  - "free-design-resources"
+  - "content-creation-tools"
+proficiencyLevel: "Beginner"
+---
+import { ImageZoom } from "/components/mdx/image"
+
+
+The first part of the NestJS tutorial series includes the basics, modules, controllers, and validation.
+
+When I started to learn NestJS, I took my notes in an organized way.
+
+Thanks to this, I published the first part of NestJS tutorial.
+
+The rest of the tutorial will be updated parallel to my learning progression.
+
+## 0) Introduction
+
+For the demonstration purposes, let's look some basics of NestJS. You don't need to do anything. We are going to create a project with the CLI in the next section.
+
+### NestJS Packages
+
+When you create a new project from scratch you need to install the libraries below.
+
+```bash
+# install dependencies
+npm install @nestjs/common @nestjs/core @nestjs/platform-express reflect-metadata typescript
+```
+
+Let's look what are those for:
+
+| Package | Description |
+| --- | --- |
+| @nestjs/common | The functions, classes and other useful stuff except the core package. |
+| @nestjs/core | The core package of NestJS. |
+| @nestjs/platform-express | Express library for handling HTTP requests. You can also choose Fastify as well. |
+| reflect-metadata | It is for using decorators. |
+| typescript | The package is required for using the superset of JavaScript. It is required since we are going to write our app in TypeScript. |
+
+### TypeScript Configurations
+
+NestJS is heavily uses decorators which is a [feature of TypeScript](https://www.typescriptlang.org/docs/handbook/decorators.html). Decorators allows us to write cleaner and understandable code. You can also read: [Understanding JavaScript decorators](https://blog.logrocket.com/understanding-javascript-decorators/)
+
+```bash
+{
+    "compilerOptions": {
+        "target": "es2017", /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', 'ES2021', or 'ESNEXT'. */
+        "module": "commonjs", /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
+        "experimentalDecorators": true,              /* Enables experimental support for ES7 decorators. */
+        "emitDecoratorMetadata": true,               /* Enables experimental support for emitting type metadata for decorators. */
+    }
+}
+```
+
+### NestJS Concepts
+
+| NestJS Tool | Description |
+| --- | --- |
+| Pipe | Data validation in requests |
+| Guard | User authentication |
+| Modules | Groups the code together. A module wraps the controller. |
+| Controller | Route the request to a specific function |
+| Service | Business logic |
+| Repository | Database access |
+| Filters | Handles errors that occur during request handling |
+| Interceptors | Adds extra logic to incoming requests or outcoming responses |
+
+## 1) Create a project from the CLI
+
+Another way of starting a NestJS project is scaffolidng with the [Nest CLI](https://docs.nestjs.com/cli/overview).
+
+```bash
+# install Nest CLI
+npm i -g @nestjs/cli
+
+# create a project
+nest new nestapp
+
+# after installation change your directory
+cd nestapp
+
+# start development server
+npm run start:dev
+```
+
+When the installation is finished, I am going to remove some files in order to generate a new module and a controller. Therefore, you can remove those files:
+
+```bash
+# delete those if you follow the post
+src/app.service.ts
+src/app.controller.ts
+src/app.controller.spec.ts
+src/app.module.ts
+```
+
+## 2) The Basic App Structure (Controllers and Modules)
+
+A minimal NestJS app requires at least a module and a controller.
+
+Modules can be said that a root file of different parts of app. Controllers and service providers are connected the app through modules.
+
+```bash
+# generate a  module
+nest generate module message
+
+# generate a controller
+# nest generate controller folder/class
+nest generate controller messages/messages --flat
+```
+
+There are some things to be highlighted:
+
+1. Don't add contoller suffix to your controller name. It will be automatically suffixed.
+2. Putting --flat flag generates the controller without creating an extra folder. If you need more organized directory which put controller in a folder, you can omit it.
+3. The controller is automatically appended to the module
+4. The text in the controller decorator, which is "messages" in our case, prefixes the routes under the controller. In other words, all the routes under this controller will start with "messages" like "/messages/list" or "/message/:id"
+
+<ImageZoom
+    src="/posts/nestjs/01-nestjs-module-controller.webp"
+    alt="NestJS modules and controller"
+/>
+
+
+## 3) Routing
+
+Routing includes request and response cycles of the apps. For the detailed instructions, you can visit: [NestJS Controllers - Routing](https://docs.nestjs.com/controllers#routing).
+
+Now, we can add our first routes. Change the controller file accordingly.
+
+```tsx
+import { Controller, Get, Post } from '@nestjs/common';
+
+@Controller('messages')
+export class MessagesController {
+    @Get()
+    listMessage() {}
+
+    @Post()
+    createMessage() {}
+
+    @Get('/:id')
+    getMessage() {}
+}
+```
+
+We just created three routes:
+
+1. GET http://localhost:3000/messages (Bring all messages)
+2. POST http://localhost:3000/messages (Create a new message)
+3. GET http://localhost:3000/messages/:id (Bring a message with the given id)
+
+To check our routes, there are several ways. You can use your favorite REST API Client such as Postman, Insomnia, Paw. I'm planning to use [Thunder Client](https://www.thunderclient.io/) throughout this post. It is an extension for VS Code. If you are a VS Coder, the chances are high that you like it.
+
+After sending API requests to corresponding routes, It is seen that all our routes return success code even though they didn't return anything.
+
+<ImageZoom
+    src="/posts/nestjs/02-thunder-client.webp"
+    alt="VS Code Thunder Client"
+/>
+
+
+In order to extract information from requests we will use decorators in route handlers. In a hypothetical request, we will break down the request into its components. Let's say we would send a POST request to `[http://localhost:3000/messages/5?order=date](http://localhost:3000/messages/5?order=date)` and the content would be:
+
+```json
+{"message": "First message"}
+```
+
+The dedicated decorators for the request object. The other decorators and the request object details can be read on: [NestJS Controller - Request](https://docs.nestjs.com/controllers#request-object)
+
+| POST | http://localhost:3000/messages/5?order=date |
+| --- | --- |
+| localhost:3000 | @Headers() |
+| 5 | @Param('id') |
+| order=true | @Query() |
+| {"message": "First message"} | @Body() |
+
+## 4) Data Validation (Pipe)
+
+Pipes in NestJS are for data validation in requests. They validate or transform the data before reaching the controller. You can read the details: [NestJS Pipe](https://docs.nestjs.com/pipes#pipes)
+
+The two usecase of pipes are below.
+
+1. Data validation
+2. Data transformation
+
+<ImageZoom
+    src="/posts/nestjs/03-request-pipe-controller.webp"
+    alt="Request, Pipe, and Controller Diagram"
+/>
+
+
+To use those functionalities, we need to install two extra packagein the next step. Those are:
+
+1. [class-transformer](https://github.com/typestack/class-transformer): Decorator-based transformation, serialization, and deserialization between objects and classes.
+2. [class-validator](https://github.com/typestack/class-validator): Decorator-based property validation for classes.
+
+```bash
+# install validator packages
+npm install class-validator class-transformer
+```
+
+NestJS provides eight pipes available out-of-the-box, you could also write your own. Those built-in pipes are: ValidationPipe, ParseIntPipe, ParseFloatPipe, ParseBoolPipe, ParseArrayPipe, ParseUUIDPipe, ParseEnumPipe, DefaultValuePipe.
+
+Now, there are a couple of things to do for setting automatic validation. We will register the validation globally; then we should define the expected data, which we will call data transfer object, then we should define validation rules and apply all of these to the specific request handler.
+
+### 4.1) Registering Validation Globally
+
+To use the ValidationPipe, we need to tell NestJS to use this validation globally. In other words, we need to set up automatic validation globally. After registering the ValidationPipe globally, we will define different rules for different routes.
+
+Open and edit the `main.ts` file accordingly.
+
+```tsx
+import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
+import { MessagesModule } from './messages/messages.module';
+
+async function bootstrap() {
+  const app = await NestFactory.create(MessagesModule);
+  app.useGlobalPipes(
+	  new ValidationPipe()
+  )
+  await app.listen(3000);
+}
+bootstrap();
+```
+
+### 4.2) Creating a Class that Defines Expected Data Properties (Data Transfer Object - dto)
+
+The next step is creating a class that describes the set of rules the request body must-have. This class is referred as `Data Transfer Object` and  it is generally abbreviated as `dto`.
+
+We are going to create a file that includes a class which describes all the different properties we expect our post request handler to receive.
+
+```bash
+# create data transfer object class
+mkdir src/messages/dtos
+
+# create a file holds validation class
+touch src/messages/dtos/create-message.dto.ts
+
+```
+
+```tsx
+// src/messages/dtos/create-message.dto.ts
+
+// Import validator decorator and put it inside of CreateMessageDto
+import { IsString } from "class-validator"
+
+// Whenever we put this class as an input type of a request
+// It automatically expects a message property with string value
+export class CreateMessageDto {
+	  @IsString()
+    message: string;
+}
+```
+
+Class-transformer package will take the request object and turn it into an instance of the CreateMessageDto class.
+
+The validation class is ready. When we put this class as a type annotation of any request, it tries to validate incoming requests.
+
+<ImageZoom
+    src="/posts/nestjs/04-dto-validator.webp"
+    alt="Where to put dto class?"
+/>
+
+Let's try it.
+
+First, import the Data Transfer Object class into the controller file, then put this class as a type of the incoming request.
+
+```tsx
+// src/messages/messages.controller.ts
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { CreateMessageDto } from './dtos/create-message.dto';
+
+@Controller('messages')
+export class MessagesController {
+    @Get()
+    listMessages() {}
+
+    @Post()
+    createMessage(@Body() body: CreateMessageDto) {
+        console.log(body)
+    }
+
+    @Get('/:id')
+    getMessage(@Param('id') id: string) {
+        console.log(id)
+    }
+}
+```
+
+It is time to test it. I am going to send a post request that is defined earlier and I am going to intentionally put wrong property name.
+
+<ImageZoom
+    src="/posts/nestjs/05-wrong-post-request.webp"
+    alt="NestJS Validation failed"
+/>
+

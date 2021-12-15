@@ -1,3 +1,24 @@
+.animate-text-4xl {
+  -webkit-animation: fade-in 0.5s ease, slide-in 0.5s ease;
+  animation: fade-in 0.5s ease, slide-in 0.5s ease;
+  animation-fill-mode: both;
+  animation-delay: 2.5s;
+}
+
+.animate-text-3xl {
+  -webkit-animation: fade-in 0.5s ease, slide-in 0.5s ease;
+  animation: fade-in 0.5s ease, slide-in 0.5s ease;
+  animation-fill-mode: both;
+  animation-delay: 2s;
+}
+
+.animate-text-2xl {
+  -webkit-animation: fade-in 0.5s ease, slide-in 0.5s ease;
+  animation: fade-in 0.5s ease, slide-in 0.5s ease;
+  animation-fill-mode: both;
+  animation-delay: 1.5s;
+}
+
 .animate-text-xl {
   -webkit-animation: fade-in 0.5s ease, slide-in 0.5s ease;
   animation: fade-in 0.5s ease, slide-in 0.5s ease;
@@ -59,3 +80,19 @@
         transform: translateY(10px);
     }
 }
+
+
+
+/* HR */
+.animate-hr {
+  -webkit-animation: fade-in 1.5s ease, slide-in 1.5s ease;
+  animation: fade-in 1.5s ease, slide-in 1.5s ease ;
+  animation-fill-mode: both;
+  animation-delay: 1s;
+}
+@-webkit-keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+

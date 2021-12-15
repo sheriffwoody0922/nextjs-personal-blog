@@ -18,7 +18,9 @@ export function MetaTags(props) {
     const currentDate = new Date()
     const isArticle = props.type === "article"
     const haveTags = props.tags && props.tags.length > 0
+    const haveKeywords = props.keywords && props.keywords.length > 0
     const twitterHandle = site.socialMediaLinks?.twitter.split("/")[site.socialMediaLinks?.twitter.split("/").length - 1]
+    const haveMonetize = props.monetize || props.frontMatter?.monetize
     const coverUrl = props.cover?.startsWith("https") ? props.cover : site.website + props.cover
     //console.log("twitter", twitterHandle)
     const ogdata = {
@@ -87,8 +89,12 @@ export function MetaTags(props) {
             </Fragment>))
             }
 
-
+            {/* TWITTER TAGS  */}
             {Object.keys(twitterdata).map(tw => opengraph(tw, twitterdata[tw]))}
+
+            {/* KEYWORDS  */}
+            {haveKeywords && <meta property="keywords" content={`${props.keywords.join(", ")}`} key={"kw-"} />}
+            {haveMonetize && <meta name="monetization" content="$ilp.uphold.com/7pfeXG2heaqk" />}
         </Fragment>
     )
 }
@@ -181,7 +187,15 @@ export function RichData(props) {
             "@id": props.canonical + "#main-entity"
         }
     }
-    // ARTICLE SPECIFIC
+    // ARTICLE SPECIFIC (ABOUT)
+    // expects [{ type: "Thing", name: "Canva", sameAs: "https://www.wikidata.org/wiki/Q35997" }]
+    const about = props.about || props.frontMatter.about
+    if (about) {
+        articlegraph["about"] = about.map(
+            m => ({ "@type": m.type, "name": m.name, "sameAs": m.sameAs })
+        )
+    }
+    // (MENTIONS)
     // expects [{ type: "Thing", name: "Canva", sameAs: "https://www.wikidata.org/wiki/Q35997" }]
     const mentions = props.mentions || props.frontMatter.mentions
     if (mentions) {
@@ -189,7 +203,6 @@ export function RichData(props) {
             m => ({ "@type": m.type, "name": m.name, "sameAs": m.sameAs })
         )
     }
-
     // TECH ARTICLE SPECIFIC
     // expects 'Beginner' or 'Expert'
     const proficiencyLevel: ("Beginner" | "Expert") = props.proficiencyLevel || props.frontMatter.proficiencyLevel
