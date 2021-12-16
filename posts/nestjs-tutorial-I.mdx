@@ -172,9 +172,9 @@ export class WordsController {
 
 We just created three routes:
 
-1. GET http://localhost:3000/words (Bring all messages)
-2. POST http://localhost:3000/words (Create a new message)
-3. GET http://localhost:3000/words/:id (Bring a message with the given id)
+1. GET http://localhost:3000/words (Bring all words)
+2. POST http://localhost:3000/words (Create a new word)
+3. GET http://localhost:3000/words/:id (Bring a word with the given name)
 
 To check our routes, there are several ways. You can use your favorite REST API Client such as Postman, Insomnia, Paw. I'm planning to use [Thunder Client](https://www.thunderclient.io/) throughout this post. It is an extension for VS Code. If you are a VS Coder, the chances are high that you like it.
 
@@ -275,7 +275,7 @@ export class CreateWordDto {
 }
 ```
 
-Class-transformer package will take the request object and turn it into an instance of the CreateMessageDto class.
+Class-transformer package will take the request object and turn it into an instance of the CreateWordDto class.
 
 The validation class is ready. When we put this class as a type annotation of any request, it tries to validate incoming requests.
 
