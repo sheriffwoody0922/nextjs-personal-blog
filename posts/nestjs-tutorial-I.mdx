@@ -1,36 +1,36 @@
 ---
-title: "NestJS Tutorial Part I: Basics, Routing, Validation"
-date: "2021-12-13"
-modified: "2021-12-13"
-description: "The first part of the NestJS tutorial series includes the basics, modules, controllers, and validation."
-cover: "/posts/covers/nestjs-tutorial-I.webp"
-slug: "nestjs-tutorial-I"
-topic: "code"
-canonical: "https://www.cbsofyalioglu.com/code/nestjs-tutorial-I/"
-language: "eng"
+title: 'NestJS Tutorial Part I: Basics, Routing, Validation'
+date: '2021-12-13'
+modified: '2021-12-13'
+description: 'The first part of the NestJS tutorial series includes the basics, modules, controllers, and validation.'
+cover: '/posts/covers/nestjs-tutorial-I.webp'
+slug: 'nestjs-tutorial-I'
+topic: 'code'
+canonical: 'https://www.cbsofyalioglu.com/code/nestjs-tutorial-I/'
+language: 'eng'
 categories:
-  - "code"
-  - "post"
-  - "featured"
+    - 'code'
+    - 'post'
+    - 'featured'
 tags:
-  - "nestjs basics"
-  - "nestjs modules"
-  - "nestjs controllers"
-  - "nestjs data validations"
+    - 'nestjs basics'
+    - 'nestjs modules'
+    - 'nestjs controllers'
+    - 'nestjs data validations'
 keywords:
-  - "nestjs tutorial"
-  - "nestjs introduction"
-  - "nestjs for starters"
-  - "nestjs basics"
+    - 'nestjs tutorial'
+    - 'nestjs introduction'
+    - 'nestjs for starters'
+    - 'nestjs basics'
 related:
-  - "adonisjs-solidjs"
-  - "solidjs-and-reactive-primitives"
-  - "free-design-resources"
-  - "content-creation-tools"
-proficiencyLevel: "Beginner"
+    - 'adonisjs-solidjs'
+    - 'solidjs-and-reactive-primitives'
+    - 'free-design-resources'
+    - 'content-creation-tools'
+proficiencyLevel: 'Beginner'
 ---
-import { ImageZoom } from "/components/mdx/image"
 
+import { ImageZoom } from '/components/mdx/image'
 
 The first part of the NestJS tutorial series includes the basics, modules, controllers, and validation.
 
@@ -55,13 +55,13 @@ npm install @nestjs/common @nestjs/core @nestjs/platform-express reflect-metadat
 
 Let's look what are those for:
 
-| Package | Description |
-| --- | --- |
-| @nestjs/common | The functions, classes and other useful stuff except the core package. |
-| @nestjs/core | The core package of NestJS. |
-| @nestjs/platform-express | Express library for handling HTTP requests. You can also choose Fastify as well. |
-| reflect-metadata | It is for using decorators. |
-| typescript | The package is required for using the superset of JavaScript. It is required since we are going to write our app in TypeScript. |
+| Package                  | Description                                                                                                                     |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| @nestjs/common           | The functions, classes and other useful stuff except the core package.                                                          |
+| @nestjs/core             | The core package of NestJS.                                                                                                     |
+| @nestjs/platform-express | Express library for handling HTTP requests. You can also choose Fastify as well.                                                |
+| reflect-metadata         | It is for using decorators.                                                                                                     |
+| typescript               | The package is required for using the superset of JavaScript. It is required since we are going to write our app in TypeScript. |
 
 ### TypeScript Configurations
 
@@ -80,15 +80,15 @@ NestJS is heavily uses decorators which is a [feature of TypeScript](https://www
 
 ### NestJS Concepts
 
-| NestJS Tool | Description |
-| --- | --- |
-| Pipe | Data validation in requests |
-| Guard | User authentication |
-| Modules | Groups the code together. A module wraps the controller. |
-| Controller | Route the request to a specific function |
-| Service | Business logic |
-| Repository | Database access |
-| Filters | Handles errors that occur during request handling |
+| NestJS Tool  | Description                                                  |
+| ------------ | ------------------------------------------------------------ |
+| Pipe         | Data validation in requests                                  |
+| Guard        | User authentication                                          |
+| Modules      | Groups the code together. A module wraps the controller.     |
+| Controller   | Route the request to a specific function                     |
+| Service      | Business logic                                               |
+| Repository   | Database access                                              |
+| Filters      | Handles errors that occur during request handling            |
 | Interceptors | Adds extra logic to incoming requests or outcoming responses |
 
 ## 1) Create a project from the CLI
@@ -127,11 +127,11 @@ Modules can be said that a root file of different parts of app. Controllers and 
 
 ```bash
 # generate a  module
-nest generate module message
+nest generate module words
 
 # generate a controller
 # nest generate controller folder/class
-nest generate controller messages/messages --flat
+nest generate controller words/words --flat
 ```
 
 There are some things to be highlighted:
@@ -139,13 +139,14 @@ There are some things to be highlighted:
 1. Don't add contoller suffix to your controller name. It will be automatically suffixed.
 2. Putting --flat flag generates the controller without creating an extra folder. If you need more organized directory which put controller in a folder, you can omit it.
 3. The controller is automatically appended to the module
-4. The text in the controller decorator, which is "messages" in our case, prefixes the routes under the controller. In other words, all the routes under this controller will start with "messages" like "/messages/list" or "/message/:id"
+4. The text in the controller decorator, which is "words" in our case, prefixes the routes under the controller. In other words, all the routes under this controller will start with "words" like "/words/list" or "/words/:id"
 
 <ImageZoom
-    src="/posts/nestjs/01-nestjs-module-controller.webp"
+    src="/posts/nestjs/01-modules-controolers-1000x300.webp"
     alt="NestJS modules and controller"
+    width={1000}
+    height={300}
 />
-
 
 ## 3) Routing
 
@@ -154,51 +155,47 @@ Routing includes request and response cycles of the apps. For the detailed instr
 Now, we can add our first routes. Change the controller file accordingly.
 
 ```tsx
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common'
 
-@Controller('messages')
-export class MessagesController {
+@Controller('words')
+export class WordsController {
     @Get()
-    listMessage() {}
+    listWords() {}
 
     @Post()
-    createMessage() {}
+    createWord() {}
 
     @Get('/:id')
-    getMessage() {}
+    getWord() {}
 }
 ```
 
 We just created three routes:
 
-1. GET http://localhost:3000/messages (Bring all messages)
-2. POST http://localhost:3000/messages (Create a new message)
-3. GET http://localhost:3000/messages/:id (Bring a message with the given id)
+1. GET http://localhost:3000/words (Bring all messages)
+2. POST http://localhost:3000/words (Create a new message)
+3. GET http://localhost:3000/words/:id (Bring a message with the given id)
 
 To check our routes, there are several ways. You can use your favorite REST API Client such as Postman, Insomnia, Paw. I'm planning to use [Thunder Client](https://www.thunderclient.io/) throughout this post. It is an extension for VS Code. If you are a VS Coder, the chances are high that you like it.
 
 After sending API requests to corresponding routes, It is seen that all our routes return success code even though they didn't return anything.
 
-<ImageZoom
-    src="/posts/nestjs/02-thunder-client.webp"
-    alt="VS Code Thunder Client"
-/>
+<ImageZoom src="/posts/nestjs/02-thunder-client.webp" alt="VS Code Thunder Client" />
 
-
-In order to extract information from requests we will use decorators in route handlers. In a hypothetical request, we will break down the request into its components. Let's say we would send a POST request to `[http://localhost:3000/messages/5?order=date](http://localhost:3000/messages/5?order=date)` and the content would be:
+In order to extract information from requests we will use decorators in route handlers. In a hypothetical request, we will break down the request into its components. Let's say we would send a POST request to http://localhost:3000/words/5?order=date and the content would be:
 
 ```json
-{"message": "First message"}
+{ "name": "taxonomy" }
 ```
 
 The dedicated decorators for the request object. The other decorators and the request object details can be read on: [NestJS Controller - Request](https://docs.nestjs.com/controllers#request-object)
 
-| POST | http://localhost:3000/messages/5?order=date |
-| --- | --- |
-| localhost:3000 | @Headers() |
-| 5 | @Param('id') |
-| order=true | @Query() |
-| {"message": "First message"} | @Body() |
+| POST                 | http://localhost:3000/words/5?order=date |
+| -------------------- | ---------------------------------------- |
+| localhost:3000       | @Headers()                               |
+| 5                    | @Param('id')                             |
+| order=true           | @Query()                                 |
+| {"name": "taxonomy"} | @Body()                                  |
 
 ## 4) Data Validation (Pipe)
 
@@ -210,10 +207,11 @@ The two usecase of pipes are below.
 2. Data transformation
 
 <ImageZoom
-    src="/posts/nestjs/03-request-pipe-controller.webp"
+    src="/posts/nestjs/02-data-validation-1800x600.webp"
+    width={1800}
+    height={600}
     alt="Request, Pipe, and Controller Diagram"
 />
-
 
 To use those functionalities, we need to install two extra packagein the next step. Those are:
 
@@ -236,46 +234,44 @@ To use the ValidationPipe, we need to tell NestJS to use this validation globall
 Open and edit the `main.ts` file accordingly.
 
 ```tsx
-import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
-import { MessagesModule } from './messages/messages.module';
+import { NestFactory } from '@nestjs/core'
+import { WordsModule } from './words/words.module'
+import { ValidationPipe } from '@nestjs/common'
 
 async function bootstrap() {
-  const app = await NestFactory.create(MessagesModule);
-  app.useGlobalPipes(
-	  new ValidationPipe()
-  )
-  await app.listen(3000);
+    const app = await NestFactory.create(WordsModule)
+    app.useGlobalPipes(new ValidationPipe())
+    await app.listen(3000)
 }
-bootstrap();
+bootstrap()
 ```
 
 ### 4.2) Creating a Class that Defines Expected Data Properties (Data Transfer Object - dto)
 
-The next step is creating a class that describes the set of rules the request body must-have. This class is referred as `Data Transfer Object` and  it is generally abbreviated as `dto`.
+The next step is creating a class that describes the set of rules the request body must-have. This class is referred as `Data Transfer Object` and it is generally abbreviated as `dto`.
 
 We are going to create a file that includes a class which describes all the different properties we expect our post request handler to receive.
 
 ```bash
 # create data transfer object class
-mkdir src/messages/dtos
+mkdir src/words/dtos
 
 # create a file holds validation class
-touch src/messages/dtos/create-message.dto.ts
+touch src/words/dtos/create-word.dto.ts
 
 ```
 
 ```tsx
-// src/messages/dtos/create-message.dto.ts
+// src/words/dtos/create-word.dto.ts
 
-// Import validator decorator and put it inside of CreateMessageDto
-import { IsString } from "class-validator"
+// Import validator decorator and put it inside of CreateWordeDto
+import { IsString } from 'class-validator'
 
 // Whenever we put this class as an input type of a request
-// It automatically expects a message property with string value
-export class CreateMessageDto {
-	  @IsString()
-    message: string;
+// It automatically expects a name property with string value
+export class CreateWordDto {
+    @IsString()
+    name: string
 }
 ```
 
@@ -284,32 +280,40 @@ Class-transformer package will take the request object and turn it into an insta
 The validation class is ready. When we put this class as a type annotation of any request, it tries to validate incoming requests.
 
 <ImageZoom
-    src="/posts/nestjs/04-dto-validator.webp"
+    src="/posts/nestjs/03-data-transfer-object-900x500.webp"
     alt="Where to put dto class?"
+    width={900}
+    height={500}
 />
 
 Let's try it.
 
 First, import the Data Transfer Object class into the controller file, then put this class as a type of the incoming request.
 
-```tsx
-// src/messages/messages.controller.ts
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
-import { CreateMessageDto } from './dtos/create-message.dto';
+I also imported `NotFoundException` error in order to return proper status code.
 
-@Controller('messages')
-export class MessagesController {
+```tsx
+// src/words/words.controller.ts
+import { Controller, Get, Post, Body, Param, NotFoundException } from '@nestjs/common'
+import { CreateWordDto } from './dtos/create-word.dto'
+
+@Controller('words')
+export class WordsController {
     @Get()
-    listMessages() {}
+    listWords() {}
 
     @Post()
-    createMessage(@Body() body: CreateMessageDto) {
+    createWord(@Body() body: CreateWordDto) {
         console.log(body)
     }
 
-    @Get('/:id')
-    getMessage(@Param('id') id: string) {
-        console.log(id)
+    @Get('/:name')
+    async getWord(@Param('name') name: string) {
+        console.log(name)
+        if (!word) {
+            throw new NotFoundException('word not found')
+        }
+        return word
     }
 }
 ```
@@ -317,7 +321,8 @@ export class MessagesController {
 It is time to test it. I am going to send a post request that is defined earlier and I am going to intentionally put wrong property name.
 
 <ImageZoom
-    src="/posts/nestjs/05-wrong-post-request.webp"
+    src="/posts/nestjs/04-data-validation-bad-request-1000x600.webp"
     alt="NestJS Validation failed"
+    width={1000}
+    height={600}
 />
-

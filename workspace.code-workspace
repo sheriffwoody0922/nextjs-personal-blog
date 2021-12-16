@@ -4,7 +4,7 @@
 			"path": "."
 		},
 		{
-			"path": "../alarmsistemleriorg"
+			"path": "../../Projects/nestjs/nestapp"
 		}
 	],
 	"settings": {}

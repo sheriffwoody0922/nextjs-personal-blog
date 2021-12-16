@@ -19,18 +19,25 @@ export default function ImageZoom(props){
         setIsZoomed(shouldZoom)
     }, [])
 
+    const haveSizes = (props.width && props.height)
+    const layout = haveSizes ? "intrinsic" : "fill"
+    const myClass = (props.className ? props.className : "") + " my-4 rounded-lg"
+    //console.log("layout:", layout, haveSizes)
     return (
         <ControlledZoom isZoomed={isZoomed} onZoomChange={handleZoomChange} id="ccc"
         overlayBgColorEnd="rgba(0,0,0,0.6)"
         overlayBgColorStart="rgba(0,0,0,0.6)"
         >
-            <img
+            <Image
+                layout={layout}
+                width={props.width}
+                height={props.height}
                 alt={props.alt}
                 onClick={handleImgLoad}
                 src={props.src}
-                width="100%"
-                style={{maxWidth:1400}}
-                className="rounded-lg"
+                //width="100%"
+                //style={{minHei:1400}}
+                className={myClass}
                 loading="lazy"
             />
         </ControlledZoom>
