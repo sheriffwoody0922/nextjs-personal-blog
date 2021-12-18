@@ -39,6 +39,7 @@ export default function MdxProvider({ source, components, className, ...props })
         table: (props) => <div className="table-wrapper"><table className="fl-table" {...props} /></div>,
         img: (props) => <Image {...props} loading="lazy" layout="responsive" width="1400" height="700" />,
         ImageZoom: (props) => <ImageZoom {...props} />,
+        Image: (props) => <Image {...props} />,
 
         Hr: () => <Hr />,
 
