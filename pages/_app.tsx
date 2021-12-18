@@ -23,13 +23,13 @@ export function reportWebVitals(metric) {
 
 
 function MyApp({ Component, pageProps }: AppProps) {
-    const hasMounted = useHasMounted()
-    const hasDebounced = useDebounce(hasMounted, 5000)
-    console.log("loading scripts", hasDebounced)
+    //const hasMounted = useHasMounted()
+    //const hasDebounced = useDebounce(hasMounted, 5000)
+    //console.log("loading scripts", hasDebounced)
     return (
         <React.Fragment>
             <Layout>
-                <Head>
+                {/*<Head>
 
                     <link
                         rel="preload"
@@ -52,7 +52,22 @@ function MyApp({ Component, pageProps }: AppProps) {
                         </>
                     }
 
-                </Head>
+                </Head>*/}
+                <Script
+                    strategy='lazyOnload'
+                    src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+                />
+                <Script id='ga-analytics'>
+                    {
+                        `
+                            window.dataLayer = window.dataLayer || [];
+                            function gtag(){dataLayer.push(arguments);}
+                            gtag('js', new Date());
+
+                            gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+                        `
+                    }
+                </Script>
                 <Component {...pageProps} />
 
 
