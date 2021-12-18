@@ -9,17 +9,17 @@ import '../styles/tailwind.css'
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import Layout from '../layout/layout'
-import { site } from "../settings"
+//import { site } from "../settings"
 //import { MetaTags } from "../components/next-seo"
-import { useHasMounted, useDebounce } from "../lib/hooks"
+//import { useHasMounted, useDebounce } from "../lib/hooks"
 //import { CssBaseline } from '@nextui-org/react';
 
 // export type Status = 'idle' | 'loading' | 'ready' | 'error'
 // export type ScriptElt = HTMLScriptElement | null
 
-export function reportWebVitals(metric) {
-    //console.log(metric)
-}
+//export function reportWebVitals(metric) {
+//    //console.log(metric)
+//}
 
 
 function MyApp({ Component, pageProps }: AppProps) {
