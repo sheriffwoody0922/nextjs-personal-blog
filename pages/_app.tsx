@@ -37,11 +37,15 @@ function MyApp({ Component, pageProps }: AppProps) {
                         crossOrigin=""
                         type="font/woff2"
                     />
-                    <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=UA-141617385-4" />
-                    <Script strategy="afterInteractive"
-                        id="google-analytics-cbs"
-                        dangerouslySetInnerHTML={{
-                            __html: `
+
+
+                </Head>
+                <Component {...pageProps} />
+                <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=UA-141617385-4" />
+                <Script strategy="afterInteractive"
+                    id="google-analytics-cbs"
+                    dangerouslySetInnerHTML={{
+                        __html: `
                         window.dataLayer = window.dataLayer || [];
                         function gtag(){dataLayer.push(arguments);}
                         gtag('js', new Date());
@@ -49,11 +53,8 @@ function MyApp({ Component, pageProps }: AppProps) {
                         gtag('config', 'UA-141617385-4');
                         gtag('config', 'G-3GKQHRYFHX');
                     `,
-                        }}
-                    />
-
-                </Head>
-                <Component {...pageProps} />
+                    }}
+                />
             </Layout>
 
             {/* MESH GRADIENTS */}
