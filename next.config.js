@@ -31,7 +31,6 @@ const securityHeaders = [
 
 const config = {
   //poweredByHeader: false,
-
   experimental: { esmExternals: true },
   //reactStrictMode: true,
   trailingSlash: true,

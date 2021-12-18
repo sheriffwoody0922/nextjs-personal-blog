@@ -4,7 +4,7 @@
 			"path": "."
 		},
 		{
-			"path": "../../Projects/nestjs/nestapp"
+			"path": "../../Projects/shopify/product-reviews-sample-app-main"
 		}
 	],
 	"settings": {}

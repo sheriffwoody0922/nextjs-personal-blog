@@ -4,7 +4,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import Footer from '../layout/footer'
-import { RichData, MetaTags } from "../components/next-seo"
+import { RichData, MetaTags, ListItemCard } from "../components"
 import { site } from "../settings"
 import HomepageProjects from '../components/HomepageProjects'
 import fs from 'fs'
@@ -49,38 +49,15 @@ function Home({ featuredPosts, turkishPosts, englishPosts }) {
 
                         <ul className="grid sm:grid-cols-2 lg:grid-cols-3  gap-4 md:gap-6 xl:gap-8">
                             {featuredPosts.map((post, index) => (
-                                <li
-                                    key={"featured-" + post.slug}
+                                <ListItemCard
                                     title={post.frontMatter.title}
-                                    className="animate-text-3xl group h-48 md:h-64 xl:h-64 flex flex-col  rounded-lg shadow-lg overflow-hidden relative"
-                                >
-                                    <Image
-                                        priority={index < 2 ? true : undefined}
-                                        layout="fill"
-                                        sizes="30vw"
-                                        loading={index < 2 ? undefined : "lazy"}
-                                        src={post.frontMatter.thumbnail || post.frontMatter.cover || "/img/placeholder.webp"}
-                                        alt={(post.frontMatter.keywords && post.frontMatter.keywords[0]) || post.frontMatter.title}
-                                        className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition duration-500 z-0"
-                                    />
+                                    cover={post.frontMatter.cover}
+                                    keywords={post.frontMatter.keywords}
+                                    slug={post.frontMatter.slug}
+                                    topic={post.frontMatter.topic}
+                                    key={"home-featured-" + post.frontMatter.slug}
+                                />
 
-                                    <div className="bg-gradient-to-t from-gray-800 md:via-transparent to-transparent absolute inset-0 pointer-events-none"></div>
-
-                                    <div className="relative p-4 mt-auto">
-                                        <span className="block !text-gray-200 text-sm">{post.frontMatter.date}</span>
-                                        <h2 className="!text-white text-xl font-semibold transition duration-100 mb-2 relative">
-                                            <a
-                                                title={post.frontMatter.title}
-                                                href={`/${post.topic}/${post.slug}/`}
-                                                className="group"
-                                            >
-                                                {post.frontMatter.title}
-                                            </a>
-                                        </h2>
-                                        <p>{post.frontMatter.e}</p>
-                                        <a className="!text-indigo-300 " href={`/${post.topic}`} title={`See ${post.topic} articles`}>{post.category}</a>
-                                    </div>
-                                </li>
                             ))}
                         </ul>
 
@@ -109,38 +86,14 @@ function Home({ featuredPosts, turkishPosts, englishPosts }) {
 
                         <ul className="grid sm:grid-cols-2 lg:grid-cols-3  gap-4 md:gap-6 xl:gap-8">
                             {englishPosts.map(post => (
-                                <li
-                                    key={"english-" + post.slug}
+                                <ListItemCard
                                     title={post.frontMatter.title}
-
-                                    className="group h-48 md:h-64 xl:h-64 flex flex-col  rounded-lg shadow-lg overflow-hidden relative"
-                                >
-                                    <Image
-                                        layout="fill"
-                                        sizes="30vw"
-                                        loading="lazy"
-                                        src={post.frontMatter.thumbnail || post.frontMatter.cover || "/img/placeholder.webp"}
-                                        alt={(post.frontMatter.keywords && post.frontMatter.keywords[0]) || post.frontMatter.title}
-                                        className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition duration-500 z-0"
-                                    />
-
-                                    <div className="bg-gradient-to-t from-gray-800 md:via-transparent to-transparent absolute inset-0 pointer-events-none"></div>
-
-                                    <div className="relative p-4 mt-auto">
-                                        <span className="block !text-gray-200 text-sm">{post.frontMatter.date}</span>
-                                        <h2 className="!text-white text-xl font-semibold transition duration-100 mb-2 relative">
-                                            <a
-                                                title={post.frontMatter.title}
-                                                href={`/${post.topic}/${post.slug}/`}
-                                                className="group"
-                                            >
-                                                {post.frontMatter.title}
-                                            </a>
-                                        </h2>
-                                        <p>{post.frontMatter.e}</p>
-                                        <a className="!text-indigo-300 " href={`/${post.topic}`} title={`See ${post.topic} articles`}>{post.category}</a>
-                                    </div>
-                                </li>
+                                    cover={post.frontMatter.cover}
+                                    keywords={post.frontMatter.keywords}
+                                    slug={post.frontMatter.slug}
+                                    topic={post.frontMatter.topic}
+                                    key={"home-eng-" + post.frontMatter.slug}
+                                />
                             ))}
                         </ul>
 
@@ -169,37 +122,14 @@ function Home({ featuredPosts, turkishPosts, englishPosts }) {
 
                         <ul className="grid sm:grid-cols-2 lg:grid-cols-3  gap-4 md:gap-6 xl:gap-8">
                             {turkishPosts.map(post => (
-                                <li
-                                    key={"turkish-" + post.slug}
+                                <ListItemCard
                                     title={post.frontMatter.title}
-                                    className="group h-48 md:h-64 xl:h-64 flex flex-col  rounded-lg shadow-lg overflow-hidden relative"
-                                >
-                                    <Image
-                                        layout="fill"
-                                        sizes="30vw"
-                                        loading="lazy"
-                                        src={post.frontMatter.thumbnail || post.frontMatter.cover || "/img/placeholder.webp"}
-                                        alt={(post.frontMatter.keywords && post.frontMatter.keywords[0]) || post.frontMatter.title}
-                                        className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition duration-500 z-0"
-                                    />
-
-                                    <div className="bg-gradient-to-t from-gray-800 md:via-transparent to-transparent absolute inset-0 pointer-events-none"></div>
-
-                                    <div className="relative p-4 mt-auto">
-                                        <span className="block !text-gray-200 text-sm">{post.frontMatter.date}</span>
-                                        <h2 className="!text-white text-xl font-semibold transition duration-100 mb-2 relative">
-                                            <a
-                                                title={post.frontMatter.title}
-                                                href={`/${post.topic}/${post.slug}/`}
-                                                className="group"
-                                            >
-                                                {post.frontMatter.title}
-                                            </a>
-                                        </h2>
-                                        <p>{post.frontMatter.e}</p>
-                                        <a className="!text-indigo-300 " href={`/${post.topic}`} title={`See ${post.topic} articles`}>{post.category}</a>
-                                    </div>
-                                </li>
+                                    cover={post.frontMatter.cover}
+                                    keywords={post.frontMatter.keywords}
+                                    slug={post.frontMatter.slug}
+                                    topic={post.frontMatter.topic}
+                                    key={"home-tr-" + post.frontMatter.slug}
+                                />
                             ))}
                         </ul>
 
@@ -228,7 +158,7 @@ export function HeroDark() {
                                 <br />
                                 This is my personal blog mostly about development and design.
                             </p> */}
-                            <hr className="animate-hr -left-20 sm:-left-36"/>
+                            <hr className="animate-hr -left-20 sm:-left-36" />
                         </div>
 
                         <div className="absolute z-0 md:relative md:z-10 flex items-center justify-center w-full md:pt-0 mt-32 mb-16 md:mt-1 opacity-75 md:opacity-100"></div>
@@ -371,7 +301,7 @@ export const getStaticProps = async () => {
         }
 
         // English
-        if (frontMatter.language === "eng" || frontMatter.language === "en"){
+        if (frontMatter.language === "eng" || frontMatter.language === "en") {
             englishPosts.push({
                 frontMatter,
                 // The slug will be user defined if exists in the frontmatter

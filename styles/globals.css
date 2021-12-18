@@ -1,6 +1,7 @@
 @import './typography.css';
 @import './animations.css';
 @import './post.css';
+@import './post-specific.css';
 @import './mantine.css';
 @import './fonts.css';
 
@@ -90,7 +91,7 @@ html:not(.dark) .bg-trans {
 .glass-card-card {
   backdrop-filter: blur(20px) saturate(200%);
   -webkit-backdrop-filter: blur(20px) saturate(200%);
-  background-color: rgba(17, 25, 40, 0.85);
+  background-color: rgba(255, 255, 255, 0.10);
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.125);
 }
@@ -163,6 +164,8 @@ html.dark #main-layout {
   right: -50vw;
   z-index: 0;
 }
+
+
 .blur-teal-pink {
   top: 200vh;
   right: -25%;
@@ -269,7 +272,7 @@ html:not(.dark) .lottie-icon svg g path {
 hr {
   margin: 0 auto;
   margin-top: 32px;
-  margin-bottom: 64px;
+  margin-bottom: 32px;
   width: 100%;
   border: 0;
   height: 1px;

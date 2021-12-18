@@ -1,5 +1,6 @@
 import { WebmeisterGradientLogo } from "../components/logo"
 import { Fragment, useState } from 'react'
+import Script from "next/script"
 import { Dialog, Menu, Transition, Disclosure } from '@headlessui/react'
 import Footer from "./footer"
 import {
@@ -15,6 +16,7 @@ import { Toggle } from "../components/toggle";
 import { useRouter } from 'next/router'
 import { navLinks, footerLinks } from "../settings"
 import { site } from "../settings"
+import { useHasMounted, useDebounce } from "../lib/hooks"
 
 const userNavigation = [
     { name: 'Your Profile', href: '#' },
@@ -27,13 +29,38 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
+// @ts-nocheck
 export default function Layout({ children }) {
     const router = useRouter()
-
+    const hasMounted = useHasMounted()
+    const shouldLoadScripts = useDebounce(hasMounted, 5000)
+    //console.log("loading scripts", shouldLoadScripts)
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const navigation = navLinks.map(navlink => navlink.href === router.asPath ? { ...navlink, current: true } : navlink)
     return (
         <div className="h-auto min-h-screen flex !overflow-x-hidden relative z-10 !bg-transparent !max-w-[100vw]" id="layout">
+            {/*shouldLoadScripts && <>
+                <Script strategy="lazyOnload" key="scripts-cbs-gtag" src="https://www.googletagmanager.com/gtag/js?id=UA-141617385-4" />
+                <Script strategy="lazyOnload"
+                    key="scripts-cbs-analytics"
+                    id="google-analytics-cbs"
+                    dangerouslySetInnerHTML={{
+                        __html: `
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+
+                        gtag('config', 'UA-141617385-4');
+                        gtag('config', 'G-3GKQHRYFHX');
+                    `,
+                    }}
+                />
+                </>*/}
+            {/*<Script strategy="afterInteractive"
+                key="scripts-cbs-adsense"
+                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9259748524746137"
+            crossOrigin="anonymous" />*/}
+
             <div className="absolute top-0 left-0 right-0 bottom-0 z-0 overflow-hidden">
                 <div id="main-layout" ></div>
                 <PurplePinkBlob />

@@ -17,7 +17,7 @@ type CardProps = {
 }
 export function CardEnlarge(props: CardProps) {
     return <div key={props.link} className="card-enlarge grid grid-cols-1 mt-4">
-        <div className="glass-card flex flex-col sm:flex-row items-stretch border rounded-lg overflow-hidden !min-h-[160px]">
+        <div className="glass-card-card flex flex-col sm:flex-row items-stretch border rounded-lg overflow-hidden !min-h-[160px] border border-solid border-[rgba(255,255,255,0.2)]">
 
 
             <a
@@ -48,7 +48,7 @@ export function CardEnlarge(props: CardProps) {
                     >
                         <h3 className="text-gray-800 text-xl font-bold mt-2">{props.title}</h3>
                     </a>
-                    <p className="text-gray-500 text-md mt-2 mb-2 leading-6 overflow-ellipsis overflow-hidden text-md">{props.description || props.excerpt}</p>
+                    <p className="text-gray-500 text-md mt-2 mb-2 leading-6 overflow-ellipsis overflow-hidden text-sm">{props.description || props.excerpt}</p>
 
                 </div>
 
@@ -69,16 +69,16 @@ export function CardCover(props: CardProps) {
     return (
 
         <li key={props.link} className="flex flex-col frost-blur border rounded-lg overflow-hidden glass-card-card">
-            <a href={props.link} rel={props.nofollow ? "nofollow noopener" : "noopener"} className="group h-32 md:h-32 lg:h-36 block bg-gray-100 overflow-hidden relative">
+            <a href={props.link} rel={props.nofollow ? "nofollow noopener" : "noopener"} className="group h-32 md:h-32 lg:h-36 block  overflow-hidden relative">
                 <img
                     src={props.cover}
                     loading="lazy"
                     alt="Photo by Minh Pham"
-                    className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition duration-500"
+                    className="!min-w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition duration-500"
                 />
             </a>
 
-            <div className="flex flex-col flex-1 p-4 sm:p-4">
+            <div className="flex flex-col flex-1 p-4 sm:p-4 !pb-2">
                 <h3 className="text-gray-800 text-xl font-semibold mb-2">
                     <a href={props.link} rel={props.nofollow ? "nofollow noopener" : "noopener"} className="hover:text-indigo-500 active:text-indigo-600 transition duration-100">{props.title}</a>
                 </h3>
@@ -88,7 +88,7 @@ export function CardCover(props: CardProps) {
                 <div className="flex justify-start items-end mt-auto">
 
                     {props.tags?.map(tag => (
-                        <span key={tag} className="text-gray-300 text-xs border rounded px-2 py-1 mr-2 my-2 overflow-ellipsis">
+                        <span key={tag} className="text-gray-300 text-xs border rounded-md  px-2 py-1 mr-2 mt-2 overflow-ellipsis">
                             {tag}
                         </span>
                     ))}
@@ -103,7 +103,7 @@ export function ListItemCard(props: CardProps){
         <li
 
             title={props.title}
-            className="group h-48 md:h-64 xl:h-64 flex flex-col  rounded-lg shadow-lg overflow-hidden relative"
+            className="group h-48 md:h-64 xl:h-64 flex flex-col  rounded-lg shadow-lg overflow-hidden relative border border-solid border-[rgba(255,255,255,0.2)]"
         >
             <Image
                 layout="fill"
@@ -111,7 +111,7 @@ export function ListItemCard(props: CardProps){
                 loading="lazy"
                 src={props.thumbnail || props.cover || "/img/placeholder.webp"}
                 alt={(props.keywords && props.keywords[0]) || props.title}
-                className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition duration-500 z-0"
+                className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition duration-700 z-0"
             />
 
             <div className="bg-gradient-to-t from-gray-800 md:via-transparent to-transparent absolute inset-0 pointer-events-none"></div>
@@ -128,6 +128,12 @@ export function ListItemCard(props: CardProps){
                     </a>
                 </h2>
             </div>
+            <a
+                title={props.title}
+                href={`/${props.topic}/${props.slug}/`}
+                className="group absolute top-0 left-0 right-0 bottom-0"
+            />
+
         </li>
     )
 }

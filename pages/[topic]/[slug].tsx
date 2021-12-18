@@ -17,6 +17,7 @@ import {
     ThreeColorsBlob,
     TealPinkBlob,
     HeroPattern,
+    VerticleBlob
 } from '../../components/Svg'
 import { useScript } from "../../lib/hooks"
 import { ArticleSeo, MetaTags, RichData, ListItemCard, ScrollTopSimpleButton } from "../../components"
@@ -36,8 +37,8 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource, relatedPosts }) => {
     const tags = frontMatter.tags
     const keywords = frontMatter.keywords
     //const keywords = frontMatter.keywords
-    //console.log("categories", frontMatter)
-    const ArticleHead = () => (
+    //console.log("categories", "rendered")
+    const ArticleHead = React.memo(() => (
         <header className="w-full max-w-[760px] h-auto pt-20 ml-auto mr-auto relative flex flex-col items-center">
             <h1 className="text-gray-800 animate-text-md text-5xl lg:text-7xl  text-center mb-4 md:mb-2 mt-8 sm:mt-0">{frontMatter.title}</h1>
             <span className="my-2 text-xs  animate-text-lg !dark:text-gray-200 !text-gray-500">UPDATED: <time dateTime={frontMatter.modified}>{frontMatter.modified}</time></span>
@@ -81,7 +82,7 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource, relatedPosts }) => {
                 )}
             </div>
         </header>
-    )
+    ))
     return (
         <>
             <Head>
@@ -121,6 +122,7 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource, relatedPosts }) => {
                 <main className="markdown-content z-10 post-page min-h-screen w-full max-w-[700px] h-auto pt-4 ml-auto mr-auto relative flex flex-col">
                     <hr />
                     <MdxProvider source={mdxSource} />
+
                 </main>
                 <div className="fixed top-40 w-full h-auto hidden">
 
@@ -188,8 +190,9 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource, relatedPosts }) => {
                 </div>
             </article>
             <hr className="border-gray-100" />
+
             {/* RELATED POSTS */}
-            <aside className="relative pt-20 pb-60 flex flex-col items-center px-4 ">
+            <aside className="relative pt-20 pb-60 flex flex-col items-center px-8 px-12">
                 <h2 className="w-full max-w-[760px] mb-6 !text-left">{frontMatter.language === "tr" ? "İlginizi çekebilir" : "Other posts you may be interested"}</h2>
                 <ul className="grid sm:grid-cols-2 lg:grid-cols-2  gap-4 md:gap-6 xl:gap-8 w-full max-w-[760px]">
                     {relatedPosts.map((rp) => <ListItemCard
@@ -201,7 +204,9 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource, relatedPosts }) => {
                     />
                     )}
                 </ul>
+
             </aside>
+
             <ScrollTopSimpleButton />
         </>
     )

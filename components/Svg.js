@@ -2,21 +2,20 @@ import React from 'react'
 
 export function LinkIcon() {
   return (
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  className="h-6 w-6 inline-block"
-  fill="none"
-  viewBox="0 0 24 24"
-  stroke="currentColor"
->
-  <path
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    strokeWidth={2}
-    d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-  />
-</svg>
-
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-6 w-6 inline-block"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+      />
+    </svg>
   )
 }
 
@@ -1140,3 +1139,81 @@ export function MenuIcon(props) {
     </svg>
   )
 }
+
+export const VerticleBlob = (props) => (
+  <div className="vertical-blob-box">
+    <svg
+      className="!relative !z-0 !w-full top-0"
+      width={1080}
+      height={2160}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <g opacity={0.4} filter="url(#a)">
+        <ellipse
+          rx={298.926}
+          ry={116.902}
+          transform="matrix(-.02904 -.99958 .9399 .34144 511.558 1157.71)"
+          fill="#2C29E8"
+        />
+        <path
+          d="M375.473 381.334c74.671-17.305 187.862 120.021 252.82 306.726 64.958 186.705 57.084 352.09-17.587 369.39-74.671 17.31-83.158-159.133-148.116-345.838-64.957-186.705-161.787-312.972-87.117-330.278Z"
+          fill="#5E0CE3"
+        />
+      </g>
+      <defs>
+        <filter
+          id="a"
+          x={48.432}
+          y={79.863}
+          width={986.67}
+          height={2026.17}
+          filterUnits="userSpaceOnUse"
+          colorInterpolationFilters="sRGB"
+        >
+          <feFlood floodOpacity={0} result="BackgroundImageFix" />
+          <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+          <feGaussianBlur stdDeviation={150} result="effect1_foregroundBlur_67_2" />
+        </filter>
+      </defs>
+    </svg>
+
+    <svg
+      className="!relative !z-0 !w-full bottom-0"
+      width={1080}
+      height={2160}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <g opacity={0.4} filter="url(#a)">
+        <ellipse
+          rx={298.926}
+          ry={116.902}
+          transform="matrix(-.02904 -.99958 .9399 .34144 511.558 1157.71)"
+          fill="#2C29E8"
+        />
+        <path
+          d="M375.473 381.334c74.671-17.305 187.862 120.021 252.82 306.726 64.958 186.705 57.084 352.09-17.587 369.39-74.671 17.31-83.158-159.133-148.116-345.838-64.957-186.705-161.787-312.972-87.117-330.278Z"
+          fill="#5E0CE3"
+        />
+      </g>
+      <defs>
+        <filter
+          id="a"
+          x={48.432}
+          y={79.863}
+          width={986.67}
+          height={2026.17}
+          filterUnits="userSpaceOnUse"
+          colorInterpolationFilters="sRGB"
+        >
+          <feFlood floodOpacity={0} result="BackgroundImageFix" />
+          <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+          <feGaussianBlur stdDeviation={150} result="effect1_foregroundBlur_67_2" />
+        </filter>
+      </defs>
+    </svg>
+  </div>
+)

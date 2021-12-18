@@ -8,7 +8,7 @@ import path from 'path'
 import matter from 'gray-matter'
 import { BlogPosts } from '../../components/blog-posts'
 import { WebmeisterLogo } from '../../components/Svg'
-import { MetaTags } from '../../components'
+import { MetaTags, ListItemCard } from '../../components'
 import { site } from '../../settings'
 
 export default function Blog({ posts }) {
@@ -50,37 +50,14 @@ export default function Blog({ posts }) {
                         {/* Article */}
                         <ul className="grid sm:grid-cols-2 lg:grid-cols-3  gap-4 md:gap-6 xl:gap-8">
                             {sortedPosts.map((post, i) => (
-                                <li
-                                    key={"en-featured-" + post.frontMatter.slug + i}
+                                <ListItemCard
                                     title={post.frontMatter.title}
-                                    className="group h-48 md:h-64 xl:h-64 flex flex-col  rounded-lg shadow-lg overflow-hidden relative"
-                                >
-                                    <Image
-                                        layout="fill"
-                                        sizes="30vw"
-                                        loading="lazy"
-                                        src={post.frontMatter.thumbnail || post.frontMatter.cover || "/img/placeholder.webp"}
-                                        alt={(post.frontMatter.keywords && post.frontMatter.keywords[0]) || post.frontMatter.title}
-                                        className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 transition duration-500 z-0"
-                                    />
-
-                                    <div className="bg-gradient-to-t from-gray-900 md:via-transparent to-transparent absolute inset-0 pointer-events-none"></div>
-
-                                    <div className="relative p-4 mt-auto">
-
-                                        <h2 className="!text-white text-xl font-semibold transition duration-100 mb-2 relative">
-                                            <a
-                                                title={post.frontMatter.title}
-                                                href={`/${post.topic}/${post.slug}/`}
-                                                className="group"
-                                            >
-                                                {post.frontMatter.title}
-                                            </a>
-                                        </h2>
-                                        <p>{post.frontMatter.e}</p>
-                                        <a className="!text-indigo-300 " href={`/${post.topic}`} title={`See ${post.topic} articles`}>{post.category}</a>
-                                    </div>
-                                </li>
+                                    cover={post.frontMatter.cover}
+                                    keywords={post.frontMatter.keywords}
+                                    slug={post.frontMatter.slug}
+                                    topic={post.frontMatter.topic}
+                                    key={"eng-" + post.frontMatter.slug}
+                                />
                             ))}
                         </ul>
                     </div>

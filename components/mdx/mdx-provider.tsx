@@ -11,7 +11,8 @@ import path from 'path'
 import matter from 'gray-matter'
 import { Code } from '@mantine/core';
 import { Prism } from '@mantine/prism';
-import { CardEnlarge, Video } from '../index'
+import { Badge, Mark } from '@mantine/core';
+import { CardEnlarge, Video, Marker } from '../index'
 import { Hr, Anchor, string_to_slug } from "./index"
 
 const CodeHighlighter = dynamic(() => import("./code"))
@@ -41,7 +42,10 @@ export default function MdxProvider({ source, components, className, ...props })
 
         Hr: () => <Hr />,
 
-        CardEnlarge: props => <CardEnlarge {...props} />
+        CardEnlarge: props => <CardEnlarge {...props} />,
+        Marker: props => <Marker {...props} />,
+        Mark: props => <Mark {...props} />,
+        Badge: props => <Badge {...props} />,
 
     }
 
