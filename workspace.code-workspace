@@ -2,9 +2,6 @@
 	"folders": [
 		{
 			"path": "."
-		},
-		{
-			"path": "../../Projects/shopify/product-reviews-sample-app-main"
 		}
 	],
 	"settings": {}

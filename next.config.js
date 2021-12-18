@@ -11,22 +11,18 @@ const withMDX = require('@next/mdx')({
 // You can choose which headers to add to the list
 // after learning more below.
 const securityHeaders = [
-  {
-    key: 'X-DNS-Prefetch-Control',
-    value: 'on',
-  },
-  {
-    key: 'Strict-Transport-Security',
-    value: 'max-age=63072000; includeSubDomains; preload',
-  },
+  //{
+  //  key: 'X-DNS-Prefetch-Control',
+  //  value: 'on',
+  //},
   {
     key: 'X-Frame-Options',
     value: 'SAMEORIGIN',
   },
-  {
-    key: 'X-Content-Type-Options',
-    value: 'nosniff',
-  },
+  //{
+  //  key: 'X-Content-Type-Options',
+  //  value: 'nosniff',
+  //},
 ]
 
 const config = {
@@ -91,7 +87,7 @@ const config = {
       },
       {
           source: "/blog-acmak/notion-ile-ucretsiz-web-sayfasi-olusturmak/",
-          destination: "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/",
+          destination: "/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/",
           permanent:true
       }
     ]
