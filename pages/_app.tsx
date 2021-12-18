@@ -23,8 +23,9 @@ export function reportWebVitals(metric) {
 
 
 function MyApp({ Component, pageProps }: AppProps) {
-
-    //console.log("loading scripts")
+    const hasMounted = useHasMounted()
+    const hasDebounced = useDebounce(hasMounted, 5000)
+    console.log("loading scripts", hasDebounced)
     return (
         <React.Fragment>
             <Layout>
@@ -37,23 +38,24 @@ function MyApp({ Component, pageProps }: AppProps) {
                         crossOrigin=""
                         type="font/woff2"
                     />
-
+                    {
+                        hasDebounced && <>
+                            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-141617385-4"></script>
+                            <script id="gtag-inline">
+                                {
+                                    `window.dataLayer = window.dataLayer || [];
+                                function gtag(){dataLayer.push(arguments);}
+                                gtag('js', new Date());
+                                gtag('config', 'UA-141617385-4');`
+                                }
+                            </script>
+                        </>
+                    }
 
                 </Head>
                 <Component {...pageProps} />
-                <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=UA-141617385-4" />
-                <Script strategy="afterInteractive"
-                    id="google-analytics-cbs"
-                    dangerouslySetInnerHTML={{
-                        __html: `
-                        window.dataLayer = window.dataLayer || [];
-                        function gtag(){dataLayer.push(arguments);}
-                        gtag('js', new Date());
-                        gtag('config', 'UA-141617385-4');
-                        gtag('config', 'G-3GKQHRYFHX');
-                    `,
-                    }}
-                />
+
+
             </Layout>
 
             {/* MESH GRADIENTS */}

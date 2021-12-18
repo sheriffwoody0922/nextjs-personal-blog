@@ -85,11 +85,11 @@ const config = {
         destination: '/productivity/content-creation-tools/',
         permanent: true,
       },
-      {
-          source: "/blog-acmak/notion-ile-ucretsiz-web-sayfasi-olusturmak/",
-          destination: "/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/",
-          permanent:true
-      }
+      //{
+      //    source: "/blog-acmak/notion-ile-ucretsiz-web-sayfasi-olusturmak/",
+      //    destination: "/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/",
+      //    permanent:true
+      //}
     ]
   },
   async headers() {
