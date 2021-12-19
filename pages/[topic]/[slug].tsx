@@ -49,7 +49,7 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource, relatedPosts }) => {
                         key={"article-header-category-" + cat}
                         className={`animate-text-lg inline-flex mx-2 items-center px-3 py-0.5 rounded-full text-sm font-medium ${colors[index]} `}
                     >
-                        {cat}
+                        <em>{cat}</em>
                     </a>
                 )}
             </div>
@@ -192,7 +192,7 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource, relatedPosts }) => {
             <hr className="border-gray-100" />
 
             {/* RELATED POSTS */}
-            <aside className="relative pt-20 pb-60 flex flex-col items-center px-8 px-12">
+            <aside className="relative pt-20 pb-60 flex flex-col items-center px-12">
                 <h2 className="w-full max-w-[760px] mb-6 !text-left">{frontMatter.language === "tr" ? "İlginizi çekebilir" : "Other posts you may be interested"}</h2>
                 <ul className="grid sm:grid-cols-2 lg:grid-cols-2  gap-4 md:gap-6 xl:gap-8 w-full max-w-[760px]">
                     {relatedPosts.map((rp) => <ListItemCard

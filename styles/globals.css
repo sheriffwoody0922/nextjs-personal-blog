@@ -167,12 +167,14 @@ html.dark #main-layout {
 
 
 .blur-teal-pink {
-  top: 200vh;
-  right: -25%;
+  width:100vw !important;
+  bottom:0;
+  right: 0;
 }
 .blur-teal {
-  top: 100vh;
-  right: -100vw;
+  bottom: 0;
+  right: 0;
+  width: 100vw !important;
 }
 .purple-pink-blob {
   top: -40vh;

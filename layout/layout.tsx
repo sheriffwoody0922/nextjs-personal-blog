@@ -386,8 +386,8 @@ export default function Layout({ children }) {
                 </div>
 
                 {/* MAIN */}
-                <main className="flex-1 relative overflow-y-auto overflow-x-hidden focus:outline-none mt-4 sm:-mt-16 z-10">
-                    <div className="py-0 z-50">
+                <main className="flex-1 relative overflow-y-auto overflow-x-hidden focus:outline-none mt-4 sm:-mt-16 z-10 flex-col items-center pt-12 w-full">
+                    <div className="py-0 z-50 mx-auto max-w-[1200px]">
                         {children}
                     </div>
                 </main>

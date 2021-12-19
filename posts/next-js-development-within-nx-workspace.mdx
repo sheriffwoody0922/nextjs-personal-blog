@@ -2,7 +2,7 @@
 title: "Next JS Development within Nx Workspace"
 description: "Nx framework tutorial. I will build a simple Next JS web app with Tailwind CSS styling with Nx framework (Nx workspace)."
 date: "2021-08-24"
-modified: "2021-11-29"
+modified: "2021-12-19"
 cover: "/posts/covers/next-js-development-within-nx-workspace.webp"
 slug: "next-js-development-within-nx-workspace"
 topic: "code"
@@ -14,6 +14,7 @@ categories:
 tags:
   - "nx"
   - "nextjs nx"
+  - "nx next.js"
   - "nx framework"
 keywords:
   - "nx framework"
@@ -22,7 +23,9 @@ keywords:
   - "monorepo tool nx"
 ---
 
-In this blog post series, I am going to explore the features that NX workspace provides. I will build a simple **Next JS** web app with **Tailwind CSS** styling within the **Nx workspace**.
+In this blog post series, I am going to explore the features that NX workspace provides.
+
+I will build a simple **Next JS** web app with **Tailwind CSS** styling within the **Nx workspace**.
 
 Also, if you like reactive libraries like me, you can check my [first impressions about SolidJS](https://www.cbsofyalioglu.com/code/solidjs-and-reactive-primitives/).
 
@@ -30,7 +33,7 @@ Also, if you like reactive libraries like me, you can check my [first impression
 
 **[NX Framework](https://nx.dev/)** is an advanced set of extensible dev tools for mono repositories, with a strong emphasis on modern full-stack web technologies.
 
-## 1) Setup NextJS Application
+## 1) Setup NextJS in Nx
 
 ```bash
 # install global nx CLI
@@ -106,9 +109,11 @@ Now, install the Next plugin and see its options.
 yarn add @nrwl/next
 ```
 
-### 1.3) See the plugin options
+### 1.3) See the available Nx Next.JS plugin options
 
-Let's see what we can do with the plugin. You'll see the available options for the plugin you choose. I am going to generate an application, but first, I need to see all options. We have options four options to generate and 3 to execute.
+Let's see what we can do with the plugin. You'll see the available options for the plugin you choose.
+
+I am going to generate an application, but first, I need to see all options. We have options four options to generate and 3 to execute.
 
 ```bash
 # See the options for the plugin
@@ -133,7 +138,7 @@ nx list @nrwl/next
   export : Export a Next.js app. The exported application is located at dist/$outputPath/exported.
 ```
 
-### 1.4) See the options for generating a Next application
+### 1.4) See the options for generating a Next.JS application in Nx
 
 Before generating the Next application, It will be better to see initial configuration options for generating an app. To do this, I must append a help flag to the end of the command.
 
@@ -378,7 +383,7 @@ CREATE libs/tailwind-ui/jest.config.js
 CREATE libs/tailwind-ui/tsconfig.spec.json
 ```
 
-## 4) Create a components
+## 4) Create a component
 
 Now, I generated a publishable user interface component library. I'm planning to populate this library with tailwind components.
 

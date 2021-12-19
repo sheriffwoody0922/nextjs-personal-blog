@@ -17,7 +17,7 @@ type CardProps = {
 }
 export function CardEnlarge(props: CardProps) {
     return <div key={props.link} className="card-enlarge grid grid-cols-1 mt-4">
-        <div className="glass-card-card flex flex-col sm:flex-row items-stretch border rounded-lg overflow-hidden !min-h-[160px] border border-solid border-[rgba(255,255,255,0.2)]">
+        <div className="glass-card-card flex flex-col sm:flex-row items-stretch rounded-lg overflow-hidden !min-h-[160px] border border-solid border-[rgba(255,255,255,0.2)]">
 
 
             <a
@@ -68,7 +68,7 @@ export function CardEnlarge(props: CardProps) {
 export function CardCover(props: CardProps) {
     return (
 
-        <li key={props.link} className="flex flex-col frost-blur border rounded-lg overflow-hidden glass-card-card">
+        <li key={props.link} className="flex flex-col frost-blur border rounded-lg overflow-hidden glass-card-card z-10">
             <a href={props.link} rel={props.nofollow ? "nofollow noopener" : "noopener"} className="group h-32 md:h-32 lg:h-36 block  overflow-hidden relative">
                 <img
                     src={props.cover}

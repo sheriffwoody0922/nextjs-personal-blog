@@ -9,6 +9,7 @@ import { useScript } from "../../lib/hooks"
 import { bookmarkCollections, site } from "../../settings"
 import { CardEnlarge, CardCover } from "../../components"
 import { MetaTags } from "../../components"
+import { TealBlob } from "../../components/Svg"
 
 export default function BookmarkCollectionPage({ collection, bookmarks }) {
     const title = `${site.name} | Bookmarks: ${collection.name}`
@@ -43,7 +44,7 @@ export default function BookmarkCollectionPage({ collection, bookmarks }) {
                     </div>
                 </div>
                 <hr/>
-                <ul className="grid sm:grid-cols-2 mt-20 lg:grid-cols-2 xl:grid-cols-3  gap-4 md:gap-6 xl:gap-8">
+                <ul className="grid sm:grid-cols-2 mt-20 lg:grid-cols-2 xl:grid-cols-3  gap-4 md:gap-6 xl:gap-8 !z-10 relative">
                     {bookmarks.map(bkm => (
 
                         <CardCover
@@ -56,6 +57,7 @@ export default function BookmarkCollectionPage({ collection, bookmarks }) {
                             tags={bkm.tags}
                         />
                     ))}
+                    <TealBlob />
                 </ul>
             </section>
         </>
