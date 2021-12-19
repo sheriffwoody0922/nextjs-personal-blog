@@ -11,7 +11,7 @@ import type { AppProps } from 'next/app'
 import Layout from '../layout/layout'
 //import { site } from "../settings"
 //import { MetaTags } from "../components/next-seo"
-//import { useHasMounted, useDebounce } from "../lib/hooks"
+import { useHasMounted, useDebounce } from "../lib/hooks"
 //import { CssBaseline } from '@nextui-org/react';
 
 // export type Status = 'idle' | 'loading' | 'ready' | 'error'
@@ -20,16 +20,17 @@ import Layout from '../layout/layout'
 //export function reportWebVitals(metric) {
 //    //console.log(metric)
 //}
-
+import { Commander } from "../components"
 
 function MyApp({ Component, pageProps }: AppProps) {
-    //const hasMounted = useHasMounted()
+    const hasMounted = useHasMounted()
     //const hasDebounced = useDebounce(hasMounted, 5000)
     //console.log("loading scripts", hasDebounced)
     return (
         <React.Fragment>
             <Layout>
                 {/*<Head>
+                {hasMounted && <Commander />}
 
                     <link
                         rel="preload"

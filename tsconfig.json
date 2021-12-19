@@ -17,6 +17,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "site.config.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "site.config.js", "components/command-panel"],
   "exclude": ["node_modules", "deprecated"]
 }

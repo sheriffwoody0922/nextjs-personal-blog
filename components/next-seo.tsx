@@ -129,7 +129,7 @@ export function RichData(props) {
                 "url": site.website,
                 "name": site.name,
                 "description": site.description,
-                "inLanguage": "en-US"
+                "inLanguage": ["en-US", "tr-TR"],
             },
             {
                 "@type": "WebPage",

@@ -6,6 +6,7 @@
 @import './fonts.css';
 
 /*
+@import './commander.css';
 @import './sidebar.css';
 @import './syntax.css';
 */
@@ -290,3 +291,4 @@ hr {
 .footer-box {
   z-index: -10 !important;
 }
+

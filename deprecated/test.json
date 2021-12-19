@@ -126,12 +126,128 @@
         }
     ],
     "mentions": [
-        { "@type": "Thing", "name": "buyer persona", "sameAs": "https://www.wikidata.org/wiki/Q30895532" },
-        { "@type": "Thing", "name": "Figma", "sameAs": "https://www.wikidata.org/wiki/Q96186334" },
-        { "@type": "Thing", "name": "Photopea", "sameAs": "https://www.wikidata.org/wiki/Q58327261" },
-        { "@type": "Thing", "name": "Piktochart", "sameAs": "https://www.wikidata.org/wiki/Q17074977" },
-        { "@type": "Thing", "name": "Powtoon", "sameAs": "https://www.wikidata.org/wiki/Q7235924" },
-        { "@type": "Thing", "name": "Giphy", "sameAs": "https://www.wikidata.org/wiki/Q17054335" },
-        { "@type": "Thing", "name": "Roam Research", "sameAs": "https://www.wikidata.org/wiki/Q98066309"  }
+        {
+            "@type": "Thing",
+            "name": "buyer persona",
+            "sameAs": "https://www.wikidata.org/wiki/Q30895532"
+        },
+        {
+            "@type": "Thing",
+            "name": "Figma",
+            "sameAs": "https://www.wikidata.org/wiki/Q96186334"
+        },
+        {
+            "@type": "Thing",
+            "name": "Photopea",
+            "sameAs": "https://www.wikidata.org/wiki/Q58327261"
+        },
+        {
+            "@type": "Thing",
+            "name": "Piktochart",
+            "sameAs": "https://www.wikidata.org/wiki/Q17074977"
+        },
+        {
+            "@type": "Thing",
+            "name": "Powtoon",
+            "sameAs": "https://www.wikidata.org/wiki/Q7235924"
+        },
+        {
+            "@type": "Thing",
+            "name": "Giphy",
+            "sameAs": "https://www.wikidata.org/wiki/Q17054335"
+        },
+        {
+            "@type": "Thing",
+            "name": "Roam Research",
+            "sameAs": "https://www.wikidata.org/wiki/Q98066309"
+        }
+    ]
+}
+
+
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "Organization",
+            "@id": "https://wordlift.io/blog/en/#organization",
+            "name": "WordLift",
+            "url": "https://wordlift.io/blog/en/",
+            "sameAs": [],
+            "logo": {
+                "@type": "ImageObject",
+                "@id": "https://wordlift.io/blog/en/#logo",
+                "inLanguage": "en-US",
+                "url": "https://mk0wordliftblog7j5te.kinstacdn.com/wp-content/uploads/sites/3/2017/04/logo-1.png",
+                "contentUrl": "https://mk0wordliftblog7j5te.kinstacdn.com/wp-content/uploads/sites/3/2017/04/logo-1.png",
+                "width": 152,
+                "height": 40,
+                "caption": "WordLift"
+            },
+            "image": {
+                "@id": "https://wordlift.io/blog/en/#logo"
+            }
+        },
+        {
+            "@type": "WebSite",
+            "@id": "https://wordlift.io/blog/en/#website",
+            "url": "https://wordlift.io/blog/en/",
+            "name": "WordLift Blog",
+            "description": "SEO made simple",
+            "publisher": {
+                "@id": "https://wordlift.io/blog/en/#organization"
+            },
+            "potentialAction": [
+                {
+                    "@type": "SearchAction",
+                    "target": {
+                        "@type": "EntryPoint",
+                        "urlTemplate": "https://wordlift.io/blog/en/?s={search_term_string}"
+                    },
+                    "query-input": "required name=search_term_string"
+                }
+            ],
+            "inLanguage": "en-US"
+        },
+        {
+            "@type": "ImageObject",
+            "@id": "https://wordlift.io/blog/en/use-vocabulary/#primaryimage",
+            "inLanguage": "en-US",
+            "url": "https://wordlift.io/blog/en/wp-content/uploads/sites/3/2021/08/1-1.png",
+            "contentUrl": "https://wordlift.io/blog/en/wp-content/uploads/sites/3/2021/08/1-1.png",
+            "width": 1200,
+            "height": 675,
+            "caption": "build a vocabulary"
+        },
+        {
+            "@type": "BreadcrumbList",
+            "@id": "https://wordlift.io/blog/en/use-vocabulary/#breadcrumb",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Blog",
+                    "item": "https://wordlift.io/blog/en/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Entity Based SEO: How To Optimize Your Entity Vocabulary"
+                }
+            ]
+        },
+        {
+            "@type": "Person",
+            "@id": "https://wordlift.io/blog/en/#/schema/person/5723a5f55385df28f16d4a9b5468febb",
+            "name": "Valentina Izzo",
+            "image": {
+                "@type": "ImageObject",
+                "@id": "https://wordlift.io/blog/en/#personlogo",
+                "inLanguage": "en-US",
+                "url": "https://secure.gravatar.com/avatar/d601bdcce8e8c0fd8e6b04913d6e836a?s=96&d=mm&r=pg",
+                "contentUrl": "https://secure.gravatar.com/avatar/d601bdcce8e8c0fd8e6b04913d6e836a?s=96&d=mm&r=pg",
+                "caption": "Valentina Izzo"
+            }
+        }
     ]
 }
