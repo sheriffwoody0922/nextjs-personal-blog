@@ -10,8 +10,7 @@
         "export": "next export",
         "start": "next start",
         "lint": "next lint",
-        "jsonize": "node data/jsonize.js",
-        "generate:rss": "npx next-rss"
+        "jsonize": "node data/jsonize.js"
     },
     "dependencies": {
         "@codesandbox/sandpack-react": "^0.10.1",
