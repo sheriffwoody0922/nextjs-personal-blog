@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://www.cbsofyalioglu.com</id>
+    <title>Design 🌓 Development | Can Burak Sofyalıoğlu</title>
+    <updated>2021-12-20T01:18:22.769Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://www.cbsofyalioglu.com"/>
+    <subtitle>An engineer interested in web stuff; backend, frontend, search, automation, no-code, etc.</subtitle>
+    <rights>©Can Burak Sofyalıoğlu</rights>
+</feed>

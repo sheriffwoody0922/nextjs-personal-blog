@@ -119,7 +119,7 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource, relatedPosts }) => {
             <ArticleHead />
             <article className="relative pt-8 pb-32 flex flex-col items-center px-4">
 
-                <main className="markdown-content z-10 post-page min-h-screen w-full max-w-[700px] h-auto pt-4 ml-auto mr-auto relative flex flex-col">
+                <main className="markdown-content relative z-10 post-page min-h-screen w-full max-w-[700px] h-auto pt-4 ml-auto mr-auto relative flex flex-col !z-10">
                     <hr />
                     <MdxProvider source={mdxSource} />
 

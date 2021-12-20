@@ -8,6 +8,7 @@ class MyDocument extends Document {
         return (
             <Html lang="en" className="dark">
                 <Head>
+                    <link rel="shortcut icon" href="/logo/favicon.ico" />
                     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/logo/apple-touch-icon-57x57.png" />
                     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/logo/apple-touch-icon-114x114.png" />
                     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/logo/apple-touch-icon-72x72.png" />
@@ -21,7 +22,6 @@ class MyDocument extends Document {
                     <link rel="icon" type="image/png" href="/logo/favicon-32x32.png" sizes="32x32" />
                     <link rel="icon" type="image/png" href="/logo/favicon-16x16.png" sizes="16x16" />
                     <link rel="icon" type="image/png" href="/logo/favicon-128.png" sizes="128x128" />
-                    <link rel="icon" href="/logo/favicon.ico" />
                     <link
                         rel="preload"
                         href="/fonts/Satoshi-Regular.woff2"

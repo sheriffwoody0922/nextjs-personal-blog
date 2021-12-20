@@ -251,3 +251,671 @@
         }
     ]
 }
+
+
+
+
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebSite",
+            "@id": "https://samuelschmitt.com/#website",
+            "url": "https://samuelschmitt.com/",
+            "name": "Samuel Schmitt",
+            "description": "Digital Marketing Solutions Expert - (Basel / Switzerland)",
+            "publisher": {
+                "@id": "https://samuelschmitt.com/#/schema/person/a1b0b3d133a0aace45dae768c58069de"
+            },
+            "potentialAction": [
+                {
+                    "@type": "SearchAction",
+                    "target": {
+                        "@type": "EntryPoint",
+                        "urlTemplate": "https://samuelschmitt.com/?s={search_term_string}"
+                    },
+                    "query-input": "required name=search_term_string"
+                }
+            ],
+            "inLanguage": "en-US"
+        },
+        {
+            "@type": "ImageObject",
+            "@id": "https://samuelschmitt.com/topic-cluster/#primaryimage",
+            "inLanguage": "en-US",
+            "url": "https://i0.wp.com/samuelschmitt.com/wp-content/uploads/2020/11/Topic-Cluster_banner.png?fit=1200%2C600&ssl=1",
+            "contentUrl": "https://i0.wp.com/samuelschmitt.com/wp-content/uploads/2020/11/Topic-Cluster_banner.png?fit=1200%2C600&ssl=1",
+            "width": 1200,
+            "height": 600
+        },
+        {
+            "@type": "WebPage",
+            "@id": "https://samuelschmitt.com/topic-cluster/#webpage",
+            "url": "https://samuelschmitt.com/topic-cluster/",
+            "name": "How to create topic clusters? (I got 1000% more traffic) - Samuel Schmitt",
+            "isPartOf": {
+                "@id": "https://samuelschmitt.com/#website"
+            },
+            "primaryImageOfPage": {
+                "@id": "https://samuelschmitt.com/topic-cluster/#primaryimage"
+            },
+            "datePublished": "2020-11-03T21:10:27+00:00",
+            "dateModified": "2021-10-17T15:24:08+00:00",
+            "description": "Do you think a Topic Cluster can impact the traffic to your website? Let me show what I've done and how I increased my website traffic.",
+            "breadcrumb": {
+                "@id": "https://samuelschmitt.com/topic-cluster/#breadcrumb"
+            },
+            "inLanguage": "en-US",
+            "potentialAction": [
+                {
+                    "@type": "ReadAction",
+                    "target": [
+                        "https://samuelschmitt.com/topic-cluster/"
+                    ]
+                }
+            ]
+        },
+        {
+            "@type": "BreadcrumbList",
+            "@id": "https://samuelschmitt.com/topic-cluster/#breadcrumb",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://samuelschmitt.com/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Blog",
+                    "item": "https://samuelschmitt.com/blog/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "How I created a Topic Cluster and boosted my website traffic by 1000%"
+                }
+            ]
+        },
+        {
+            "@type": "Article",
+            "@id": "https://samuelschmitt.com/topic-cluster/#article",
+            "isPartOf": {
+                "@id": "https://samuelschmitt.com/topic-cluster/#webpage"
+            },
+            "author": {
+                "@id": "https://samuelschmitt.com/#/schema/person/a1b0b3d133a0aace45dae768c58069de"
+            },
+            "headline": "How I created a Topic Cluster and boosted my website traffic by 1000%",
+            "datePublished": "2020-11-03T21:10:27+00:00",
+            "dateModified": "2021-10-17T15:24:08+00:00",
+            "mainEntityOfPage": {
+                "@id": "https://samuelschmitt.com/topic-cluster/#webpage"
+            },
+            "wordCount": 3958,
+            "commentCount": 83,
+            "publisher": {
+                "@id": "https://samuelschmitt.com/#/schema/person/a1b0b3d133a0aace45dae768c58069de"
+            },
+            "image": {
+                "@id": "https://samuelschmitt.com/topic-cluster/#primaryimage"
+            },
+            "thumbnailUrl": "https://i0.wp.com/samuelschmitt.com/wp-content/uploads/2020/11/Topic-Cluster_banner.png?fit=1200%2C600&ssl=1",
+            "articleSection": [
+                "featured"
+            ],
+            "inLanguage": "en-US",
+            "potentialAction": [
+                {
+                    "@type": "CommentAction",
+                    "name": "Comment",
+                    "target": [
+                        "https://samuelschmitt.com/topic-cluster/#respond"
+                    ]
+                }
+            ]
+        },
+        {
+            "@type": [
+                "Person",
+                "Organization"
+            ],
+            "@id": "https://samuelschmitt.com/#/schema/person/a1b0b3d133a0aace45dae768c58069de",
+            "name": "Samuel Schmitt",
+            "image": {
+                "@type": "ImageObject",
+                "@id": "https://samuelschmitt.com/#personlogo",
+                "inLanguage": "en-US",
+                "url": "https://secure.gravatar.com/avatar/3484b27d66d37d98d38abe416bbaa332?s=96&d=identicon&r=g",
+                "contentUrl": "https://secure.gravatar.com/avatar/3484b27d66d37d98d38abe416bbaa332?s=96&d=identicon&r=g",
+                "caption": "Samuel Schmitt"
+            },
+            "logo": {
+                "@id": "https://samuelschmitt.com/#personlogo"
+            },
+            "sameAs": [
+                "http://samuelschmitt.com",
+                "https://www.facebook.com/samuel.schmitt",
+                "https://www.instagram.com/sam68740/",
+                "https://www.linkedin.com/in/samuelschmitt/",
+                "https://twitter.com/samuelschmitt"
+            ],
+            "url": "https://samuelschmitt.com/author/sam68740/"
+        }
+    ]
+}
+
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebSite",
+            "@id": "https://www.cbsofyalioglu.com#website",
+            "url": "https://www.cbsofyalioglu.com",
+            "name": "Design & Development",
+            "description": "An engineer interested in web stuff; backend, frontend, search, automation, no-code, etc.",
+            "inLanguage": [
+                "en-US",
+                "tr-TR"
+            ]
+        },
+        {
+            "@type": "WebPage",
+            "@id": "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/",
+            "url": "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/",
+            "name": "30+ Notion Şablonları, Kaynakları, Uygulamaları",
+            "isPartOf": {
+                "@id": "https://www.cbsofyalioglu.com#website"
+            },
+            "primaryImageOfPage": {
+                "@id": "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/#primary-image"
+            },
+            "datePublished": "2020-07-22",
+            "dateModified": "2021-12-16",
+            "author": {
+                "@id": "https://www.cbsofyalioglu.com/me"
+            },
+            "description": "Arşiv niteliğinde Notion hazır şablonları (templates), kaynakları ve uygulamaları. Hazır Notion şablonları ve kaynaklarını bulabileceğiniz bir çok web sitesinin linkini paylaşacağım.",
+            "breadcrumb": {
+                "@id": "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/#breadcrumb"
+            },
+            "inLanguage": "en-US",
+            "potentialAction": [
+                {
+                    "@type": "ReadAction",
+                    "target": [
+                        "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/"
+                    ]
+                }
+            ]
+        },
+        {
+            "@type": "Person",
+            "@id": "https://www.cbsofyalioglu.com/me",
+            "name": "Can Burak Sofyalıoğlu",
+            "url": [
+                "https://webmeister.org",
+                "https://www.cbsofyalioglu.com/"
+            ],
+            "jobTitle": "Expert Web Developer",
+            "email": "cbsofyalioglu@gmail.com",
+            "sameAs": [
+                "https://www.cbsofyalioglu.com",
+                "https://webmeister.org",
+                "https://www.facebook.com/john.baudrillard",
+                "https://www.linkedin.com/in/cbsofyalioglu/",
+                "https://www.pinterest.com/cbsofyalioglu/",
+                "https://twitter.com/@webmeisterorg",
+                "https://www.youtube.com/channel/UCww7ea5HVpGOBhm5x-ZvkLQ"
+            ],
+            "birthDate": "1987-06-30",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Akcay caddesi no:350 d:14",
+                "addressLocality": "Izmir",
+                "addressRegion": "Izmir",
+                "postalCode": "35500",
+                "addressCountry": "Turkey"
+            },
+            "alumniOf": {
+                "@type": "CollegeOrUniversity",
+                "name": "Boğaziçi University",
+                "sameAs": "https://en.wikipedia.org/wiki/Bo%C4%9Fazi%C3%A7i_University"
+            },
+            "image": {
+                "@type": "ImageObject",
+                "@id": "https://cbsofyalioglu.fra1.cdn.digitaloceanspaces.com/cbs/cbsofyalioglu-black.png",
+                "inLanguage": "tr",
+                "url": "https://cdn.statically.io/img/www.cbsofyalioglu.com/f=auto%2Cq=75/wp-content/uploads/2021/03/T5BKxHAu-cbsofyalioglu-black.png",
+                "contentUrl": "https://cdn.statically.io/img/www.cbsofyalioglu.com/f=auto%2Cq=75/wp-content/uploads/2021/03/T5BKxHAu-cbsofyalioglu-black.png",
+                "width": 203,
+                "height": 43,
+                "caption": "Can Burak Sofyalıoğlu"
+            },
+            "logo": {
+                "@id": "https://cbsofyalioglu.fra1.cdn.digitaloceanspaces.com/cbs/webmeister/webmeister-gradient-logo.webp"
+            }
+        },
+        {
+            "@type": "BlogPosting",
+            "headline": "30+ Notion Şablonları, Kaynakları, Uygulamaları",
+            "datePublished": "2020-07-22",
+            "dateModified": "2021-12-16",
+            "author": {
+                "@type": "Person",
+                "@id": "https://www.cbsofyalioglu.com/me",
+                "name": "Can Burak Sofyalıoğlu",
+                "url": [
+                    "https://webmeister.org",
+                    "https://www.cbsofyalioglu.com/"
+                ],
+                "jobTitle": "Expert Web Developer",
+                "email": "cbsofyalioglu@gmail.com",
+                "sameAs": [
+                    "https://www.cbsofyalioglu.com",
+                    "https://webmeister.org",
+                    "https://www.facebook.com/john.baudrillard",
+                    "https://www.linkedin.com/in/cbsofyalioglu/",
+                    "https://www.pinterest.com/cbsofyalioglu/",
+                    "https://twitter.com/@webmeisterorg",
+                    "https://www.youtube.com/channel/UCww7ea5HVpGOBhm5x-ZvkLQ"
+                ],
+                "birthDate": "1987-06-30",
+                "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "Akcay caddesi no:350 d:14",
+                    "addressLocality": "Izmir",
+                    "addressRegion": "Izmir",
+                    "postalCode": "35500",
+                    "addressCountry": "Turkey"
+                },
+                "alumniOf": {
+                    "@type": "CollegeOrUniversity",
+                    "name": "Boğaziçi University",
+                    "sameAs": "https://en.wikipedia.org/wiki/Bo%C4%9Fazi%C3%A7i_University"
+                },
+                "image": {
+                    "@type": "ImageObject",
+                    "@id": "https://cbsofyalioglu.fra1.cdn.digitaloceanspaces.com/cbs/cbsofyalioglu-black.png",
+                    "inLanguage": "tr",
+                    "url": "https://cdn.statically.io/img/www.cbsofyalioglu.com/f=auto%2Cq=75/wp-content/uploads/2021/03/T5BKxHAu-cbsofyalioglu-black.png",
+                    "contentUrl": "https://cdn.statically.io/img/www.cbsofyalioglu.com/f=auto%2Cq=75/wp-content/uploads/2021/03/T5BKxHAu-cbsofyalioglu-black.png",
+                    "width": 203,
+                    "height": 43,
+                    "caption": "Can Burak Sofyalıoğlu"
+                },
+                "logo": {
+                    "@id": "https://cbsofyalioglu.fra1.cdn.digitaloceanspaces.com/cbs/webmeister/webmeister-gradient-logo.webp"
+                }
+            },
+            "publisher": {
+                "@id": "https://www.cbsofyalioglu.com"
+            },
+            "description": "Arşiv niteliğinde Notion hazır şablonları (templates), kaynakları ve uygulamaları. Hazır Notion şablonları ve kaynaklarını bulabileceğiniz bir çok web sitesinin linkini paylaşacağım.",
+            "name": "30+ Notion Şablonları, Kaynakları, Uygulamaları",
+            "@id": "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/#richSnippet",
+            "isPartOf": {
+                "@id": "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/#webpage"
+            },
+            "image": {
+                "@id": "/posts/notion/notion.jpg"
+            },
+            "inLanguage": "en-US",
+            "mainEntityOfPage": {
+                "@id": "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/#main-entity"
+            }
+        }
+    ]
+}
+
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebSite",
+            "@id": "https://www.cbsofyalioglu.com#website",
+            "url": "https://www.cbsofyalioglu.com",
+            "name": "Design & Development",
+            "description": "An engineer interested in web stuff; backend, frontend, search, automation, no-code, etc.",
+            "inLanguage": [
+                "en-US",
+                "tr-TR"
+            ]
+        },
+        {
+            "@type": "WebPage",
+            "@id": "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/",
+            "url": "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/",
+            "name": "30+ Notion Şablonları, Kaynakları, Uygulamaları",
+            "isPartOf": {
+                "@id": "https://www.cbsofyalioglu.com#website"
+            },
+            "primaryImageOfPage": {
+                "@id": "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/#primary-image"
+            },
+            "datePublished": "2020-07-22",
+            "dateModified": "2021-12-16",
+            "author": {
+                "@id": "https://www.cbsofyalioglu.com/me"
+            },
+            "description": "Arşiv niteliğinde Notion hazır şablonları (templates), kaynakları ve uygulamaları. Hazır Notion şablonları ve kaynaklarını bulabileceğiniz bir çok web sitesinin linkini paylaşacağım.",
+            "breadcrumb": {
+                "@id": "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/#breadcrumb"
+            },
+            "inLanguage": "en-US",
+            "potentialAction": [
+                {
+                    "@type": "ReadAction",
+                    "target": [
+                        "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/"
+                    ]
+                }
+            ]
+        },
+        {
+            "@type": "Person",
+            "@id": "https://www.cbsofyalioglu.com/me",
+            "name": "Can Burak Sofyalıoğlu",
+            "url": [
+                "https://webmeister.org",
+                "https://www.cbsofyalioglu.com/"
+            ],
+            "jobTitle": "Expert Web Developer",
+            "email": "cbsofyalioglu@gmail.com",
+            "sameAs": [
+                "https://www.cbsofyalioglu.com",
+                "https://webmeister.org",
+                "https://www.facebook.com/john.baudrillard",
+                "https://www.linkedin.com/in/cbsofyalioglu/",
+                "https://www.pinterest.com/cbsofyalioglu/",
+                "https://twitter.com/@webmeisterorg",
+                "https://www.youtube.com/channel/UCww7ea5HVpGOBhm5x-ZvkLQ"
+            ],
+            "birthDate": "1987-06-30",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Akcay caddesi no:350 d:14",
+                "addressLocality": "Izmir",
+                "addressRegion": "Izmir",
+                "postalCode": "35500",
+                "addressCountry": "Turkey"
+            },
+            "alumniOf": {
+                "@type": "CollegeOrUniversity",
+                "name": "Boğaziçi University",
+                "sameAs": "https://en.wikipedia.org/wiki/Bo%C4%9Fazi%C3%A7i_University"
+            },
+            "image": {
+                "@type": "ImageObject",
+                "@id": "https://cbsofyalioglu.fra1.cdn.digitaloceanspaces.com/cbs/cbsofyalioglu-black.png",
+                "inLanguage": "tr",
+                "url": "https://cdn.statically.io/img/www.cbsofyalioglu.com/f=auto%2Cq=75/wp-content/uploads/2021/03/T5BKxHAu-cbsofyalioglu-black.png",
+                "contentUrl": "https://cdn.statically.io/img/www.cbsofyalioglu.com/f=auto%2Cq=75/wp-content/uploads/2021/03/T5BKxHAu-cbsofyalioglu-black.png",
+                "width": 203,
+                "height": 43,
+                "caption": "Can Burak Sofyalıoğlu"
+            },
+            "logo": {
+                "@id": "https://cbsofyalioglu.fra1.cdn.digitaloceanspaces.com/cbs/webmeister/webmeister-gradient-logo.webp"
+            }
+        },
+        {
+            "@type": "BlogPosting",
+            "headline": "30+ Notion Şablonları, Kaynakları, Uygulamaları",
+            "datePublished": "2020-07-22T00:00:00.000Z",
+            "dateModified": "2021-12-16T00:00:00.000Z",
+            "author": {
+                "@type": "Person",
+                "@id": "https://www.cbsofyalioglu.com/me",
+                "name": "Can Burak Sofyalıoğlu",
+                "url": [
+                    "https://webmeister.org",
+                    "https://www.cbsofyalioglu.com/"
+                ],
+                "jobTitle": "Expert Web Developer",
+                "email": "cbsofyalioglu@gmail.com",
+                "sameAs": [
+                    "https://www.cbsofyalioglu.com",
+                    "https://webmeister.org",
+                    "https://www.facebook.com/john.baudrillard",
+                    "https://www.linkedin.com/in/cbsofyalioglu/",
+                    "https://www.pinterest.com/cbsofyalioglu/",
+                    "https://twitter.com/@webmeisterorg",
+                    "https://www.youtube.com/channel/UCww7ea5HVpGOBhm5x-ZvkLQ"
+                ],
+                "birthDate": "1987-06-30",
+                "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "Akcay caddesi no:350 d:14",
+                    "addressLocality": "Izmir",
+                    "addressRegion": "Izmir",
+                    "postalCode": "35500",
+                    "addressCountry": "Turkey"
+                },
+                "alumniOf": {
+                    "@type": "CollegeOrUniversity",
+                    "name": "Boğaziçi University",
+                    "sameAs": "https://en.wikipedia.org/wiki/Bo%C4%9Fazi%C3%A7i_University"
+                },
+                "image": {
+                    "@type": "ImageObject",
+                    "@id": "https://cbsofyalioglu.fra1.cdn.digitaloceanspaces.com/cbs/cbsofyalioglu-black.png",
+                    "inLanguage": "tr",
+                    "url": "https://cdn.statically.io/img/www.cbsofyalioglu.com/f=auto%2Cq=75/wp-content/uploads/2021/03/T5BKxHAu-cbsofyalioglu-black.png",
+                    "contentUrl": "https://cdn.statically.io/img/www.cbsofyalioglu.com/f=auto%2Cq=75/wp-content/uploads/2021/03/T5BKxHAu-cbsofyalioglu-black.png",
+                    "width": 203,
+                    "height": 43,
+                    "caption": "Can Burak Sofyalıoğlu"
+                },
+                "logo": {
+                    "@id": "https://cbsofyalioglu.fra1.cdn.digitaloceanspaces.com/cbs/webmeister/webmeister-gradient-logo.webp"
+                }
+            },
+            "publisher": {
+                "@id": "https://www.cbsofyalioglu.com"
+            },
+            "description": "Arşiv niteliğinde Notion hazır şablonları (templates), kaynakları ve uygulamaları. Hazır Notion şablonları ve kaynaklarını bulabileceğiniz bir çok web sitesinin linkini paylaşacağım.",
+            "name": "30+ Notion Şablonları, Kaynakları, Uygulamaları",
+            "@id": "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/#richSnippet",
+            "isPartOf": {
+                "@id": "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/#webpage"
+            },
+            "image": {
+                "@id": "/posts/notion/notion.jpg"
+            },
+            "inLanguage": "en-US",
+            "mainEntityOfPage": {
+                "@id": "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/#main-entity"
+            }
+        }
+    ]
+}
+
+
+
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebSite",
+            "@id": "https://www.cbsofyalioglu.com#website",
+            "url": "https://www.cbsofyalioglu.com",
+            "name": "Design & Development",
+            "description": "An engineer interested in web stuff; backend, frontend, search, automation, no-code, etc.",
+            "inLanguage": [
+                "en-US",
+                "tr-TR"
+            ]
+        },
+        {
+            "@type": "WebPage",
+            "@id": "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/",
+            "url": "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/",
+            "name": "30+ Notion Şablonları, Kaynakları, Uygulamaları",
+            "isPartOf": {
+                "@id": "https://www.cbsofyalioglu.com#website"
+            },
+            "primaryImageOfPage": {
+                "@id": "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/#primary-image"
+            },
+            "datePublished": "2020-07-22",
+            "dateModified": "2021-12-16",
+            "author": {
+                "@id": "https://www.cbsofyalioglu.com/me"
+            },
+            "description": "Arşiv niteliğinde Notion hazır şablonları (templates), kaynakları ve uygulamaları. Hazır Notion şablonları ve kaynaklarını bulabileceğiniz bir çok web sitesinin linkini paylaşacağım.",
+            "breadcrumb": {
+                "@id": "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/#breadcrumb"
+            },
+            "inLanguage": "en-US",
+            "potentialAction": [
+                {
+                    "@type": "ReadAction",
+                    "target": [
+                        "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/"
+                    ]
+                }
+            ]
+        },
+        {
+            "@type": "Person",
+            "@id": "https://www.cbsofyalioglu.com/me",
+            "name": "Can Burak Sofyalıoğlu",
+            "url": [
+                "https://webmeister.org",
+                "https://www.cbsofyalioglu.com/"
+            ],
+            "jobTitle": "Expert Web Developer",
+            "email": "cbsofyalioglu@gmail.com",
+            "sameAs": [
+                "https://www.cbsofyalioglu.com",
+                "https://webmeister.org",
+                "https://www.facebook.com/john.baudrillard",
+                "https://www.linkedin.com/in/cbsofyalioglu/",
+                "https://www.pinterest.com/cbsofyalioglu/",
+                "https://twitter.com/@webmeisterorg",
+                "https://www.youtube.com/channel/UCww7ea5HVpGOBhm5x-ZvkLQ"
+            ],
+            "birthDate": "1987-06-30",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Akcay caddesi no:350 d:14",
+                "addressLocality": "Izmir",
+                "addressRegion": "Izmir",
+                "postalCode": "35500",
+                "addressCountry": "Turkey"
+            },
+            "alumniOf": {
+                "@type": "CollegeOrUniversity",
+                "name": "Boğaziçi University",
+                "sameAs": "https://en.wikipedia.org/wiki/Bo%C4%9Fazi%C3%A7i_University"
+            },
+            "image": {
+                "@type": "ImageObject",
+                "@id": "https://cbsofyalioglu.fra1.cdn.digitaloceanspaces.com/cbs/cbsofyalioglu-black.png",
+                "inLanguage": "tr",
+                "url": "https://cdn.statically.io/img/www.cbsofyalioglu.com/f=auto%2Cq=75/wp-content/uploads/2021/03/T5BKxHAu-cbsofyalioglu-black.png",
+                "contentUrl": "https://cdn.statically.io/img/www.cbsofyalioglu.com/f=auto%2Cq=75/wp-content/uploads/2021/03/T5BKxHAu-cbsofyalioglu-black.png",
+                "width": 203,
+                "height": 43,
+                "caption": "Can Burak Sofyalıoğlu"
+            },
+            "logo": {
+                "@id": "https://cbsofyalioglu.fra1.cdn.digitaloceanspaces.com/cbs/webmeister/webmeister-gradient-logo.webp"
+            }
+        },
+        {
+            "@type": "BlogPosting",
+            "headline": "30+ Notion Şablonları, Kaynakları, Uygulamaları",
+            "datePublished": "2020-07-22T00:00:00.000Z",
+            "dateModified": "2021-12-16T00:00:00.000Z",
+            "author": {
+                "@type": "Person",
+                "@id": "https://www.cbsofyalioglu.com/me",
+                "name": "Can Burak Sofyalıoğlu",
+                "url": [
+                    "https://webmeister.org",
+                    "https://www.cbsofyalioglu.com/"
+                ],
+                "jobTitle": "Expert Web Developer",
+                "email": "cbsofyalioglu@gmail.com",
+                "sameAs": [
+                    "https://www.cbsofyalioglu.com",
+                    "https://webmeister.org",
+                    "https://www.facebook.com/john.baudrillard",
+                    "https://www.linkedin.com/in/cbsofyalioglu/",
+                    "https://www.pinterest.com/cbsofyalioglu/",
+                    "https://twitter.com/@webmeisterorg",
+                    "https://www.youtube.com/channel/UCww7ea5HVpGOBhm5x-ZvkLQ"
+                ],
+                "birthDate": "1987-06-30",
+                "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "Akcay caddesi no:350 d:14",
+                    "addressLocality": "Izmir",
+                    "addressRegion": "Izmir",
+                    "postalCode": "35500",
+                    "addressCountry": "Turkey"
+                },
+                "alumniOf": {
+                    "@type": "CollegeOrUniversity",
+                    "name": "Boğaziçi University",
+                    "sameAs": "https://en.wikipedia.org/wiki/Bo%C4%9Fazi%C3%A7i_University"
+                },
+                "image": {
+                    "@type": "ImageObject",
+                    "@id": "https://cbsofyalioglu.fra1.cdn.digitaloceanspaces.com/cbs/cbsofyalioglu-black.png",
+                    "inLanguage": "tr",
+                    "url": "https://cdn.statically.io/img/www.cbsofyalioglu.com/f=auto%2Cq=75/wp-content/uploads/2021/03/T5BKxHAu-cbsofyalioglu-black.png",
+                    "contentUrl": "https://cdn.statically.io/img/www.cbsofyalioglu.com/f=auto%2Cq=75/wp-content/uploads/2021/03/T5BKxHAu-cbsofyalioglu-black.png",
+                    "width": 203,
+                    "height": 43,
+                    "caption": "Can Burak Sofyalıoğlu"
+                },
+                "logo": {
+                    "@id": "https://cbsofyalioglu.fra1.cdn.digitaloceanspaces.com/cbs/webmeister/webmeister-gradient-logo.webp"
+                }
+            },
+            "publisher": {
+                "@id": "https://www.cbsofyalioglu.com"
+            },
+            "description": "Arşiv niteliğinde Notion hazır şablonları (templates), kaynakları ve uygulamaları. Hazır Notion şablonları ve kaynaklarını bulabileceğiniz bir çok web sitesinin linkini paylaşacağım.",
+            "name": "30+ Notion Şablonları, Kaynakları, Uygulamaları",
+            "@id": "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/#richSnippet",
+            "isPartOf": {
+                "@id": "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/#webpage"
+            },
+            "image": {
+                "@id": "/posts/notion/notion.jpg"
+            },
+            "inLanguage": "en-US",
+            "mainEntityOfPage": {
+                "@id": "https://www.cbsofyalioglu.com/blog-acmak/notion-sablonlari-ve-ucretsiz-site-olusturmak/#main-entity"
+            }
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "ana-sayfa",
+                    "item": "https://www.cbsofyalioglu.com"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "blog-acmak",
+                    "item": "https://www.cbsofyalioglu.com/blog-acmak"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "30+ Notion Şablonları, Kaynakları, Uygulamaları"
+                }
+            ]
+        }
+    ]
+}

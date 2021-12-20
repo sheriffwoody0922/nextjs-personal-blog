@@ -167,8 +167,8 @@ export function RichData(props) {
     const articlegraph = {
         "@type": articleType,
         "headline": props.title,
-        "datePublished": props.date,
-        "dateModified": props.modified,
+        "datePublished": new Date(props.date),
+        "dateModified": new Date(props.modified),
         "author": personRichData,
         "publisher": {
             "@id": site.website
@@ -186,6 +186,25 @@ export function RichData(props) {
         "mainEntityOfPage": {
             "@id": props.canonical + "#main-entity"
         }
+    }
+    const breadcrumbGraph = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": `${props.frontMatter.language === "tr" ? "ana-sayfa" : "home"}`,
+            "item": site.website
+        }, {
+            "@type": "ListItem",
+            "position": 2,
+            "name": props.frontMatter.topic,
+            "item": site.website + `/${props.frontMatter.topic}`
+        }, {
+            "@type": "ListItem",
+            "position": 3,
+            "name": props.frontMatter.title
+        }]
     }
     // ARTICLE SPECIFIC (ABOUT)
     // expects [{ type: "Thing", name: "Canva", sameAs: "https://www.wikidata.org/wiki/Q35997" }]
@@ -217,6 +236,7 @@ export function RichData(props) {
     }
     if (props.type === "article") {
         mainRichData["@graph"].push(articlegraph)
+        mainRichData["@graph"].push(breadcrumbGraph)
     }
     return (
         <script type="application/ld+json" key="h-rich"

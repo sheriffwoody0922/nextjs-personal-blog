@@ -2,11 +2,11 @@
 
 
 /* FREE DESIGN RESOURCES  */
-.blur-three-colors-post-design {
+svg.blur-three-colors-post-design {
   top: -10vh;
   right: -50vw;
   min-height: 100vh !important;
-  z-index: 0;
+  z-index: -10 !important;
 }
 .vertical-blob-box {
     position: absolute;
