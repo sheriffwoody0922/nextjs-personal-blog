@@ -20,9 +20,9 @@ const securityHeaders = [
     value: 'SAMEORIGIN',
   },
   {
-    key: "Strict-Transport-Security",
-    value: "max-age=63072000; includeSubDomains; preload"
-  }
+    key: 'Strict-Transport-Security',
+    value: 'max-age=63072000; includeSubDomains; preload',
+  },
   //{
   //  key: 'X-Content-Type-Options',
   //  value: 'nosniff',
@@ -39,7 +39,7 @@ const config = {
     ignoreDuringBuilds: true,
   },
   images: {
-    domains: ['fra1.digitaloceanspaces.com', "www.cbsofyalioglu.com"],
+    domains: ['fra1.digitaloceanspaces.com', 'www.cbsofyalioglu.com'],
     deviceSizes: [640, 768, 1024, 1280, 1536, 1920],
     minimumCacheTTL: 86400,
   },
@@ -76,7 +76,7 @@ const config = {
     return [
       {
         source: '/productivity/obsidian-app/',
-        destination: '/',
+        destination: '/not-alma/obsidian-not-alma-uygulamasi/',
         permanent: true,
       },
       {
