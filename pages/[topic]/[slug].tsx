@@ -30,7 +30,7 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource, relatedPosts }) => {
     const router = useRouter()
     const canonical = frontMatter.canonical || site.website + router.asPath
 
-    const colors = ["bg-yellow-100 text-yellow-800", " bg-green-100 text-green-800", "bg-blue-100 text-blue-800", "bg-indigo-100 text-indigo-800", "bg-purple-100 text-purple-800"]
+    const colors = ["bg-yellow-900 text-yellow-400", " bg-green-900 text-green-400", "bg-blue-900 text-blue-400", "bg-indigo-900 text-indigo-400", "bg-purple-900 text-purple-400"]
 
     const categories = [...new Set([topic, ...frontMatter.categories])]
     const categoriesWoutPost = categories.filter(cat => (cat !== "post") && (cat !== "featured"))
@@ -47,7 +47,7 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource, relatedPosts }) => {
                     <a href={`/${cat}`}
                         title={`See ${cat} posts`}
                         key={"article-header-category-" + cat}
-                        className={`animate-text-lg inline-flex mx-2 items-center px-3 py-0.5 rounded-full text-sm font-medium ${colors[index]} `}
+                        className={`animate-text-lg inline-flex mx-2 items-center px-3 py-0.5 rounded-full text-sm font-bold ${colors[index]} `}
                     >
                         <em>{cat}</em>
                     </a>
