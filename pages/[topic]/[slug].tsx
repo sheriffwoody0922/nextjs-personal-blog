@@ -30,7 +30,7 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource, relatedPosts }) => {
     const router = useRouter()
     const canonical = frontMatter.canonical || site.website + router.asPath
 
-    const colors = ["bg-yellow-900 text-yellow-400", " bg-green-900 text-green-400", "bg-blue-900 text-blue-400", "bg-indigo-900 text-indigo-400", "bg-purple-900 text-purple-400"]
+    const colors = ["bg-yellow-900 text-yellow-500", " bg-green-900 text-green-500", "bg-indigo-900 text-indigo-500", "bg-indigo-900 text-indigo-500", "bg-purple-900 text-purple-500"]
 
     const categories = [...new Set([topic, ...frontMatter.categories])]
     const categoriesWoutPost = categories.filter(cat => (cat !== "post") && (cat !== "featured"))
