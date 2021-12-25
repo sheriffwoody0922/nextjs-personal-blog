@@ -106,7 +106,6 @@ Change your directory to the newly created one and start the development server.
 
 Open a new tab in your browser and visit `http://127.0.0.1:3333/`. You'll see a welcoming message like this.
 
-![AdonisJS 5 Welcome Screen](/posts/00-adonis-server-welcome-1024x461.jpg)
 
 ## Database and Lucid ORM Installation
 
@@ -500,7 +499,10 @@ Import `tailwind.css` to `app.css`. Open `app.css` file. Only add this sing
 ```
 
 We'll finish adding Tailwind to the Adonis5 app with this final single-line modification. Open your `master.edge` file, and add this single line to the head part:
-`<link rel="stylesheet" type="text/css" href="{{ asset('assets/app.css') }}">`
+
+```html
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/app.css') }}">
+```
 
 The final form of the `master.edge` should look like this.
 
