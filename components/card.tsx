@@ -30,7 +30,7 @@ export function CardEnlarge(props: CardProps) {
                 <img
                     src={props.cover}
                     loading="lazy"
-                    alt="Photo by Minh Pham"
+                    alt={props.title}
                     className="w-full h-full object-cover object-center absolute inset-0 transform group-hover:scale-110 ease-out transition duration-500 rounded-lg" />
 
             </a>
@@ -42,6 +42,7 @@ export function CardEnlarge(props: CardProps) {
 
 
                     <a target="_blank"
+                        title={props.title}
                         href={props.link}
                         className="transition duration-100 no-underline text-xl"
                         rel={props.nofollow ? "nofollow noopener" : "noopener"}

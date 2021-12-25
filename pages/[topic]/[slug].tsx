@@ -44,7 +44,7 @@ const PostPage = ({ slug, topic, frontMatter, mdxSource, relatedPosts }) => {
             <span className="my-2 text-xs  animate-text-lg !dark:text-gray-200 !text-gray-500">UPDATED: <time dateTime={frontMatter.modified}>{frontMatter.modified}</time></span>
             <div className="flex w-full justify-center mt-2 sm:mt-4">
                 {categoriesWoutPost?.map((cat, index) =>
-                    <a href={`/${cat}`}
+                    <a href={`/${cat}/`}
                         title={`See ${cat} posts`}
                         key={"article-header-category-" + cat}
                         className={`animate-text-lg inline-flex mx-2 items-center px-3 py-0.5 rounded-full text-sm font-bold ${colors[index]} `}
