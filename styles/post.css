@@ -2,8 +2,19 @@
   text-align: left;
 }
 
-.markdown-content *:not(svg){
-    z-index: 10;
+.markdown-content *:not(svg) {
+  z-index: 10;
+}
+
+.post-page > h2,
+.post-page > h3,
+.post-page > h4,
+.post-page > h5 {
+  text-decoration: underline;
+  text-decoration-color: rgba(255,255,255,0.8);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+
 }
 
 .post-page > h1 {
@@ -43,7 +54,7 @@
 .post-page li {
   margin-top: 12px;
   margin-bottom: 8px;
-  margin-left:36px;
+  margin-left: 36px;
   font-size: 20px;
   line-height: 1.9em;
   text-align: left;
