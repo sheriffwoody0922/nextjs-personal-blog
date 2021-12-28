@@ -147,21 +147,15 @@ After installation, we will see the default file structure and simple explanatio
 | app.service.ts         | A basic service with a single method.                                                                             |     |
 | main.ts                | The entry file of the application which uses the core function NestFactory to create a Nest application instance. |     |
 
-<ImageZoom
-    src="/posts/nestjs/05-services-repos-1800x600.webp"
-    width="1800"
-    height="600"
-    alt="The basic concepts of NestJS"
-/>
 
 <br/>
 
 ---
 ---
 
-## 2) Creating A Boilerplate App with Nest.JS
+## 2) A Nest.JS Tutorial Project
 
-### 2.1) Platform
+### 2.1) Underlying Server and the Entrypoint
 Nest aims to be a platform-agnostic framework. It works with any NodeJS server. However, out-of-the-box, it supports Express and Fastify.
 
 Those platform-specific configurations and the most general NestJS configurations can be done with the app's entry point.
@@ -186,14 +180,17 @@ By default, NestJS uses Express as its default Node server. You can use [Fastify
 
 ---
 
+<ImageZoom
+    src="/posts/nestjs/modules.webp"
+    width="1400"
+    height="350"
+    alt="Modules in NestJS"
+/>
 
-### 2.2) Creating a module
+### 2.2) Modules in NestJS
 In Nest.js, every app has at least one module. Modules encapsulate closely related code components together. It is strongly suggested to use modules for organizing your code. By doing that, you can easily scale your code.
 
-A module is a class annotated with a `@Module()` decorator. In other words, we use `@Module()` decorator that takes an object, in order to make a class a module.
-
-#### 2.2.1) The Root module
-When you create a Nest app with the CLI, the root module of your app will be in `app.module.ts` file.
+A module is a class annotated with a `@Module()` decorator. In other words, we use `@Module()` decorator with an object, in order to make a class a module.
 
 <ImageZoom
     src="/posts/nestjs/root-module.webp"
@@ -201,26 +198,69 @@ When you create a Nest app with the CLI, the root module of your app will be in 
     height="489"
     alt="The basic concepts of NestJS"
 />
+
+#### 2.2.1) The Root module
+When you create a Nest app with the CLI, the root module of your app will be in `app.module.ts` file.
+
+```ts
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+
+@Module({
+  imports: [],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
+```
+
+---
+
 <br/>
+
+<br/>
+
+<ImageZoom
+    src="/posts/nestjs/decorators.webp"
+    width="1400"
+    height="350"
+    alt="Decorators in NestJS"
+/>
 
 #### 2.2.2) What is a decorator?
 Decorator is a concept that related with [Decorator pattern](https://en.wikipedia.org/wiki/Decorator_pattern) which is a design pattern in object-oriented programming.
 
-Decorators are functions that lets you attach new behaviors to objects by placing these objects inside a special wrapper.
+Decorators are functions that let you attach new behaviors to objects by placing these objects inside a special wrapper.
 
-Decorators are currently stage 2 proposal for JavaScript. However, TypeScript supports using decorators. You can use 5 types of [decorators in TypeScript](https://www.typescriptlang.org/docs/handbook/decorators.html):
-- Class Decorators
+Decorators are currently "stage 2 proposal" for JavaScript. However, TypeScript supports using decorators. You can use 5 types of decorators in TypeScript:
 - Property Decorators
 - Method Decorators
 - Accessor Decorators
-- Parameter Decorators
+- Parameter Decorators and
+- Class Decorators, like we use in modules.
 
-You can also read this excellent article: [A complete guide to TypeScript Decorators](https://saul-mirone.github.io/a-complete-guide-to-typescript-decorator/)
+<ImageZoom
+    src="/posts/nestjs/class-decorator.avif"
+    width="700"
+    height="350"
+    alt="The basic concepts of NestJS"
+/>
+
+A class decorator is applied to the constructor of a class. It can observe, modify or replace a class definition.
+Also, it should be noted that a class decorator can not be used in a TypeScript declaration file.
 
 <br/>
 
+For the details, you can check [Decorators in TypeScript](https://www.typescriptlang.org/docs/handbook/decorators.html)
+
+
+You can also read this excellent article: [A complete guide to TypeScript Decorators](https://saul-mirone.github.io/a-complete-guide-to-typescript-decorator/)
+
 Let's back to the modules.
 
+
+---
 
 #### 2.2.3) Properties of the Module object
 
@@ -243,14 +283,13 @@ I said that a module decorator takes a single object. The properties of the obje
 
 
 #### 2.2.4) Notes on Modules
+
 Some important things about the modules in NestJS:
 - Modules use singleton design pattern. Therefore we can share the instance of any service provider between modules.
 - Every module is automatically a shared module. Once created it can be reused by any module.
 - We need to import its module first when we need to use any provider.
 - Any module imported to another module also can be exported from.
-- Because providers aren't registered in global scope, importing a specific module many times can be tedious. You can go around this problem by adding `@Global`decorator to a module.
-
-
+- Because providers aren't registered in global scope, importing a specific module many times can be tedious. You can go around this problem by adding `@Global`decorator to a module (except [lazy-loaded modules](https://docs.nestjs.com/fundamentals/lazy-loading-modules)).
 
 #### 2.2.5) Create a new module with the CLI
 Let's create a new module that will be responsible for the users of our app. If your Nest.JS app is running, you can stop it by pressing `CMD/CTRL + C`.
@@ -263,21 +302,30 @@ nest generate module users
 This will create `users` folder under `src` directory. Under this directory, you'll see `users.module.ts` file.
 
 ```ts
-// src/users/users.module.ts
 import { Module } from '@nestjs/common';
 
 @Module({})
 export class UsersModule {}
-
 ```
+
+
 
 The module file is empty now. Let's fill it with some code components.
 
 ---
 
+<ImageZoom
+    src="/posts/nestjs/controllers.webp"
+    width="1400"
+    height="350"
+    alt="Controllers in NestJS"
+/>
 
-### 2.3) Creating a controller
+### 2.3) Controllers in NestJS
 I previously said that a controller is responsible for routing a request to a specific function. Controllers are connected our app through a module.
+
+There is a better way to create controller and resources than what we will do. Since this is a *tutorial about NestJS*, I am going to do many tasks manually.
+Otherwise,  you can [quickly create a CRUD API](https://docs.nestjs.com/recipes/crud-generator#crud-generator).
 
 Let's create a controller.
 
@@ -288,62 +336,106 @@ nest generate controller users/users --flat
 When you execute the command above, two new files will be generated: `users.controller.ts` and `users.controller.spec.ts`. The latter one is for test purposes and thus we can skip it now.
 
 ```ts
-// src/users.controller.ts
-import { Controller } from '@nestjs/common';
+import { Controller} from '@nestjs/common';
 
 @Controller('users')
 export class UsersController {}
-
 ```
+
 
 #### 2.3.1) Notes on creating a controller
 
 Also, please check the `users.module.ts` file. You can see that the new controller is automatically appended to its module.
+
+```ts
+import { Module } from '@nestjs/common';
+import { UsersController } from './users.controller';
+
+@Module({
+  controllers: [UsersController],
+  imports: []
+})
+export class UsersModule {}
+```
 
 There are some things to be highlighted:
 
 1. Don't add contoller suffix to your controller name. It will be automatically suffixed.
 2. Putting --flat flag generates the controller without creating an extra folder. If you need more organized directory which put controller in a folder, you can omit it.
 3. The controller is automatically appended to the module
-4. The text in the controller decorator, which is "users" in our case, prefixes the routes under the controller. In other words, all the routes under this controller will start with `users` such as `/words/list` or `/words/:id`.
+4. The text in the controller decorator, which is "users" in our case, prefixes the routes under the controller. In other words, all the routes under this controller will start with `users` such as `/users/:id`.
 
 <br/>
 
 #### 2.3.2) Adding routes
-Let's add some routes.
+We created a very basic controller.
+We need to add routes with the corresponding HTTP request. We should specify HTTP requests with decorators.  `@Get()`,  `@Post()`,  `@Put()`  `@Delete()`,  `@Patch()`, `@Options()`,  `@Head()`, `@All()`.
+
+<br />
+
+Let's create a CRUD API.
 
 ```ts
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Patch } from '@nestjs/common';
 
 @Controller('users')
 export class UsersController {
+  @Get()
+  getAllUsers() {
+    // we will fill it soon
+  }
 
-    @Get("/:id")
-    getUser(id: number){
-      // we will fill it soon
-    }
+  @Post()
+  createUser() {
+    // we will fill it soon
+  }
 
-    @Post()
-    createUser(email: string, password: string){
-        // we will fill it soon
-    }
+  @Get('/:id')
+  getUser(id: number) {
+    // we will fill it soon
+  }
+
+  @Patch('/:id')
+  updateUser() {
+    // we will fill it soon
+  }
+
+  @Delete('/:id')
+  removeUser() {
+    // we will fill it soon
+  }
 }
-
 ```
 
-You will notice how we use different request types like by adding the proper decorator like `@Get()` and `@Post` on top of corresponding route.
+| Request | Function    | Endpoint     |
+| ------- | ----------- | ------------ |
+| GET     | getAllUsers | "/users/"    |
+| POST    | createUser  | "/users/"    |
+| GET     | getUser     | "/users/:id" |
+| Patch   | updateUser  | "/users/:id" |
+| Delete  | removeUser  | "/users/:id" |
+
+<br/>
+
+---
 
 #### 2.3.3) REST API Client
 
 To check our routes, there are several ways. You can use your favorite REST API Client such as Postman, Insomnia, Paw. I'm planning to use [Thunder Client](https://www.thunderclient.io/) throughout this post. It is an extension for VS Code. If you are a VS Coder, the chances are high that you like it.
 
+<ImageZoom
+    src="/posts/nestjs/thunder-client.webp"
+    width="1400"
+    height="700"
+    alt="Thunder Client NestJS Routes"
+/>
+
+
 For the detailed instructions, you can visit: [NestJS Controllers - Routing](https://docs.nestjs.com/controllers#routing).
 
 <br/>
 
-I should highlight that a controller method should be responsible only for routing a request to proper function that handles the business logic.
-
-Therefore, we need to add some business logic.
+Since a controller method will be responsible only for routing, we need to create a service that will handle the business logic of our app.
 
 ---
 
@@ -627,3 +719,4 @@ You can also [read this article](https://www.codeproject.com/Articles/538536/A-c
 
 <br/>
 
+This part of the NestJS tutorial is completed. Before the next post, I'm planning to extend current one.
