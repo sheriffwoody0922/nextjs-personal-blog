@@ -1,8 +1,8 @@
 ---
-title: 'NestJS Tutorial Part I: Basics and Dependency Injection'
+title: 'NestJS Tutorial Part I: Basics, Models, Controllers'
 date: '2021-12-13'
 modified: '2021-12-27'
-description: 'The first part of the NestJS tutorial series includes the basics, modules, and controllers as well as dependency inversion principle and dependency injection.'
+description: 'The first part of the NestJS tutorial series includes the basics, modules, and controllers as well as decorators.'
 cover: '/posts/covers/nestjs-tutorial-I.webp'
 slug: 'nestjs-tutorial-I'
 topic: 'code'
@@ -58,31 +58,13 @@ Since understanding NestJS requires some software development concepts, I will t
 
 
 
-# 1) Introduction
+## Introduction
 
 For the demonstration purposes, let's look some basics of NestJS. You don't need to do anything rightnow until the next sextion. (We are going to create a Nest.js project with the CLI in the next section)
 
 
-### 1.1) NestJS Packages
 
-When you create a new project from scratch you need to install the libraries below.
-
-```bash
-# install dependencies
-npm install @nestjs/common @nestjs/core @nestjs/platform-express reflect-metadata typescript
-```
-
-Let's look what are those for:
-
-| Package                  | Description                                                                                                                     |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
-| @nestjs/common           | The functions, classes and other useful stuff except the core package.                                                          |
-| @nestjs/core             | The core package of NestJS.                                                                                                     |
-| @nestjs/platform-express | Express library for handling HTTP requests. You can also choose Fastify as well.                                                |
-| reflect-metadata         | It is for using decorators.                                                                                                     |
-| typescript               | The package is required for using the superset of JavaScript. It is required since we are going to write our app in TypeScript. |
-
-### 1.2) TypeScript Configurations
+### A) TypeScript Configurations in NestJS
 
 NestJS is heavily uses decorators which is a [feature of TypeScript](https://www.typescriptlang.org/docs/handbook/decorators.html). Decorators allows us to write cleaner and understandable code. You can also read: [Understanding JavaScript decorators](https://blog.logrocket.com/understanding-javascript-decorators/)
 
@@ -97,9 +79,9 @@ NestJS is heavily uses decorators which is a [feature of TypeScript](https://www
 }
 ```
 
-### 1.3) NestJS Concepts
+### B) NestJS Components
 
-| NestJS Tool  | Description                                                  |
+| NestJS   | Description                                                  |
 | ------------ | ------------------------------------------------------------ |
 | Pipe         | Data validation in requests                                  |
 | Guard        | User authentication                                          |
@@ -112,7 +94,7 @@ NestJS is heavily uses decorators which is a [feature of TypeScript](https://www
 
 
 
-### 1.4) Creating a project with the CLI
+### C) Creating a project with the CLI
 
 Another way of starting a NestJS project is scaffolidng with the [Nest CLI](https://docs.nestjs.com/cli/overview).
 
@@ -133,11 +115,31 @@ npm run start:dev
 ```
 You can visit `http://localhost:3000` on your browser. You'll see that our app is running.
 
-### 1.5) The Basic App Structure
+### D) Creating a project manually
+
+When you create a new project from scratch you need to install the libraries below.
+
+```bash
+# install dependencies
+npm install @nestjs/common @nestjs/core @nestjs/platform-express reflect-metadata typescript
+```
+
+Let's look what are those for:
+
+| Package                  | Description                                                                                                                     |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| @nestjs/common           | The functions, classes and other useful stuff except the core package.                                                          |
+| @nestjs/core             | The core package of NestJS.                                                                                                     |
+| @nestjs/platform-express | Express library for handling HTTP requests. You can also choose Fastify as well.                                                |
+| reflect-metadata         | It is for using decorators.                                                                                                     |
+| typescript               | The package is required for using the superset of JavaScript. It is required since we are going to write our app in TypeScript. |
+
+
+### E) The Basic App Structure
 
 After installation, we will see the default file structure and simple explanations taken from [the official document](https://docs.nestjs.com/first-steps).
 
-![NestJS default file structure](/posts/dependency-inversion/nestjs-default-file-structure.png)
+![[nestjs-default-file-structure.png]]
 
 | Filename               | Description                                                                                                       |     |
 | ---------------------- | ----------------------------------------------------------------------------------------------------------------- | --- |
@@ -147,15 +149,15 @@ After installation, we will see the default file structure and simple explanatio
 | app.service.ts         | A basic service with a single method.                                                                             |     |
 | main.ts                | The entry file of the application which uses the core function NestFactory to create a Nest application instance. |     |
 
-
 <br/>
 
+
 ---
 ---
 
-## 2) A Nest.JS Tutorial Project
+# 1) NestJS Tutorial
 
-### 2.1) Underlying Server and the Entrypoint
+## 1) Platform/Server
 Nest aims to be a platform-agnostic framework. It works with any NodeJS server. However, out-of-the-box, it supports Express and Fastify.
 
 Those platform-specific configurations and the most general NestJS configurations can be done with the app's entry point.
@@ -187,7 +189,9 @@ By default, NestJS uses Express as its default Node server. You can use [Fastify
     alt="Modules in NestJS"
 />
 
-### 2.2) Modules in NestJS
+
+
+## 2) Modules in NestJS
 In Nest.js, every app has at least one module. Modules encapsulate closely related code components together. It is strongly suggested to use modules for organizing your code. By doing that, you can easily scale your code.
 
 A module is a class annotated with a `@Module()` decorator. In other words, we use `@Module()` decorator with an object, in order to make a class a module.
@@ -199,7 +203,7 @@ A module is a class annotated with a `@Module()` decorator. In other words, we u
     alt="The basic concepts of NestJS"
 />
 
-#### 2.2.1) The Root module
+### A) The Root module
 When you create a Nest app with the CLI, the root module of your app will be in `app.module.ts` file.
 
 ```ts
@@ -228,7 +232,9 @@ export class AppModule {}
     alt="Decorators in NestJS"
 />
 
-#### 2.2.2) What is a decorator?
+
+
+### B) What is a decorator?
 Decorator is a concept that related with [Decorator pattern](https://en.wikipedia.org/wiki/Decorator_pattern) which is a design pattern in object-oriented programming.
 
 Decorators are functions that let you attach new behaviors to objects by placing these objects inside a special wrapper.
@@ -262,7 +268,7 @@ Let's back to the modules.
 
 ---
 
-#### 2.2.3) Properties of the Module object
+### C) Properties of the Module object
 
 
 I said that a module decorator takes a single object. The properties of the object describe the module.
@@ -282,7 +288,7 @@ I said that a module decorator takes a single object. The properties of the obje
 
 
 
-#### 2.2.4) Notes on Modules
+### D) Notes on Modules
 
 Some important things about the modules in NestJS:
 - Modules use singleton design pattern. Therefore we can share the instance of any service provider between modules.
@@ -291,7 +297,7 @@ Some important things about the modules in NestJS:
 - Any module imported to another module also can be exported from.
 - Because providers aren't registered in global scope, importing a specific module many times can be tedious. You can go around this problem by adding `@Global`decorator to a module (except [lazy-loaded modules](https://docs.nestjs.com/fundamentals/lazy-loading-modules)).
 
-#### 2.2.5) Create a new module with the CLI
+### E) Create a new module with the CLI
 Let's create a new module that will be responsible for the users of our app. If your Nest.JS app is running, you can stop it by pressing `CMD/CTRL + C`.
 
 In your terminal, execute the commands below:
@@ -321,12 +327,14 @@ The module file is empty now. Let's fill it with some code components.
     alt="Controllers in NestJS"
 />
 
-### 2.3) Controllers in NestJS
+
+## 3) Controllers in NestJS
 I previously said that a controller is responsible for routing a request to a specific function. Controllers are connected our app through a module.
 
 There is a better way to create controller and resources than what we will do. Since this is a *tutorial about NestJS*, I am going to do many tasks manually.
 Otherwise,  you can [quickly create a CRUD API](https://docs.nestjs.com/recipes/crud-generator#crud-generator).
 
+### A) Creating a controller
 Let's create a controller.
 
 ```bash
@@ -343,7 +351,7 @@ export class UsersController {}
 ```
 
 
-#### 2.3.1) Notes on creating a controller
+### B) Notes on controllers
 
 Also, please check the `users.module.ts` file. You can see that the new controller is automatically appended to its module.
 
@@ -367,7 +375,7 @@ There are some things to be highlighted:
 
 <br/>
 
-#### 2.3.2) Adding routes
+### C) Adding routes to the controller
 We created a very basic controller.
 We need to add routes with the corresponding HTTP request. We should specify HTTP requests with decorators.  `@Get()`,  `@Post()`,  `@Put()`  `@Delete()`,  `@Patch()`, `@Options()`,  `@Head()`, `@All()`.
 
@@ -419,7 +427,7 @@ export class UsersController {
 
 ---
 
-#### 2.3.3) REST API Client
+### D) REST API Client
 
 To check our routes, there are several ways. You can use your favorite REST API Client such as Postman, Insomnia, Paw. I'm planning to use [Thunder Client](https://www.thunderclient.io/) throughout this post. It is an extension for VS Code. If you are a VS Coder, the chances are high that you like it.
 
@@ -437,286 +445,112 @@ For the detailed instructions, you can visit: [NestJS Controllers - Routing](htt
 
 Since a controller method will be responsible only for routing, we need to create a service that will handle the business logic of our app.
 
----
+<br/>
+
+### E) Request, Response,Status, Body, Query, and Parameters
+To get HTTP request and response objects and their properties like body, query, parameters, you can use their decorators: `@Req`,`@Res`
+
+You should also import underlying server type library if you need to take the advantage. [(See the details)](https://docs.nestjs.com/controllers#request-object)
+
+| Decorator               | Platform Object                 |
+| ----------------------- | ------------------------------- |
+| @Request(), @Req()      | req                             |
+| @Response(), @Res()*    | res                             |
+| @Next()                 | next                            |
+| @Session()              | req.session                     |
+| @Param(key?: string)    | req.params / req.params[key]    |
+| @Body(key?: string)     | req.body / req.body[key]        |
+| @Query(key?: string)    | req.query / req.query[key]      |
+| @Headers(name?: string) | req.headers / req.headers[name] |
+| @Ip()                   | req.ip                          |
+| @HostParam()            | req.hosts                       |
+
+<br/>
+
+There are also other method decorators for your usage.
+
+| Decorator                                    | Description                                               |
+| -------------------------------------------- | --------------------------------------------------------- |
+| @HttpCode(statusCode: number)                | Returns HTTP status code you given                        |
+| @Redirect(url?: string, statusCode?: number) | Redirect a response to a given URL with a given HTTP code |
+|                                              |                                                           |
+
+<br/>
+
+#### Dynamic Routes and Query Variables
+In some cases, we will require dynamic routes, for instance, the `getUser` route. You can obtain a dynamic `id` value with a special parameter decorator `@Param().` You can optionally pass the dynamic parameter name to get its dynamic value; otherwise, you will get an object.
+It should be noted that if you don't decorate the method with a dynamic route (with a colon and a parameter name) like `:id` you can't obtain the value.
+
+<br/>
+
+The same workflow is also valid for query strings in your route, except we use the `@Query()` decorator.
 
 
-## Creating a Provider
-Providers are a fundamental concept in Nest. Many of the basic Nest classes may be treated as a provider – services, repositories, factories, helpers, and so on.
+Let's change your controller's `getUser` method by first importing `Param` and `Query` decorators from `@nestjs/common` library.
+After import, I'll assign route parameter to `params` and query string to `qs` by decorating them.
 
-### Services and Repositories
-Services and repositories are tightly connected concepts. Basically, a service is a class where we do business logic. Repositories, on the other hand, are responsible for database access.
-A service can use one or more repositories to get different data and combine them together.
+For demonstration purposes, I can send a get request to the route:  `http://localhost:3000/users/5?order=asc`.
 
-A repository is simply a wrapper for a database. It can wrap an ORM like [TypeORM](https://typeorm.io/), [Prisma](https://www.prisma.io/), or [Sequelize](https://sequelize.org/) or an ODM like [Mongoose](https://mongoosejs.com/) schema.
+```ts
+import { Controller, Get, Post, Delete, Patch,
+    Param, Query // <----------------- import
+ } from '@nestjs/common';
+
+@Controller('users')
+export class UsersController {
 
 
-
-Let's create a service provider that will handle business logic of the users and a repository file that is responsible for database access.
-
+  @Get('/:id')
+  getUser(@Param() params, @Query() qs) {
+    console.log('params:', params);
+    console.log("query string:", qs)
+  }
+}
+```
+You'll see the logs below on your termina:
 ```bash
-# create a file for the service
-touch src/users/users.service.ts
-
-# create a file for the repository
-touch src/users/users.repository.ts
+params: { id: '5' }
+query string: { order: 'asc' }
 ```
+<ImageZoom
+    src="/posts/nestjs/headers-query-param.webp"
+    width="1400"
+    height="700"
+    alt="Extracting Body and Headers in Nest.js"
+/>
 
 <br/>
 
-Before filling those files, let's read [providers section of the official documents](https://docs.nestjs.com/providers):
->The main idea of a provider is that it can be injected as dependency; this means objects can create various relationships with each other, and the function of "wiring up" instances of objects can largely be delegated to the Nest runtime system.
+It is better to demonstrate a PUT request. In order to that, send a PUT request to `http://localhost:3000/users` with the JSON payload `{"email":"example@example.com" }`.
+I'll import `Body` and `Headers` decorator from `@nestjs/common` and change `createUser` method.
+```ts
+import { Controller, Get, Post, Delete, Patch, Param, Query,
+	Body, Headers // <----------------- import
+ } from '@nestjs/common';
 
-What is injection? Hmm.. Let's understand the most important part of the NestJS.
+@Controller('users')
+export class UsersController {
+
+
+  @Post()
+  createUser(@Headers() myHeader, @Body() myBody) {
+    console.log('header', myHeader.host);
+    console.log('body', myBody);
+  }
+}
+```
+
+<ImageZoom
+    src="/posts/nestjs/route-body-headers.webp"
+    width="1400"
+    height="700"
+    alt="Extracting Body and Headers in Nest.js"
+/>
+
+
+
+Since a controller method will be responsible only for routing, we need to create a service that will handle the business logic of our app.
 
 ---
 
-
-### 2.4) Dependency Inversion Principle and Dependency Injection
-
-
-#### 2.4.1) Dependency Inversion Principle
-[Dependency inversion principle](https://en.wikipedia.org/wiki/Dependency_inversion_principle)  is one of the five design principles of [SOLID principles](https://en.wikipedia.org/wiki/SOLID). The principle states that:
-- High-level modules should not import anything from low-level modules. Both should depend on abstractions (e.g., interfaces).
-- Abstractions should not depend on details. Details (concrete implementations) should depend on abstractions.
-
-<br/>
-
-> One of the goals of these methods is to define the subprogram hierarchy that describes how the high-level modules make calls to the low-level modules.
-
-\- Agile Software Development, Principles, Patterns, and Practices. Robert C. Martin
-
-Also, you can read the [article of Robert C. Martin](https://web.archive.org/web/20041221102842/http://www.objectmentor.com/resources/articles/dip.pdf).
-
-
-
-<br/>
-
-#### 2.4.2) Reviewing the module structure
-
-It is better to read the concept with an implementation. In our example,
-- `Users` module which is a distinct part of our app will encapsulate closely related modules and classes inside of it.
-- `UsersController` is responsible for routing a request to a particular function.
-- `UsersService` is class that we put business logic in it.
-- `UsersRepository` is another class responsible for database access.
-
-It should also be noted that:
-- `UsersController` depends on `UsersService` which also depends on `UsersRepository`.
-
-
-<ImageZoom
-    src="/posts/dependency-inversion/users-dependency-1400x350.webp"
-    width="1400"
-    height="350"
-    alt="NestJS default file structure"
-/>
-
-<br/>
-
-One of the way for creating a service provider for the controller is like that:
-
-```ts
-// OPTION I (❌ BAD)
-export class UsersService {
-    usersRepo: UsersRepository;
-
-    constructor() {
-        this.usersRepo = new UsersRepository();
-    }
-}
-```
-
-<br/>
-
-#### 2.4.3) The dependency problem of the provider
-
-There are some problems in the code above. I will try to explain those.
-
-In the future, another controller may require `UsersService`. Since the service creates the instance of its dependency, there will be many instances of `UsersRepository` which means many database connections.
-
-
-<ImageZoom
-    src="/posts/dependency-inversion/instances-should-not-create-their-own-dependencies-1400x700.webp"
-    width="1400"
-    height="700"
-    alt="Code organization in Nest.JS"
-/>
-
-##### A Higher level module depends on a lower level module
-It is difficult to reuse a higher level module (`UsersService`) that depends on a lower level module (`UsersRepository`) in a different context. Otherwise, our system will become more rigid and fragile.
-
-<ImageZoom
-    src="/posts/dependency-inversion/users-dependency-fail-1400x350.webp"
-    width="1400"
-    height="350"
-    alt="Dependency inversion"
-/>
-
-<br/>
-
-Also, the methods of the provider will be determined by a lower level module. Therefore, the `UsersService` will be flexible as much as `UsersRepository`.
-
-If there is a problem to access `UsersRepository`, then we will have a problem in `UsersService`. Since `UsersController` tightly depends on `UsersService`, our controller will also fail.
-
-<ImageZoom
-    src="/posts/dependency-inversion/low-level-to-high-level-1400x700.webp"
-    width="1400"
-    height="700"
-    alt="Dependency inversion 2"
-/>
-<br/>
-
-Moreover, if we need to change the code of the lower level module, we always need to change the higher level module.
-
-<ImageZoom
-    src="/posts/dependency-inversion/low-level-changes-forces-to-high-level-module-1400x700.webp"
-    width="1400"
-    height="700"
-    alt="Dependency inversion 3"
-/>
-
-<br/>
-
-Considering these problems, let's make our code better.
-
-```ts
-/**
- * OPTION II (✅  BETTER)
- * An instance of UsersService gets its exact dependency
- * at its creation rather than creating a new instance of UsersRepository.
- */
-export class UsersService {
-    usersRepo: UsersRepository;
-
-    constructor(repo: UsersRepository) {
-        this.usersRepo = repo
-    }
-}
-```
-
-##### A concrete implementation doesn't depend on abstraction
-There are still some problems and some improvements we can achieve, though.
-For example, the service provider still requires a specific and named repository.
-In other words, the service class will depend on a named, concrete class. This makes the class less reusable and our app more fragile and rigid.
-
-Therefore, we need to make the service depends on an abstraction.
-
-
-<ImageZoom
-    src="/posts/dependency-inversion/interface-1400x700.webp"
-    width="1400"
-    height="700"
-    alt="Dependency inversion interface"
-/>
-
-<br/>
-
-Let's refactor the code again.
-
-```ts
-// OPTION III (✅ ✅ ✅ Best)
-// The repository interface makes the service depend on abstraction not a names class.
-interface Repository {
-    findOne(name: string);
-    create(name: string);
-    findAll();
-}
-interface Repository {
-    create(email: string, password: string);
-    findOne(id: number);
-}
-export class UsersService {
-    usersRepo: Repository;
-
-    constructor(repo: Repository) {
-        this.usersRepo = repo;
-    }
-}
-```
-
-Great.
-- We created an interface in which methods are determined by the higher-level module `UsersService`.
-- The interface also makes the provider more independent, meaning that it doesn't depend on `UsersRepository` anymore. It depends on any repository that satisfies the conditions.
-
-
-
-<br/>
-
-Until now, we tried to understand the dependency inversion principle by giving a simple class dependency example and refactoring it. However, what we did was not a structured way of solving the problem. We need more than refactoring, like a framework.
-
-
-#### Inversion of Control
-
-
-
-At this very moment, [Inversion of Control (IoC)](https://en.wikipedia.org/wiki/Inversion_of_control) comes into play for us. It inverts the flow of control as compared to traditional control flow.
-Inversion of control is used to increase the modularity of the program and make it extensible.
-
-IoC gives us the ways for inverting the control and Dependency Injection is one of those ways that Nest put it at its core. In other words, Dependency Injection plays a vital role in NestJS.
-
-#### Dependency Injection
-
-Dependency injection is one form of the broader technique of inversion of control.
-
-The intent behind dependency injection is to achieve separation of concerns of construction and use of objects. This can increase readability and code reuse.
-
-Dependency injection solves the following problems:
-- How can a class be independent from the creation of the objects it depends on?
-- How can the way objects are created be specified in separate configuration files?
-- How can an application support different configurations?
-
-
-A type of IoC where we move the creation and binding of dependency outside of the class that depends on it.
-
-Normally, objects are created inside of the dependent class and bounded inside the dependent class.
-
-Considering the statement above, let's look at our example and other solutions.
-
-
-### IoC Container or DI Container
-IoC container is a framework to create dependencies and pass them when needed. That means we don’t need to manually create dependencies like earlier examples. IoC framework automatically creates objects based on requests and injects them when needed. So it reduces lots of pain. You will be happy when you see all the dependencies created automatically.
-
-<ImageZoom
-    src="/posts/dependency-inversion/ioc-container-2800x1400.webp"
-    width="2800"
-    height="1400"
-    alt="Dependency inversion interface"
-/>
-
-
-#### DI container Flow
-1. It register all classes with the container when the app bootstraps.
-2. The container is going to take a look at all these different classes and figure out which dependencies each one has.
-3. We ask container to create an instance of a class for us. (Generally it will be `Controller` class).
-4. Container look the dependencies it generated, and creates all the required deps. Then it gives us the instance (`Controller`).
-5. Container will hold all the instances of classes and their dependencies. If we are going to create a class that has a dependency already created, DI container returns it rather than create a new instance
-
-In Dependency Injection, the receiving object is called a 'client' and the passed-in ('injected') object is called a 'service'. The code that passes the service to the client is called the 'injector'.
-Instead of the client specifying which service it will use, the injector tells the client what service to use. The 'injection' refers to the passing of a dependency (a service) into the client that uses it.
-
-
-#### How to use DI Container in NestJS
-It is very easy in NestJS to make a class injectable. We simply put `@Injectable()` decorator on top of it.
-
-The `@Injectable()` decorator attaches metadata, which declares that CatsService is a class that can be managed by the Nest IoC container.
-
-```ts
-import { Injectable } from '@nestjs/common'; // import it
-
-// Put the decorator and make it injectable
-@Injectable()
-export class UsersService {
-    usersRepo: Repository;
-
-    constructor(repo: Repository) {
-        this.usersRepo = repo;
-    }
-
-	// The rest of your code
-}
-```
-
-You can also [read this article](https://www.codeproject.com/Articles/538536/A-curry-of-Dependency-Inversion-Principle-DIP-Inve#What%20is%20IoC) about the concepts like DI, IoC, and DI Container.
-
-<br/>
-
-This part of the NestJS tutorial is completed. Before the next post, I'm planning to extend current one.
+The next part will be published soon.
