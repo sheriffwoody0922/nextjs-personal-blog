@@ -234,7 +234,7 @@ export const getStaticProps = async ({ params: { slug, topic } }) => {
         //const markdownWithMeta = fs.readFileSync(path.join('posts', filename), 'utf-8')
         // frontmatter data
         //const { data: frontMatter } = matter(markdownWithMeta)
-        console.log("..", frontMatter)
+        //console.log("..", frontMatter)
         // slug of the iterated post
         const postSlug = frontMatter.slug //|| frontMatter.replace('.mdx', '')  // Default slug
 

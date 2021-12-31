@@ -18,21 +18,16 @@ tags:
     - 'nestjs controllers'
     - 'nestjs data validations'
     - 'nestjs dependency injection'
-    - "dependency inversion principle"
-    - "dependency injection"
-    - "inversion of control"
-    - "dependency inversion container"
-    - "IoC container"
 keywords:
     - 'nestjs tutorial'
     - 'nestjs introduction'
     - 'nestjs for starters'
     - 'nestjs basics'
-    - "dependency inversion principle"
-    - "dependency injection"
-    - "inversion of control"
-    - "dependency inversion container"
-    - "IoC container"
+    - "controllers in nestjs"
+    - "modules in nestjs"
+    - "data validation in nestjs"
+    - "data transfer object in nestjs"
+    - "dto in nestjs"
 related:
     - 'adonisjs-solidjs'
     - 'solidjs-and-reactive-primitives'
@@ -550,7 +545,180 @@ export class UsersController {
 
 
 Since a controller method will be responsible only for routing, we need to create a service that will handle the business logic of our app.
+However, are we sure about the validity of requested data?
+Let's be sure about that.
+
+---
+---
+
+<ImageZoom
+    src="/posts/nestjs/pipes.webp"
+    width={1400}
+    height={350}
+    alt="Pipes in NestJS"
+/>
+
+
+
+## 4) Pipes (Data Validation )
+
+Pipes in NestJS are for data validation in requests. They validate or transform the data before reaching the controller.
+
+The two usecase of pipes are below.
+
+1. Data validation
+2. Data transformation
+
+<ImageZoom
+    src="/posts/nestjs/pipe-mechanism.webp"
+    width={1400}
+    height={350}
+    alt="Pipes in NestJS"
+/>
+
+To use those functionalities, we need to install two extra packages in the next step. Those are:
+
+1. [class-transformer](https://github.com/typestack/class-transformer): Decorator-based transformation, serialization, and deserialization between objects and classes.
+2. [class-validator](https://github.com/typestack/class-validator): Decorator-based property validation for classes.
+
+```bash
+# install validator packages
+npm install class-validator class-transformer
+```
+
+NestJS provides eight pipes available out-of-the-box, you could also write your own. Those built-in pipes are: `ValidationPipe`, `ParseIntPipe`, `ParseFloatPipe`, `ParseBoolPipe`, `ParseArrayPipe`, `ParseUUIDPipe`, `ParseEnumPipe`, `DefaultValuePipe`. You can read the details: [NestJS Pipe](https://docs.nestjs.com/pipes#pipes)
+
+Now, there are a couple of things to do for setting automatic validation.
+
+- We will register the validation globally;
+- We should define the expected data, which we will call "data transfer object."
+- We should define validation rules and apply all of them to a request handler.
+
+### A) Registering a Global Pipe
+
+To use the ValidationPipe, we need to tell NestJS to use this validation globally. In other words, we need to set up automatic validation globally. After registering the ValidationPipe globally, we will define different rules for different routes.
+
+Open and edit the `main.ts` file accordingly.
+
+```tsx
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common' // import this
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(new ValidationPipe()); // <------- Add this
+  await app.listen(3000);
+}
+bootstrap();
+```
+
+### B) Data Transfer Object - dto
+
+The next step is creating a class that describes the rules the request body must-have. This class is referred to as `Data Transfer Object,` generally abbreviated as `dto.`
+
+We will create a file that includes a class that describes all the different properties we expect our post request handler to receive.
+
+```bash
+# create data transfer object class
+mkdir src/users/dtos
+
+# create a file holds validation class
+touch src/users/dtos/create-user.dto.ts
+touch src/users/dtos/update-user.dto.ts
+```
+<br/>
+
+We've created three different dto files. Now, we will define those files and ensure the requested data is valid.
+
+```tsx
+// src/users/dtos/create-user.dto.ts
+import { IsEmail, IsString } from 'class-validator';
+
+// Whenever we put this class as an input type of a request
+// It automatically expects a name property with string value
+export class CreateUserDto {
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  password: string;
+}
+```
+
+```ts
+// src/users/dtos/update-user.dto.ts
+import { IsEmail, IsString, IsOptional } from 'class-validator';
+
+export class UpdateUserDto {
+  @IsEmail()
+  @IsOptional()
+  email: string;
+
+  @IsString()
+  @IsOptional()
+  password: string;
+}
+```
+
+We decorate dto objects with the decorators imported from `class-validator`.
+
+<br/>
+
+The validation classes are ready. When we put those as a type annotation of any request, they will validate incoming requests.
+
+Let's try them. You can update `users.controller.ts` file according to this:
+```tsx
+// src/users/users.controller.ts
+import {
+  Controller,
+  Get,
+  Post,
+  Delete,
+  Patch,
+  Param,
+  Query,
+  Headers,
+  Body,
+} from '@nestjs/common';
+import { CreateUserDto } from './dtos/create-user.dto'; // <-- Import
+import { UpdateUserDto } from './dtos/update-user.dto'; // <-- Import
+
+@Controller('users')
+export class UsersController {
+  @Get()
+  getAllUsers() {}
+
+  @Post()
+  createUser(@Body() body: CreateUserDto) {} // <-- Use as type annotation
+
+  @Get('/:id')
+  getUser(@Param() params) {}
+
+  @Patch('/:id')
+  updateUser(@Body() body: UpdateUserDto) {} // <-- Use as type annotation
+
+  @Delete('/:id')
+  removeUser() {}
+}
+
+```
+
+It is time to test it. I am going to send a post request to `createUser` route with a missing `password` property.
+
+```json
+{
+  "statusCode": 400,
+  "message": [
+    "password must be a string"
+  ],
+  "error": "Bad Request"
+}
+```
+
+The result will be as expected.
 
 ---
 
-The next part will be published soon.
+I think this is enough for the first post of Nest.JS tutorial. I'm planning to cover providers and interceptors in the next post.
+Thanks for reading.
