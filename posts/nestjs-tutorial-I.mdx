@@ -175,7 +175,7 @@ By default, NestJS uses Express as its default Node server. You can use [Fastify
 
 <br/>
 
----
+<hr/>
 
 <ImageZoom
     src="/posts/nestjs/modules.webp"
@@ -214,9 +214,8 @@ import { AppService } from './app.service';
 export class AppModule {}
 ```
 
----
+<hr/>
 
-<br/>
 
 <br/>
 
@@ -261,7 +260,8 @@ You can also read this excellent article: [A complete guide to TypeScript Decora
 Let's back to the modules.
 
 
----
+<hr/>
+
 
 ### C) Properties of the Module object
 
@@ -313,7 +313,8 @@ export class UsersModule {}
 
 The module file is empty now. Let's fill it with some code components.
 
----
+<hr/>
+
 
 <ImageZoom
     src="/posts/nestjs/controllers.webp"
@@ -420,7 +421,8 @@ export class UsersController {
 
 <br/>
 
----
+<hr/>
+
 
 ### D) REST API Client
 
@@ -510,7 +512,7 @@ query string: { order: 'asc' }
 <ImageZoom
     src="/posts/nestjs/headers-query-param.webp"
     width="1400"
-    height="700"
+    height="350"
     alt="Extracting Body and Headers in Nest.js"
 />
 
@@ -539,7 +541,7 @@ export class UsersController {
     src="/posts/nestjs/route-body-headers.webp"
     width="1400"
     height="700"
-    alt="Extracting Body and Headers in Nest.js"
+    alt="REST API response in Nest.JS"
 />
 
 
@@ -548,8 +550,9 @@ Since a controller method will be responsible only for routing, we need to creat
 However, are we sure about the validity of requested data?
 Let's be sure about that.
 
----
----
+
+<hr/>
+
 
 <ImageZoom
     src="/posts/nestjs/pipes.webp"
@@ -718,7 +721,8 @@ It is time to test it. I am going to send a post request to `createUser` route w
 
 The result will be as expected.
 
----
+<hr/>
+
 
 I think this is enough for the first post of Nest.JS tutorial. I'm planning to cover providers and interceptors in the next post.
 Thanks for reading.

@@ -10,10 +10,7 @@
 .post-page > h3,
 .post-page > h4,
 .post-page > h5 {
-  text-decoration: underline;
-  text-decoration-color: rgba(255,255,255,0.8);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 4px;
+
 
 }
 
