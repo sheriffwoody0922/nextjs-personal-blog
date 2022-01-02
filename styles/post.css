@@ -1,3 +1,8 @@
+.post-page  img {
+  border-radius: 12px;
+  margin-bottom: 32px;
+}
+
 .post-page *:not(span) {
   text-align: left;
 }
