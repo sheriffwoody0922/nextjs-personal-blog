@@ -175,7 +175,7 @@
   height: 2px;
 }
 
-article p > code {
+article p > code, article li > code {
   padding: 2px 8px;
   margin: 0 2px;
   border-radius: 8px;
