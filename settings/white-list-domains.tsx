@@ -18,6 +18,7 @@ export const whitelist: Array<string> = [
     'webmeister.org',
     'www.cbsofyalioglu.com',
     'www.opendigitalgallery.com',
+    'monograph.notesnook.com',
     "desygner.com",
     "wakelet.com"
 ]
