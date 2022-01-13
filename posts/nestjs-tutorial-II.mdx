@@ -1,0 +1,542 @@
+---
+title: 'NestJS Tutorial Part II: Dependency Injection, Providers, Services.'
+date: '2022-01-13'
+modified: '2022-01-13'
+description: 'The second part of NestJS tutorial. The post covers providers, services, repositories as well as dependency injection concept.'
+cover: '/posts/covers/nestjs-tutorial-II.webp'
+slug: 'nestjs-tutorial-II'
+topic: 'code'
+canonical: 'https://www.cbsofyalioglu.com/code/nestjs-tutorial-I/'
+language: 'eng'
+categories:
+    - 'code'
+    - 'post'
+tags:
+    - 'nestjs basics'
+    - 'nestjs modules'
+    - 'nestjs controllers'
+    - 'nestjs data validations'
+    - 'nestjs dependency injection'
+keywords:
+    - 'nestjs tutorial'
+    - 'nestjs introduction'
+    - 'nestjs for starters'
+    - 'nestjs basics'
+    - "controllers in nestjs"
+    - "modules in nestjs"
+    - "data validation in nestjs"
+    - "data transfer object in nestjs"
+    - "dto in nestjs"
+related:
+    - 'nestjs-tutorial-I'
+    - 'solidjs-and-reactive-primitives'
+    - 'free-design-resources'
+    - 'content-creation-tools'
+proficiencyLevel: 'Beginner'
+---
+
+# NestJS Tutorial Part II: Dependency Injection, Providers, Services.
+
+I will continue this tutorial on NestJS with this second post. Previously, I've shared my notes on some of the concepts of NestJS. I made an introduction first; then, I introduced modules, controllers, and pipes to you. In this part, I'm going to cover providers and services along with the concept of "Dependency Injection".
+
+It is possible to have some code errors. However, I suggest you follow the post in order to get familiar with the concepts.
+
+It is highly suggested to read or at least take a peek at the first post: [The first part of the NestJS Tutorial](/code/nestjs-tutorial-I).
+
+## Introduction to Providers, Services and Repositories
+
+One of the fundamental concepts of NestJS is Providers. A provider is used to create a configurable service object.
+
+Basically, a service is a class where we do business logic.
+
+Repositories, on the other hand, are responsible for database access.
+
+It should be noted that services and repositories are tightly connected concepts. A service can use one or more repositories to get different data and combine them together.
+
+<br/>
+
+Also, services are the number one place for doing business logic in your Nest application.
+
+<br/>
+
+Let's create a service provider that will handle the business logic of the users.
+
+```bash
+# USE ONLY ONE OF THESE METHODS
+# I) create the service either with the CLI
+nest generate service users --no-spec
+
+# 2) manually
+touch src/users/users.service.ts
+```
+
+Before creating methods for the service, let's read a passage from [the official document](https://docs.nestjs.com/providers):
+
+> The main idea of a provider is that it can be injected as dependency; this means objects can create various relationships with each other, and the function of "wiring up" instances of objects can largely be delegated to the Nest runtime system.
+
+What is injection?
+
+We would be better off if we will first cover **dependency injection** because it is the most crucial part of NestJS.
+
+
+
+## 5) Dependency Inversion Principle and Dependency Injection
+
+
+### 5.1) Dependency Inversion Principle
+[Dependency inversion principle](https://en.wikipedia.org/wiki/Dependency_inversion_principle)  is one of the five design principles of [SOLID principles](https://en.wikipedia.org/wiki/SOLID). The principle states that:
+- High-level modules should not import anything from low-level modules. Both should depend on abstractions (e.g., interfaces).
+- Abstractions should not depend on details. Details (concrete implementations) should depend on abstractions.
+
+<br/>
+
+> One of the goals of these methods is to define the subprogram hierarchy that describes how the high-level modules make calls to the low-level modules.
+
+\- Agile Software Development, Principles, Patterns, and Practices. Robert C. Martin
+
+Also, you can read the [article of Robert C. Martin](https://web.archive.org/web/20041221102842/http://www.objectmentor.com/resources/articles/dip.pdf).
+
+
+
+<br/>
+
+### 5.2) Reviewing the module structure
+
+It is better to read the concept with an implementation. In our example,
+- `Users` module which is a distinct part of our app will encapsulate closely related modules and classes inside of it.
+- `UsersController` is responsible for routing a request to a particular function.
+- `UsersService` is class that we put business logic in it.
+- `UsersRepository` is another class responsible for database access.
+
+It should also be noted that:
+- `UsersController` depends on `UsersService` which also depends on `UsersRepository`.
+
+<ImageZoom
+    src="/posts/nestjs/users-dependency-1400x350.webp"
+    width="1400"
+    height="350"
+    alt="Dependency problem"
+/>
+
+<br/>
+
+One of the way for creating a service provider for the controller is like that:
+
+```ts
+// OPTION I (❌ BAD)
+export class UsersService {
+    usersRepo: UsersRepository;
+
+    constructor() {
+        this.usersRepo = new UsersRepository();
+    }
+}
+```
+
+<br/>
+
+### 5.3) What happens when a higher level module depends on a lower level module
+
+There are some problems in the code above. I will try to explain those.
+
+#### There will be many instances of classes
+
+In the future, another controller may require `UsersService`. Since the service creates the instance of its dependency, there will be many instances of `UsersRepository` which means many database connections.
+
+<ImageZoom
+    src="/posts/nestjs/instances-should-not-create-their-own-dependencies-1400x700.webp"
+    width="1400"
+    height="700"
+    alt="Instances should not create their own dependencies"
+/>
+
+
+#### Modules cannot be reusable easily
+It is difficult to reuse a higher level module (`UsersService`) that depends on a lower level module (`UsersRepository`) in a different context. Otherwise, our system will become more rigid and fragile.
+
+<ImageZoom
+    src="/posts/nestjs/users-dependency-fail-1400x350.webp"
+    width="1400"
+    height="350"
+    alt="Dependency chain causes broken modules"
+/>
+
+
+<br/>
+
+#### Services become inflexible
+Also, the methods of the provider will be determined by a lower level module. Therefore, the `UsersService` will be flexible as much as `UsersRepository`.
+
+If there is a problem to access `UsersRepository`, then we will have a problem in `UsersService`. Since `UsersController` tightly depends on `UsersService`, our controller will also fail.
+
+<ImageZoom
+    src="/posts/nestjs/low-level-to-high-level-1400x700.webp"
+    width="1400"
+    height="700"
+    alt="Services become inflexible"
+/>
+
+
+<br/>
+
+#### Your code cannot be changed easily
+Moreover, if we need to change the code of the lower level module, we always need to change the higher level module.
+
+<ImageZoom
+    src="/posts/nestjs/low-level-changes-forces-to-high-level-module-1400x700.webp"
+    width="1400"
+    height="700"
+    alt="Change in lower module requires change in high level also."
+/>
+
+
+
+<br/>
+
+
+
+Considering these problems, let's make our code better.
+
+```ts
+/**
+ * OPTION II (✅  BETTER)
+ * An instance of UsersService gets its exact dependency
+ * at its creation rather than creating a new instance of UsersRepository.
+ */
+export class UsersService {
+    usersRepo: UsersRepository;
+
+    constructor(repo: UsersRepository) {
+        this.usersRepo = repo
+    }
+}
+```
+
+##### Service class won't depend on an abstraction
+There are still some problems and some improvements we can achieve, though.
+For example, the service provider still requires a specific and named repository.
+In other words, the service class will depend on a named, concrete class. This makes the class less reusable and our app more fragile and rigid.
+
+Therefore, we need to make the service depends on an abstraction.
+
+<ImageZoom
+    src="/posts/nestjs/interface-1400x700.webp"
+    width="1400"
+    height="700"
+    alt="Service - Repository interface"
+/>
+
+<br/>
+
+### 5.4) Solution
+
+Let's refactor the code again.
+
+```ts
+// OPTION III (✅ ✅ ✅ Best)
+// The repository interface makes the service depend on abstraction not a names class.
+interface Repository {
+    findOne(name: string);
+    create(name: string);
+    findAll();
+}
+interface Repository {
+    create(email: string, password: string);
+    findOne(id: number);
+}
+export class UsersService {
+    usersRepo: Repository;
+
+    constructor(repo: Repository) {
+        this.usersRepo = repo;
+    }
+}
+```
+
+Great.
+- We created an interface in which methods are determined by the higher-level module `UsersService`.
+- The interface also makes the provider more independent, meaning that it doesn't depend on `UsersRepository` anymore. It depends on any repository that satisfies the conditions.
+
+
+
+<br/>
+
+Until now, we tried to understand the dependency inversion principle by giving a simple class dependency example and refactoring it. However, what we did was not a structured way of solving the problem. We need more than refactoring, like a framework.
+
+
+### 5.5) Inversion of Control
+At this very moment, [Inversion of Control (IoC)](https://en.wikipedia.org/wiki/Inversion_of_control) comes into play for us. It inverts the flow of control as compared to traditional control flow.
+Inversion of control is used to increase the modularity of the program and make it extensible.
+
+IoC gives us the ways for inverting the control and Dependency Injection is one of those ways that Nest put it at its core. In other words, Dependency Injection plays a vital role in NestJS.
+
+#### Dependency Injection
+
+Dependency injection is one form of the broader technique of inversion of control.
+
+The intent behind dependency injection is to achieve separation of concerns of construction and use of objects. This can increase readability and code reuse.
+
+Dependency injection solves the following problems:
+- How can a class be independent from the creation of the objects it depends on?
+- How can the way objects are created be specified in separate configuration files?
+- How can an application support different configurations?
+
+
+A type of IoC where we move the creation and binding of dependency outside of the class that depends on it.
+
+Normally, objects are created inside of the dependent class and bounded inside the dependent class.
+
+Considering the statement above, let's look at our example and other solutions.
+
+
+### 5.6) IoC Container or DI Container
+IoC container is a framework to create dependencies and pass them when needed. That means we don’t need to manually create dependencies like earlier examples. IoC framework automatically creates objects based on requests and injects them when needed. So it reduces lots of pain. You will be happy when you see all the dependencies created automatically.
+
+<ImageZoom
+    src="/posts/nestjs/ioc-container-2800x1400.webp"
+    width="1400"
+    height="700"
+    alt="NestJS IoC container"
+/>
+
+
+#### DI container Flow
+1. It register all classes with the container when the app bootstraps.
+2. The container is going to take a look at all these different classes and figure out which dependencies each one has.
+3. We ask container to create an instance of a class for us. (Generally it will be `Controller` class).
+4. Container look the dependencies it generated, and creates all the required deps. Then it gives us the instance (`Controller`).
+5. Container will hold all the instances of classes and their dependencies. If we are going to create a class that has a dependency already created, DI container returns it rather than create a new instance
+
+In Dependency Injection, the receiving object is called a 'client' and the passed-in ('injected') object is called a 'service'. The code that passes the service to the client is called the 'injector'.
+Instead of the client specifying which service it will use, the injector tells the client what service to use. The 'injection' refers to the passing of a dependency (a service) into the client that uses it.
+
+
+#### How to use DI Container in NestJS
+It is very easy in NestJS to make a class injectable. We simply put `@Injectable()` decorator on top of it.
+
+The `@Injectable()` decorator attaches metadata, which declares that CatsService is a class that can be managed by the Nest IoC container.
+
+```ts
+import { Injectable } from '@nestjs/common'; // import it
+
+// Put the decorator and make it injectable
+@Injectable()
+export class UsersService {
+    usersRepo: Repository;
+
+    constructor(repo: Repository) {
+        this.usersRepo = repo;
+    }
+
+	// The rest of your code
+}
+```
+
+You can also read this article about the concepts like [Dependency Inversion Principle, Inversion of Control, Dependency Injection and IoC Container](https://www.codeproject.com/Articles/538536/A-curry-of-Dependency-Inversion-Principle-DIP-Inve#What%20is%20IoC)
+
+<br/>
+
+
+## 6) Providers and Services
+
+After a long break, we can continue.
+I said that Service/Providers are fundamental concepts in Nest. Many of the basic Nest classes may be treated as a provider – services, repositories, factories, helpers, and so on.
+A repository is simply a class for the database operations like a wrapper for your ORM.
+
+
+### 6.1) Authentication Service
+I'm going to create another service which will responsible for authentication. Let's create a service file and import it to the module file.
+```bash
+touch src/users/auth.service.ts
+```
+```ts
+import { Module } from '@nestjs/common';
+import { UsersController } from './users.controller';
+import { UsersService } from './users.service';
+import { AuthService } from './auth.service'; // import
+
+@Module({
+  controllers: [UsersController],
+  imports: [],
+  providers: [UsersService, AuthService], // append
+})
+export class UsersModule {}
+```
+
+<br/>
+
+To make a secure system, we do not want to store the password of users. I'm not going into deep because it is out of the scope. I'm going to create two methods for authentication.
+```ts
+// src/users/auth.service.ts
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { UsersService } from './users.service';
+import { randomBytes, scrypt as _scrypt } from 'crypto';
+import { promisify } from 'util';
+import { NotFoundError } from 'rxjs';
+
+// Makes a function which takes callback and
+// transforms it to a promise version
+const scrypt = promisify(_scrypt);
+
+@Injectable()
+export class AuthService {
+  constructor(private userService: UsersService) {}
+
+  async signup(email: string, password: string) {
+    // See if email is in use
+    const users = await this.userService.findUser(email);
+    if (users.length) {
+      throw new BadRequestException('email in use');
+    }
+
+    // Hash the users password
+    // -- Generate a salt
+    const salt = randomBytes(8).toString('hex');
+
+    // -- Hash the salt and password together
+    const hash = (await scrypt(password, salt, 32)) as Buffer; // 32 characters
+
+    // -- Join the hashed result and the salt together
+    const result = salt + '.' + hash.toString('hex');
+
+    // Create a new user and save it
+    const user = await this.userService.createUser(email, result);
+
+    // return the user
+    return user;
+  }
+
+  async signin(email: string, password: string) {
+    const [user] = await this.userService.findUser(email);
+    if (!user) {
+      throw new NotFoundError('user not found');
+    }
+
+    // split salt and hash
+    const [salt, storedHash] = user.password.split('.');
+
+    const hash = (await scrypt(password, salt, 32)) as Buffer;
+
+    // check if the hash values are same
+    if (storedHash !== hash.toString('hex')) {
+      throw new BadRequestException('bad password');
+    }
+
+    return user;
+  }
+}
+```
+
+
+I've cleaned the code that I wrote during the dependency injection part. Therefore, my `users.service.ts` file is very empty now.
+Now, We can create methods for the user's service like mine.
+Also, I'm going to change type annotations later.
+
+```ts
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class UsersService {
+  async getAllUsers() {}
+
+  async getUser(id: number): Promise<any> {}
+
+  async findUser(email: string): Promise<any> {}
+
+  async createUser(email: string, password: string) {}
+
+  async updateUser(id: number, attrs: Partial<any>) {} // <-- We will update partially
+
+  async removeUser(id: number) {}
+}
+```
+<br/>
+
+Now, we have two services: `UsersService` and `AuthService`.
+I'm going to inject those services into the controller.
+
+First, I need to import them and then create the constructor considering the things I learned in the previous section.
+
+Let's update the `users.controllers.ts` file.
+First, import the services.
+Second, fill the routes. The two routes will use `AuthService` and the rest will use `UsersService`.
+Also, don't forget to capture route params and then convert them to the required types.
+
+-
+```ts
+import {
+  Controller,
+  Get,
+  Post,
+  Delete,
+  Patch,
+  Param,
+  Query,
+  Headers,
+  Body,
+} from '@nestjs/common';
+import { CreateUserDto } from './dtos/create-user.dto'; // <-- Import
+import { UpdateUserDto } from './dtos/update-user.dto'; // <-- Import
+import { UsersService } from './users.service';
+import { AuthService } from './auth.service';
+
+@Controller('users')
+export class UsersController {
+  constructor(
+    // Remember the Syntactic sugar
+    private usersService: UsersService,
+    private authService: AuthService,
+  ) {}
+
+  // Routes will use AuthService
+  @Post('/signup')
+  async createUser(@Body() body: CreateUserDto) {
+    const user = await this.authService.signup(body.email, body.password);
+    return user;
+  }
+  @Post('/signin')
+  async signinUser(@Body() body: CreateUserDto) {
+    const user = await this.authService.signin(body.email, body.password);
+    return user;
+  }
+
+  // Routes will use UsersService
+  @Get()
+  async getAllUsers() {
+    return this.usersService.getAllUsers();
+  }
+
+  @Get('/:id')
+  async getUser(@Param('id') id: string) {
+    const user = await this.usersService.getUser(parseInt(id));
+    if (!user) {
+      throw new NotFoundException(`user with id:${id} not found!`);
+    }
+    return user;
+  }
+
+  @Patch('/:id')
+  async updateUser(@Param('id') id: string, @Body() body: UpdateUserDto) {
+    return this.usersService.updateUser(parseInt(id), body);
+  }
+
+  @Delete('/:id')
+  async removeUser(@Param("id") id: string) {
+    return this.usersService.removeUser(parseInt(id));
+  }
+}
+```
+<br/>
+
+
+If you remember the code that is demonstrated in the Dependency Injection section, we also need a repository that will handle database operations.
+
+Instead of creating a repository manually, I'll put the work on Database ORM's.
+
+<hr/>
+
+
+
+
+
+
