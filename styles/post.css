@@ -114,8 +114,8 @@
   transform: scaleX(0.98);
   -webkit-transform: scaleX(0.98);
   transition-property: opacity, height, -webkit-transform;
-  -webkit-transition: all 0.2s ease;
-  transition: all 0.2s ease;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
   z-index: 0;
 }
 .post-page a.internal:hover::before {
@@ -160,8 +160,8 @@
   transform: scaleX(0.98);
   -webkit-transform: scaleX(0.98);
   transition-property: opacity, height, -webkit-transform;
-  -webkit-transition: all 0.2s ease;
-  transition: all 0.2s ease;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
   z-index: 0;
 }
 .post-page a:hover::before,
