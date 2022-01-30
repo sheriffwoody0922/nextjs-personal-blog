@@ -20,5 +20,8 @@ export const whitelist: Array<string> = [
     'www.opendigitalgallery.com',
     'monograph.notesnook.com',
     "desygner.com",
-    "wakelet.com"
+    "wakelet.com",
+    "fatihguner.com.tr",
+    "notionbrandingkit.com",
+    "learninglab.si.edu"
 ]
